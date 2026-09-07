@@ -457,84 +457,154 @@ def build_sweep(
     }
 
 
-def interpolate_crossover(
-    t0: float,
-    d0: float,
-    t1: float,
-    d1: float,
-) -> float:
-    if d1 == d0:
-        return t1
-    fraction = -d0 / (d1 - d0)
-    return t0 + fraction * (t1 - t0)
-
-
-def find_crossover_temperature(
+def sampled_advantage_intervals(
     candidate_label: str,
     water_label: str,
     temperatures_k: list[float],
     sweep: dict[str, dict[float, float | None]],
-) -> float | None:
-    if candidate_label == water_label:
-        return None
+) -> list[tuple[float, float]]:
+    """Return sampled T intervals where candidate q(T) >= water q(T).
 
-    previous: tuple[float, float] | None = None
+    No interpolation is performed because q(T) can jump at phase transitions.
+    """
+
+    intervals: list[tuple[float, float]] = []
+    interval_start: float | None = None
+    previous_temperature: float | None = None
 
     for temperature_k in temperatures_k:
         q_water = sweep[water_label].get(temperature_k)
         q_candidate = sweep[candidate_label].get(temperature_k)
+        better = (
+            q_water is not None
+            and q_candidate is not None
+            and q_candidate >= q_water
+        )
 
-        if q_water is None or q_candidate is None:
-            continue
+        if better and interval_start is None:
+            interval_start = temperature_k
 
-        difference = q_candidate - q_water
+        if not better and interval_start is not None:
+            assert previous_temperature is not None
+            intervals.append((interval_start, previous_temperature))
+            interval_start = None
 
-        if difference >= 0.0:
-            if previous is None:
-                return temperature_k
-            t_prev, d_prev = previous
-            if d_prev < 0.0:
-                return interpolate_crossover(
-                    t_prev, d_prev, temperature_k, difference
-                )
+        previous_temperature = temperature_k
+
+    if interval_start is not None and previous_temperature is not None:
+        intervals.append((interval_start, previous_temperature))
+
+    return intervals
+
+
+def sustained_advantage_start(
+    candidate_label: str,
+    water_label: str,
+    temperatures_k: list[float],
+    sweep: dict[str, dict[float, float | None]],
+    minimum_temperature_k: float,
+) -> float | None:
+    """Earliest sampled T above which candidate stays >= water to sweep end.
+
+    A claim is made only if both fluids have supported values at every remaining
+    sampled temperature. This avoids turning missing property data into a win.
+    """
+
+    eligible = [
+        temperature_k
+        for temperature_k in temperatures_k
+        if temperature_k >= minimum_temperature_k
+    ]
+
+    for index, temperature_k in enumerate(eligible):
+        remaining = eligible[index:]
+        valid_and_better = True
+
+        for later_temperature_k in remaining:
+            q_water = sweep[water_label].get(later_temperature_k)
+            q_candidate = sweep[candidate_label].get(later_temperature_k)
+
+            if (
+                q_water is None
+                or q_candidate is None
+                or q_candidate < q_water
+            ):
+                valid_and_better = False
+                break
+
+        if valid_and_better:
             return temperature_k
-
-        previous = (temperature_k, difference)
 
     return None
 
 
-def print_crossovers(
+def print_advantage_report(
     candidates: list[Candidate],
     water_label: str,
+    water_boiling_temperature_k: float | None,
     temperatures_k: list[float],
     sweep: dict[str, dict[float, float | None]],
 ) -> None:
     print()
+    print("Sampled q(T) advantage relative to water:")
     print(
-        "Approximate crossover temperatures where candidate q(T) "
-        "first matches/exceeds water:"
+        "(Intervals are grid samples; no interpolation is performed across "
+        "phase-change enthalpy jumps.)"
     )
+
+    if water_boiling_temperature_k is None:
+        post_water_vapor_floor = temperatures_k[0]
+    else:
+        post_water_vapor_floor = next(
+            (
+                temperature_k
+                for temperature_k in temperatures_k
+                if temperature_k > water_boiling_temperature_k
+            ),
+            temperatures_k[-1],
+        )
 
     for candidate in candidates:
         if candidate.label == water_label:
             continue
 
-        crossover = find_crossover_temperature(
+        intervals = sampled_advantage_intervals(
             candidate.label,
             water_label,
             temperatures_k,
             sweep,
         )
 
-        if crossover is None:
-            print(
-                f"- {candidate.label}: no crossover found in supported "
-                f"{temperatures_k[0]:g}-{temperatures_k[-1]:g} K sweep"
+        if intervals:
+            interval_text = ", ".join(
+                (
+                    f"{start:g} K"
+                    if start == end
+                    else f"{start:g}-{end:g} K"
+                )
+                for start, end in intervals
             )
         else:
-            print(f"- {candidate.label}: ~{crossover:.1f} K")
+            interval_text = "none"
 
+        sustained = sustained_advantage_start(
+            candidate.label,
+            water_label,
+            temperatures_k,
+            sweep,
+            post_water_vapor_floor,
+        )
+
+        sustained_text = (
+            f"from {sustained:g} K to {temperatures_k[-1]:g} K"
+            if sustained is not None
+            else "no sustained advantage to sweep end"
+        )
+
+        print(
+            f"- {candidate.label}: sampled advantage = {interval_text}; "
+            f"post-water-vapor = {sustained_text}"
+        )
 
 def write_sweep_csv(
     path: Path,
@@ -678,9 +748,10 @@ def main() -> None:
     print_results(results, reference, args.targets_k)
 
     sweep = build_sweep(candidates, sweep_temperatures)
-    print_crossovers(
+    print_advantage_report(
         candidates,
         args.water_label,
+        reference.boiling_temperature_k,
         sweep_temperatures,
         sweep,
     )
