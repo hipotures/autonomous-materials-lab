@@ -71,7 +71,13 @@ def evaluate(
     coolant_used = 0.0
     time_s = 0.0
     heat_load_j_m2 = 0.0
+    convective_heat_load_j_m2 = 0.0
+    radiative_heat_load_j_m2 = 0.0
+    radiative_valid_heat_load_j_m2 = 0.0
     incident_energy_j = coolant_energy_j = 0.0
+    vehicle_convective_energy_j = 0.0
+    vehicle_radiative_energy_j = 0.0
+    vehicle_radiative_valid_energy_j = 0.0
     energy_residual_abs_j = 0.0
     rarefied_time_s = 0.0
     initial_altitude_m = state.altitude_m
@@ -168,8 +174,31 @@ def evaluate(
             mass = initial_mass
         surface.commit(surface_step)
         heat_load_j_m2 += heating.total_external_w_m2 * step_dt
+        convective_heat_load_j_m2 += heating.convective_w_m2 * step_dt
+        radiative_step_j_m2 = heating.radiative_w_m2 * step_dt
+        radiative_heat_load_j_m2 += radiative_step_j_m2
+        if heating.radiation_nominal_validity:
+            radiative_valid_heat_load_j_m2 += radiative_step_j_m2
+
         incident_energy_j += surface_step.incident_power_w * step_dt
         coolant_energy_j += surface_step.coolant_power_w * step_dt
+        surface_meta = surface.metadata()
+        convective_vehicle_step_j = (
+            heating.convective_w_m2
+            * surface_meta["surface_convective_area_factor"]
+            * surface_meta["cooled_surface_area_m2"]
+            * step_dt
+        )
+        radiative_vehicle_step_j = (
+            heating.radiative_w_m2
+            * surface_meta["surface_radiative_area_factor"]
+            * surface_meta["cooled_surface_area_m2"]
+            * step_dt
+        )
+        vehicle_convective_energy_j += convective_vehicle_step_j
+        vehicle_radiative_energy_j += radiative_vehicle_step_j
+        if heating.radiation_nominal_validity:
+            vehicle_radiative_valid_energy_j += radiative_vehicle_step_j
         energy_residual_abs_j += abs(surface_step.energy_residual_w) * step_dt
         if atm.knudsen >= 0.1:
             rarefied_time_s += step_dt
@@ -299,6 +328,19 @@ def evaluate(
         "dt_s": dt,
         **surface.metadata(),
         "vehicle_incident_heat_mj": incident_energy_j / 1e6,
+        "vehicle_convective_incident_heat_mj": vehicle_convective_energy_j / 1e6,
+        "vehicle_radiative_incident_heat_mj": vehicle_radiative_energy_j / 1e6,
+        "vehicle_radiative_valid_heat_mj": vehicle_radiative_valid_energy_j / 1e6,
+        "vehicle_radiative_energy_valid_fraction": (
+            vehicle_radiative_valid_energy_j / vehicle_radiative_energy_j
+            if vehicle_radiative_energy_j > 0.0
+            else None
+        ),
+        "vehicle_radiative_energy_fraction": (
+            vehicle_radiative_energy_j / incident_energy_j
+            if incident_energy_j > 0.0
+            else None
+        ),
         "vehicle_coolant_heat_mj": coolant_energy_j / 1e6,
         "wall_energy_residual_abs_j": energy_residual_abs_j,
         "wall_energy_relative_residual": energy_residual_abs_j / max(incident_energy_j, 1.0),
@@ -328,6 +370,14 @@ def evaluate(
             else minimum_knudsen
         ),
         "heat_load_mj_m2": heat_load_j_m2 / 1e6,
+        "convective_heat_load_mj_m2": convective_heat_load_j_m2 / 1e6,
+        "radiative_heat_load_mj_m2": radiative_heat_load_j_m2 / 1e6,
+        "radiative_valid_heat_load_mj_m2": radiative_valid_heat_load_j_m2 / 1e6,
+        "radiative_energy_valid_fraction": (
+            radiative_valid_heat_load_j_m2 / radiative_heat_load_j_m2
+            if radiative_heat_load_j_m2 > 0.0
+            else None
+        ),
         "minimum_ignition_delay_s": minimum_ignition_delay_s,
         "radiative_correlation_valid_fraction": (
             rad_valid_steps / heating_steps
