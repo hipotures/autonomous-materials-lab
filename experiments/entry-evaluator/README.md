@@ -1,14 +1,14 @@
-# Low-Fidelity Earth Entry Evaluator (V1)
+# Low-Fidelity Earth Entry Evaluator (V2)
 
 This experiment is the first end-to-end evaluator for the working-fluid discovery track.
 
 Instead of manually selecting one temperature and pressure, it propagates a complete atmospheric-entry trajectory and evaluates the fluid along the evolving environment.
 
-## V1 scope
+## Current scope
 
-V1 separates local stagnation heating from integrated forebody power. It adds independent angular wall zones and a time-step/grid/ranking verification runner. Trajectory, atmosphere, chemistry ceilings, rarefied cutoffs and heating correlations retain V0 assumptions. No CFD, Cantera integration or new physical phenomena are added.
+V1 separates local stagnation heating from integrated forebody power and verifies time-step/grid convergence. V2 adds a deterministic physical-sensitivity study and energy-weighted radiative-validity diagnostics without changing the underlying trajectory or heating closures.
 
-See [the surface model and verification protocol](V1.md). Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` explicitly selects a cosine profile. The default single-run angle stays at -8 degrees, so it still produces a skip with disabled rarefied heating. The verification study explicitly uses -11 degrees.
+See [V1](V1.md) for the surface model and numerical verification protocol and [V2](V2.md) for physical-sensitivity screening. Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` selects a cosine profile. The default single-run angle stays at -8 degrees, while the V1 verification benchmark uses -11 degrees.
 
 ## Primary question
 
@@ -162,7 +162,7 @@ a = 1.072e6 * V^-1.88 * rho^-0.325
 
 with the published Earth `f(V)` table from 9 to 16 km/s.
 
-The summary reports the fraction of heating steps inside the nominal Tauber-Sutton envelope:
+The summary reports both the fraction of heating steps and the fraction of integrated radiative energy inside the nominal Tauber-Sutton envelope:
 
 ```text
 V:   10-16 km/s
@@ -244,6 +244,10 @@ status (terminal_velocity / terminal_altitude / atmospheric_exit / failed / max_
 vehicle_incident_heat_mj
 peak_vehicle_heating_power_w
 vehicle_coolant_heat_mj
+vehicle_radiative_incident_heat_mj
+vehicle_radiative_valid_heat_mj
+vehicle_radiative_energy_valid_fraction
+vehicle_radiative_energy_fraction
 wall_energy_relative_residual
 rarefied_heating_disabled_time_s
 ```
@@ -260,3 +264,14 @@ A strong candidate should be escalated to higher-fidelity models rather than acc
 - Tauber, M. E. and Sutton, K., *Stagnation-Point Radiative Heating Relations for Earth and Mars Entries*, Journal of Spacecraft and Rockets 28(1), 1991.
 - NASA entry sizing studies using Sutton-Graves and Tauber-Sutton engineering correlations.
 - `pymsis` / NRLMSIS 2.1 documentation for density, temperature, and species output.
+
+
+## V2 physical-sensitivity study
+
+Run the paired 64-sample screening study on 16 CPU workers:
+
+```bash
+python run_physical_sensitivity.py --workers 16 --output-dir physical-v2
+```
+
+The default run evaluates 65 matched physical scenarios (64 Latin-hypercube samples plus the nominal point) for hydrogen, water, methane and ammonia: 260 trajectories total. See [V2.md](V2.md) for ranges, outputs and interpretation limits.

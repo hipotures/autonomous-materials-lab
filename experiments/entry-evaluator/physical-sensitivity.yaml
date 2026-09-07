@@ -1,0 +1,47 @@
+# V2 physical-sensitivity screening.
+#
+# These ranges are deterministic screening intervals, NOT probability
+# distributions or uncertainty confidence bounds. The Latin-hypercube sampler
+# covers every one-dimensional range evenly while avoiding a combinatorial
+# Cartesian grid.
+seed: 20260907
+samples: 64
+ranking_margin_fraction: 0.01
+
+# Applied to every scenario before the sampled values.
+fixed_overrides:
+  numerics.dt_s: 0.05
+  surface.model: cosine_cap
+  surface.theta_max_deg: 90.0
+  surface.zones: 32
+
+# Explicit nominal point included in addition to the sampled scenarios.
+nominal_values:
+  entry.velocity_km_s: 15.0
+  entry.flight_path_angle_deg: -11.0
+  vehicle.nose_radius_m: 1.0
+  coolant.cooled_area_m2: 12.0
+  surface.convective_exponent: 1.0
+  surface.radiative_exponent: 1.0
+  wall.emissivity: 0.85
+  wall.areal_heat_capacity_j_m2_k: 100000.0
+  heating.convective_scale: 1.0
+  heating.radiative_scale: 1.0
+  chemistry.fixed_max_exit_temperature_k: 750.0
+
+ranges:
+  entry.velocity_km_s: [11.0, 15.0]
+  entry.flight_path_angle_deg: [-20.0, -10.0]
+  vehicle.nose_radius_m: [0.5, 2.0]
+  coolant.cooled_area_m2: [6.0, 18.0]
+  surface.convective_exponent: [0.5, 2.0]
+  surface.radiative_exponent: [0.5, 2.0]
+  wall.emissivity: [0.70, 0.95]
+  wall.areal_heat_capacity_j_m2_k: [50000.0, 200000.0]
+  heating.convective_scale: [0.90, 1.10]
+  heating.radiative_scale: [0.70, 1.30]
+
+  # This key affects the default H2 case because it uses fixed_limit chemistry.
+  # Water, CH4 and NH3 use chemistry.mode=disabled in batch.yaml, so their
+  # results are unchanged by this particular sampled parameter.
+  chemistry.fixed_max_exit_temperature_k: [650.0, 850.0]
