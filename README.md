@@ -181,8 +181,9 @@ Start here:
 - [Ambient-liquid heat-sink screening](experiments/fluid-heat-sink/README.md)
 - [Cryogenic / storage-state enthalpy screening](experiments/fluid-enthalpy-window/README.md)
 - [Reactive fluid + air equilibrium check](experiments/reactive-fluid-air/README.md)
+- [Hydrogen / air ignition-delay sweep](experiments/hydrogen-ignition-delay/README.md)
 
-The first experiment compares fluids that are liquid at a common ambient state. The second gives every candidate its own initial `T0/P0`, allowing cryogenic liquids such as methane, oxygen, nitrogen and hydrogen to enter the comparison. The third uses Cantera equilibrium to estimate the chemical oxidation potential of hot H2 / CH4 / NH3 after mixing with air. None of these experiments includes CFD, trajectory or nozzle geometry.
+The first experiment compares fluids that are liquid at a common ambient state. The second gives every candidate its own initial `T0/P0`, allowing cryogenic liquids such as methane, oxygen, nitrogen and hydrogen to enter the comparison. The third uses Cantera equilibrium to estimate the chemical oxidation potential of hot H2 / CH4 / NH3 after mixing with air. The fourth adds finite-rate H2 / air chemistry and sweeps homogeneous ignition delay versus temperature, pressure and equivalence ratio. None of these experiments includes CFD, trajectory or nozzle geometry.
 
 ## Status
 
