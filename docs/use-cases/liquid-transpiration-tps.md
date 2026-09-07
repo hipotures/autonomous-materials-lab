@@ -69,20 +69,20 @@ The real question is:
 
 ### Thermal effectiveness
 
-Define an effective thermal sink per unit mass:
+Use the control-volume accounting defined in the [generic fluid evaluator contract](../benchmarks/fluid-evaluator-contract.md).
+
+Intrinsic fluid energy uptake may include:
 
 ~~~text
-q_eff =
-    sensible heating
-  + phase-change enthalpy
-  + vapor superheating
-  + useful endothermic chemistry
-  + reduction of external heat transfer caused by blowing
+sensible heating
++ phase-change enthalpy
++ vapor superheating
++ consistently defined endothermic chemistry
 ~~~
 
-Units: J/kg.
+Blowing-induced reduction of external heat transfer is a **system effect**, not an intrinsic fluid J/kg property. It should be calculated separately and must not be counted again if the wall heat-flux boundary has already been reduced by the blowing model.
 
-This is not identical to latent heat of vaporization.
+Likewise, nozzle kinetic energy must come from a consistent enthalpy drop; it cannot be added as free energy on top of the same fluid enthalpy budget.
 
 ### Braking effectiveness
 
