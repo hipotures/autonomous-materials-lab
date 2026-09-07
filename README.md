@@ -174,8 +174,16 @@ Domain-dependent candidates include:
 - [Source development and optimization](docs/development.md)
 - [Preflight checklist](docs/preflight.md)
 
+## First executable experiment
+
+Start here:
+
+- [Fluid heat-sink screening experiment](experiments/fluid-heat-sink/README.md)
+
+It performs a deliberately minimal comparison of known CoolProp liquids against water using only enthalpy uptake from the initial liquid state to saturated vapor at a fixed pressure. No nozzle, CFD, trajectory or AI model is involved.
+
 ## Status
 
-**Phase 0 — scientific objective definition, evaluator contract and workstation preparation.**
+**Phase 0 — scientific objective definition, evaluator contract, workstation preparation, and first thermodynamic screening experiment.**
 
 The next implementation should validate a generic fluid evaluator with a known reference fluid, then immediately begin comparing multiple fluids. Water verification is a prerequisite for confidence in the evaluator, not the scientific endpoint.
