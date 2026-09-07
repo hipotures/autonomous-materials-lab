@@ -106,6 +106,23 @@ class CoolantModel:
         surface_pressure_pa: float,
         coolant_heat_flux_w_m2: float,
     ) -> CoolantStep:
+        if coolant_heat_flux_w_m2 <= 0.0:
+            required_injection_pressure = (
+                self.pressure_margin * surface_pressure_pa
+                + self.porous_delta_p_pa
+            )
+            return CoolantStep(
+                exit_temperature_k=self.storage_temperature_k,
+                usable_enthalpy_j_kg=0.0,
+                mass_flux_kg_m2_s=0.0,
+                mass_flow_kg_s=0.0,
+                required_injection_pressure_pa=required_injection_pressure,
+                chemistry_source="inactive",
+                ignition_delay_s=None,
+                feasible=True,
+                failure_reason=None,
+            )
+
         chemistry_limit = self.chemistry.limit(
             surface_pressure_pa,
             self.nominal_max_exit_temperature_k,
