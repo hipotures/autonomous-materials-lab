@@ -2,255 +2,169 @@
 
 ## 1. Purpose
 
-Water is the first reference fluid for the liquid thermal-protection use case.
+Water is a **reference and verification fluid**.
 
-The benchmark does **not** assume that water is globally optimal. It establishes a reproducible system-level reference against which every later fluid, mixture and active-cooling design can be compared.
+It is not the target material of the project, and this document does not define a water-cooled thermal-protection system as the desired design.
 
-## 2. Why water is useful
+Water is used because its thermophysical properties are well characterized. That makes it useful for checking whether the generic fluid evaluator behaves correctly before evaluating less familiar candidates.
 
-For water, the early materials-discovery pipeline is unnecessary.
+## 2. What the water case is for
 
-We do not need to:
+The water case has three jobs:
 
-- generate a molecule;
-- predict basic chemical plausibility;
-- estimate basic thermodynamic properties from an ML model;
-- rank it among unknown candidates before simulation.
+1. verify the property-model implementation;
+2. verify mass, energy and phase-change accounting;
+3. provide a comparison value for candidate fluids.
 
-Instead, trusted thermodynamic and transport-property data can be supplied directly to the system evaluator.
-
-This isolates and validates the difficult system physics:
+It should produce a reference quantity such as:
 
 ~~~text
-trajectory
-+
-heat transfer
-+
-phase change
-+
-fluid delivery
-+
-jet / transpiration behavior
-+
-vehicle dynamics
+M_water_reference
 ~~~
 
-## 3. Baseline configurations
+for a fixed mission, fixed hardware configuration and fixed control-law class.
 
-### W0 — no active liquid cooling
+## 3. What the water case is not for
 
-Reference vehicle / passive TPS configuration.
+The project's scientific objective is **not** to optimize a water-cooled wall.
 
-Purpose:
+The initial comparison must not give water a specially optimized system while evaluating other fluids under different assumptions.
 
-- establish baseline heat load;
-- establish baseline drag and trajectory;
-- provide comparison for active concepts.
+For the first fluid-ranking experiment, hold fixed:
 
-### W1 — water transpiration only
+- geometry;
+- porous/nozzle architecture;
+- pressure limits;
+- control-law form;
+- mission;
+- numerical model.
 
-Water passes through a porous or microperforated surface without deliberate opposing-nozzle momentum recovery.
+Then vary the fluid.
 
-Purpose:
+## 4. Comparison metric
 
-- measure the benefit of thermal absorption and blowing alone.
-
-### W2 — water with directed microjets
-
-Water is heated internally, converted to vapor and discharged through directed nozzles.
-
-Purpose:
-
-- measure the combined effect of cooling, flow-field modification and jet reaction.
-
-### W3 — optimized water system
-
-Optimize:
-
-- water mass;
-- flow schedule;
-- pressure schedule;
-- nozzle distribution;
-- nozzle geometry within selected bounds.
-
-Purpose:
-
-- establish the strongest water baseline before comparing new fluids.
-
-## 4. Primary benchmark result
-
-The central benchmark number is:
+For a candidate fluid:
 
 ~~~text
-M_water_min
-~~~
-
-defined as the minimum water mass required to satisfy all thermal and trajectory constraints under the benchmark mission definition.
-
-Later candidates are compared using:
-
-~~~text
-mass_ratio = M_candidate_min / M_water_min
+mass_ratio =
+    M_candidate_required /
+    M_water_reference
 ~~~
 
 Interpretation:
 
 ~~~text
-mass_ratio < 1.0  -> candidate requires less fluid than water
-mass_ratio = 1.0  -> equal to water baseline
-mass_ratio > 1.0  -> candidate is worse on fluid mass
+mass_ratio < 1.0  -> candidate requires less working-fluid mass
+mass_ratio = 1.0  -> equal to water under the same assumptions
+mass_ratio > 1.0  -> candidate requires more working-fluid mass
 ~~~
 
-Example:
+This ratio is meaningful only for matching evaluator versions, model fidelity and comparison assumptions.
 
-~~~text
-mass_ratio = 0.72
-~~~
+## 5. Verification sequence
 
-means the candidate requires 28% less fluid mass than the optimized water benchmark under the same mission assumptions.
+### W-PROP — property verification
 
-## 5. Later system-level metric
+Compare selected water states against independent reference values.
 
-After the fluid-only benchmark is stable, replace the metric with:
+Check:
 
-~~~text
-system_mass_ratio =
-    M_total_candidate_system /
-    M_total_water_system
-~~~
-
-This includes:
-
-- coolant;
-- tank;
-- pressure/pump hardware;
-- manifold;
-- porous structure;
-- nozzles;
-- additional control hardware.
-
-A chemically superior coolant should not win if its storage and delivery hardware makes the total system heavier.
-
-## 6. Required mission definition
-
-The benchmark is meaningless unless the mission is fixed.
-
-The configuration should eventually include:
-
-~~~yaml
-vehicle:
-  mass_kg: TBD
-  geometry: TBD
-  reference_area_m2: TBD
-  wall_temperature_limit_K: TBD
-
-entry:
-  initial_altitude_m: TBD
-  initial_velocity_m_s: TBD
-  flight_path_angle_deg: TBD
-  atmosphere_model: TBD
-  angle_of_attack_profile: TBD
-
-target:
-  final_altitude_m: TBD
-  maximum_final_velocity_m_s: TBD
-
-cooling_system:
-  maximum_pressure_Pa: TBD
-  available_volume_m3: TBD
-  maximum_local_mass_flux_kg_m2_s: TBD
-~~~
-
-The first benchmark should use a deliberately simple, documented trajectory rather than attempting to reproduce a complete flight mission immediately.
-
-## 7. Water property inputs
-
-Required property functions include:
-
-- density as a function of temperature and pressure;
+- liquid enthalpy;
+- vapor enthalpy;
+- density;
 - heat capacity;
-- enthalpy;
-- vapor pressure;
-- phase-change enthalpy;
-- viscosity;
-- thermal conductivity;
-- surface tension;
-- vapor thermodynamic properties.
+- saturation behavior;
+- viscosity / conductivity where used.
 
-Every property source and version must be recorded in provenance.
+### W-ENERGY — thermal accounting verification
 
-## 8. Reduced-model acceptance test
+Run simple cases with known analytic or reference behavior.
 
-Before CFD or molecular simulation is introduced, the first evaluator should be able to answer:
+Check:
 
-~~~text
-Given:
-- fixed entry heat-load history
-- water initial state
-- wall temperature limit
-- simple nozzle/transpiration model
+- heating without phase change;
+- heating through phase change;
+- conservation residuals;
+- fluid depletion.
 
-Compute:
-- water mass consumed
-- vapor generation rate
-- wall-temperature history
-- approximate jet momentum
-- approximate net braking contribution
-~~~
+### W-SYS — reference system evaluation
 
-This model does not need to be high fidelity. It needs to be transparent, numerically stable and useful as a baseline.
+Run water through the **same generic evaluator** that will later evaluate every other fluid.
 
-## 9. Full benchmark outputs
+Record:
 
-Eventually record:
+- required loaded mass;
+- consumed mass;
+- peak temperatures;
+- thermal constraint margins;
+- pressure / flow state;
+- any modeled braking contribution;
+- evaluator version;
+- hardware and control assumptions.
 
-~~~text
-M_water_min
-peak wall temperature
-peak backface temperature
-water mass flow versus time
-remaining water mass versus time
-vapor pressure versus time
-jet thrust versus time
-body drag versus time
-net braking force versus time
-vehicle velocity versus time
-vehicle altitude versus time
-heat flux versus time
-total absorbed heat
-total braking impulse attributable to active system
-maximum system pressure
-~~~
+This creates the water comparison point.
 
-## 10. Comparison ladder
+## 6. Generic evaluator requirement
 
-Report gains separately:
+The API should conceptually be:
 
 ~~~text
-Passive baseline:
-TPS mass-equivalent metric = ...
-
-Water transpiration:
-fluid mass = ...
-
-Water directed microjets:
-fluid mass = ...
-net braking gain = ...
-
-Optimized water:
-fluid mass = ...
-
-Candidate X:
-fluid mass = ...
-mass ratio vs optimized water = ...
+evaluate(candidate_fluid, mission, hardware, control_policy)
 ~~~
 
-This prevents a new fluid from receiving credit for improvements actually caused by nozzle geometry or control policy.
+not:
 
-## 11. Benchmark philosophy
+~~~text
+evaluate_water(...)
+~~~
 
-Water is not the scientific conclusion.
+Water may use a high-quality specialized property backend, but the surrounding thermal, force and trajectory logic must be fluid-agnostic.
 
-It is the calibration point.
+See [Fluid Evaluator: Physical and Numerical Contract](fluid-evaluator-contract.md).
 
-A new candidate is interesting only if it beats water after both are given comparable optimization effort and evaluated with the same physical model.
+## 7. Relation to discovery
+
+After water verification, the next milestone is immediately:
+
+~~~text
+water
+known fluid A
+known fluid B
+known fluid C
+...
+    |
+    v
+same evaluator
+    |
+    v
+rank by required mass
+~~~
+
+The purpose of water is to make those later numbers interpretable.
+
+## 8. Later optimized-water comparison
+
+A separately optimized water design may be useful later, but only when every candidate fluid receives comparable optimization effort.
+
+For example:
+
+~~~text
+water + optimized control
+candidate A + optimized control
+candidate B + optimized control
+~~~
+
+and eventually:
+
+~~~text
+water + optimized hardware + control
+candidate A + optimized hardware + control
+~~~
+
+At that stage total system mass should be compared, not fluid mass alone.
+
+## 9. Reference principle
+
+Water is the ruler.
+
+It is not the object being designed.
