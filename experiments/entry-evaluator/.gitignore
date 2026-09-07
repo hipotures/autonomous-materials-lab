@@ -6,3 +6,6 @@ entry_summary.json
 batch-results/
 convergence-results/
 convergence-v1/
+physical-v2/
+physical-sensitivity-results/
+heating-model-v3/

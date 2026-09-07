@@ -30,6 +30,17 @@ TAUBER_SUTTON_FV = [
     (16000.0, 2040.0),
 ]
 
+# Brandis & Johnston, AIAA 2014-2374. The equations are reproduced in
+# later NASA/AIAA engineering work and open technical literature.
+BJ_RHO_MIN_KG_M3 = 1.0e-5
+BJ_RHO_MAX_KG_M3 = 5.0e-3
+BJ_RN_MIN_M = 0.2
+BJ_RN_MAX_M = 10.0
+BJ_CONV_V_MIN_M_S = 3000.0
+BJ_RADIATIVE_V_MIN_M_S = 9500.0
+BJ_V_MAX_M_S = 17000.0
+W_CM2_TO_W_M2 = 1.0e4
+
 
 @dataclass(frozen=True)
 class HeatingState:
@@ -38,6 +49,17 @@ class HeatingState:
     total_external_w_m2: float
     continuum_factor: float
     radiation_nominal_validity: bool
+    backend: str = "legacy"
+    convective_nominal_validity: bool = False
+
+
+def normalize_backend(value: object) -> str:
+    backend = str(value if value is not None else "legacy").strip().lower()
+    if backend in {"legacy", "sutton_graves_tauber_sutton"}:
+        return "legacy"
+    if backend in {"brandis_johnston", "brandis_johnston_2014"}:
+        return "brandis_johnston_2014"
+    raise ValueError(f"unsupported heating.backend: {backend}")
 
 
 def _linear_table(value: float, table: list[tuple[float, float]]) -> float:
@@ -50,6 +72,13 @@ def _linear_table(value: float, table: list[tuple[float, float]]) -> float:
             f = (value - x0) / (x1 - x0)
             return y0 + f * (y1 - y0)
     raise RuntimeError("table interpolation failed")
+
+
+def _scale(config: dict, key: str) -> float:
+    value = float(config.get(key, 1.0))
+    if not math.isfinite(value) or value < 0.0:
+        raise ValueError(f"heating.{key} must be finite and nonnegative")
+    return value
 
 
 def sutton_graves(
@@ -99,24 +128,147 @@ def tauber_sutton(
     return max(0.0, q), valid
 
 
+def _brandis_johnston_common_validity(
+    atmosphere: AtmosphereState,
+    nose_radius_m: float,
+) -> bool:
+    return (
+        BJ_RHO_MIN_KG_M3 <= atmosphere.density_kg_m3 <= BJ_RHO_MAX_KG_M3
+        and BJ_RN_MIN_M <= nose_radius_m <= BJ_RN_MAX_M
+        and atmosphere.continuum_factor >= 0.999
+    )
+
+
+def brandis_johnston_convective(
+    atmosphere: AtmosphereState,
+    velocity_m_s: float,
+    nose_radius_m: float,
+) -> tuple[float, bool]:
+    """Brandis-Johnston Earth stagnation convective heat flux.
+
+    Inputs are SI. The published correlation returns W/cm2; this function
+    converts to W/m2.
+
+    3.0 <= V < 9.5 km/s:
+      q = 7.455e-9 rho^0.4705 V^3.089 Rn^-0.52
+
+    9.5 <= V <= 17 km/s:
+      q = 1.270e-6 rho^0.4678 V^2.524 Rn^-0.52
+    """
+    rho = atmosphere.density_kg_m3
+    if (
+        rho <= 0.0
+        or nose_radius_m <= 0.0
+        or not BJ_CONV_V_MIN_M_S <= velocity_m_s <= BJ_V_MAX_M_S
+    ):
+        return 0.0, False
+
+    if velocity_m_s < BJ_RADIATIVE_V_MIN_M_S:
+        q_w_cm2 = (
+            7.455e-9
+            * rho**0.4705
+            * velocity_m_s**3.089
+            * nose_radius_m**-0.52
+        )
+    else:
+        q_w_cm2 = (
+            1.270e-6
+            * rho**0.4678
+            * velocity_m_s**2.524
+            * nose_radius_m**-0.52
+        )
+
+    valid = _brandis_johnston_common_validity(atmosphere, nose_radius_m)
+    q = max(0.0, q_w_cm2) * W_CM2_TO_W_M2 * atmosphere.continuum_factor
+    return q, valid
+
+
+def _brandis_johnston_a_max(nose_radius_m: float) -> float | None:
+    if 0.0 < nose_radius_m <= 0.5:
+        return 0.61
+    if nose_radius_m <= 2.0:
+        return 1.23
+    if nose_radius_m <= 10.0:
+        return 0.49
+    return None
+
+
+def brandis_johnston_radiative(
+    atmosphere: AtmosphereState,
+    velocity_m_s: float,
+    nose_radius_m: float,
+) -> tuple[float, bool]:
+    """Brandis-Johnston Earth stagnation radiative heat flux.
+
+    Inputs are SI. The published correlation returns W/cm2; this function
+    converts to W/m2. No value is invented outside the published 9.5-17 km/s
+    velocity branch or the defined radius-cap branches.
+    """
+    rho = atmosphere.density_kg_m3
+    a_max = _brandis_johnston_a_max(nose_radius_m)
+    if (
+        rho <= 0.0
+        or a_max is None
+        or not BJ_RADIATIVE_V_MIN_M_S <= velocity_m_s <= BJ_V_MAX_M_S
+    ):
+        return 0.0, False
+
+    a = min(
+        3.175e6 * velocity_m_s**-1.80 * rho**-0.1575,
+        a_max,
+    )
+    f_v = -53.26 + 6555.0 / (
+        1.0 + (16000.0 / velocity_m_s) ** 8.25
+    )
+    q_w_cm2 = 3.416e4 * nose_radius_m**a * rho**1.261 * f_v
+    valid = _brandis_johnston_common_validity(atmosphere, nose_radius_m)
+    q = max(0.0, q_w_cm2) * W_CM2_TO_W_M2 * atmosphere.continuum_factor
+    return q, valid
+
+
 def total_heating(
     atmosphere: AtmosphereState,
     velocity_m_s: float,
     nose_radius_m: float,
     config: dict,
 ) -> HeatingState:
-    conv = sutton_graves(atmosphere, velocity_m_s, nose_radius_m)
-    if not bool(config.get("radiative_enabled", True)):
-        rad, valid = 0.0, False
-    else:
-        rad, valid = tauber_sutton(atmosphere, velocity_m_s, nose_radius_m)
+    backend = normalize_backend(config.get("backend", "legacy"))
 
-    conv *= float(config.get("convective_scale", 1.0))
-    rad *= float(config.get("radiative_scale", 1.0))
+    if backend == "legacy":
+        conv = sutton_graves(atmosphere, velocity_m_s, nose_radius_m)
+        # V0/V1 did not encode an explicit Sutton-Graves validity envelope.
+        conv_valid = False
+        if not bool(config.get("radiative_enabled", True)):
+            rad, rad_valid = 0.0, False
+        else:
+            rad, rad_valid = tauber_sutton(
+                atmosphere,
+                velocity_m_s,
+                nose_radius_m,
+            )
+    else:
+        conv, conv_valid = brandis_johnston_convective(
+            atmosphere,
+            velocity_m_s,
+            nose_radius_m,
+        )
+        if not bool(config.get("radiative_enabled", True)):
+            rad, rad_valid = 0.0, False
+        else:
+            rad, rad_valid = brandis_johnston_radiative(
+                atmosphere,
+                velocity_m_s,
+                nose_radius_m,
+            )
+
+    conv *= _scale(config, "convective_scale")
+    rad *= _scale(config, "radiative_scale")
     return HeatingState(
         conv,
         rad,
         conv + rad,
         atmosphere.continuum_factor,
-        valid,
+        rad_valid,
+        backend,
+        conv_valid,
     )

@@ -31,6 +31,9 @@ atmosphere:
   collision_diameter_m: 3.7e-10
 
 heating:
+  # V3 selectable backend: legacy or brandis_johnston_2014.
+  # Keep legacy as the default so V1/V2 results remain reproducible.
+  backend: legacy
   radiative_enabled: true
   convective_scale: 1.0
   radiative_scale: 1.0

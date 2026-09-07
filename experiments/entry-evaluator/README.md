@@ -1,4 +1,4 @@
-# Low-Fidelity Earth Entry Evaluator (V2)
+# Low-Fidelity Earth Entry Evaluator (V3)
 
 This experiment is the first end-to-end evaluator for the working-fluid discovery track.
 
@@ -6,9 +6,9 @@ Instead of manually selecting one temperature and pressure, it propagates a comp
 
 ## Current scope
 
-V1 separates local stagnation heating from integrated forebody power and verifies time-step/grid convergence. V2 adds a deterministic physical-sensitivity study and energy-weighted radiative-validity diagnostics without changing the underlying trajectory or heating closures.
+V1 separates local stagnation heating from integrated forebody power and verifies time-step/grid convergence. V2 adds deterministic physical-sensitivity screening and energy-weighted validity diagnostics. V3 adds a selectable Brandis-Johnston 2014 Earth-entry heating backend and a matched cross-model comparison against the legacy Sutton-Graves / Tauber-Sutton backend.
 
-See [V1](V1.md) for the surface model and numerical verification protocol and [V2](V2.md) for physical-sensitivity screening. Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` selects a cosine profile. The default single-run angle stays at -8 degrees, while the V1 verification benchmark uses -11 degrees.
+See [V1](V1.md) for numerical verification, [V2](V2.md) for physical-sensitivity screening and [V3](V3.md) for the heating-backend comparison. Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` selects a cosine profile. The default single-run angle stays at -8 degrees, while the V1 verification benchmark uses -11 degrees.
 
 ## Primary question
 
@@ -37,9 +37,9 @@ planar spherical-Earth trajectory
     |
     +--> drag / dynamic pressure / surface-pressure estimate
     |
-    +--> Sutton-Graves convective heating
-    |
-    +--> Tauber-Sutton radiative heating
+    +--> selectable stagnation heating backend
+         |-- legacy: Sutton-Graves + Tauber-Sutton
+         |-- V3: Brandis-Johnston 2014
     |
     v
 angular wall zones + zero-area stagnation probe
@@ -275,3 +275,28 @@ python run_physical_sensitivity.py --workers 16 --output-dir physical-v2
 ```
 
 The default run evaluates 65 matched physical scenarios (64 Latin-hypercube samples plus the nominal point) for hydrogen, water, methane and ammonia: 260 trajectories total. See [V2.md](V2.md) for ranges, outputs and interpretation limits.
+
+
+## V3 heating-model comparison
+
+The evaluator now accepts:
+
+```yaml
+heating:
+  backend: legacy
+```
+
+or:
+
+```yaml
+heating:
+  backend: brandis_johnston_2014
+```
+
+To replay the exact V2 physical scenarios under both backends:
+
+```bash
+python run_heating_model_comparison.py --workers 16 --output-dir heating-model-v3
+```
+
+The default comparison executes 65 scenarios × 4 fluids × 2 backends = 520 trajectories and reports model-to-model changes in heat load, peak heat flux, coolant mass, H2/water ranking and correlation-validity coverage. See [V3.md](V3.md).

@@ -9,7 +9,7 @@ from typing import Any
 from atmosphere import AtmosphereModel
 from chemistry import ChemistryLimiter
 from coolant import CoolantModel
-from heating import total_heating
+from heating import normalize_backend, total_heating
 from trajectory import TrajectoryState, aero_state, rk4_step
 from surface import Forebody
 
@@ -35,6 +35,10 @@ def evaluate(
     terminal = config["terminal"]
     wall_cfg = config["wall"]
     coolant_cfg = config["coolant"]
+    heating_backend = normalize_backend(
+        config.get("heating", {}).get("backend", "legacy")
+    )
+    convective_validity_defined = heating_backend == "brandis_johnston_2014"
 
     atmosphere = AtmosphereModel(
         config["atmosphere"],
@@ -73,10 +77,12 @@ def evaluate(
     time_s = 0.0
     heat_load_j_m2 = 0.0
     convective_heat_load_j_m2 = 0.0
+    convective_valid_heat_load_j_m2 = 0.0
     radiative_heat_load_j_m2 = 0.0
     radiative_valid_heat_load_j_m2 = 0.0
     incident_energy_j = coolant_energy_j = 0.0
     vehicle_convective_energy_j = 0.0
+    vehicle_convective_valid_energy_j = 0.0
     vehicle_radiative_energy_j = 0.0
     vehicle_radiative_valid_energy_j = 0.0
     energy_residual_abs_j = 0.0
@@ -86,7 +92,10 @@ def evaluate(
     minimum_knudsen = float("inf")
     has_descended = False
     rad_valid_steps = 0
+    conv_valid_steps = 0
     heating_steps = 0
+    convective_steps = 0
+    radiative_steps = 0
     failure_reason: str | None = None
     status = "running"
 
@@ -145,6 +154,12 @@ def evaluate(
         )
         if heating.total_external_w_m2 > 0:
             heating_steps += 1
+        if heating.convective_w_m2 > 0:
+            convective_steps += 1
+            if heating.convective_nominal_validity:
+                conv_valid_steps += 1
+        if heating.radiative_w_m2 > 0:
+            radiative_steps += 1
             if heating.radiation_nominal_validity:
                 rad_valid_steps += 1
 
@@ -175,7 +190,10 @@ def evaluate(
             mass = initial_mass
         surface.commit(surface_step)
         heat_load_j_m2 += heating.total_external_w_m2 * step_dt
-        convective_heat_load_j_m2 += heating.convective_w_m2 * step_dt
+        convective_step_j_m2 = heating.convective_w_m2 * step_dt
+        convective_heat_load_j_m2 += convective_step_j_m2
+        if heating.convective_nominal_validity:
+            convective_valid_heat_load_j_m2 += convective_step_j_m2
         radiative_step_j_m2 = heating.radiative_w_m2 * step_dt
         radiative_heat_load_j_m2 += radiative_step_j_m2
         if heating.radiation_nominal_validity:
@@ -196,6 +214,8 @@ def evaluate(
             * step_dt
         )
         vehicle_convective_energy_j += convective_vehicle_step_j
+        if heating.convective_nominal_validity:
+            vehicle_convective_valid_energy_j += convective_vehicle_step_j
         vehicle_radiative_energy_j += radiative_vehicle_step_j
         if heating.radiation_nominal_validity:
             vehicle_radiative_valid_energy_j += radiative_vehicle_step_j
@@ -280,6 +300,10 @@ def evaluate(
                     "surface_pressure_pa": aero.surface_pressure_pa,
                     "knudsen": atm.knudsen,
                     "continuum_factor": atm.continuum_factor,
+                    "heating_backend": heating.backend,
+                    "convective_nominal_validity": int(
+                        heating.convective_nominal_validity
+                    ),
                     "dynamic_pressure_pa": aero.dynamic_pressure_pa,
                     "deceleration_g": aero.acceleration_g,
                     "convective_heat_flux_w_m2": heating.convective_w_m2,
@@ -324,11 +348,18 @@ def evaluate(
         status = "max_time"
 
     summary = {
-        "evaluator_version": "v1",
+        "evaluator_version": "v3",
+        "heating_backend": heating_backend,
         "dt_s": dt,
         **surface_meta,
         "vehicle_incident_heat_mj": incident_energy_j / 1e6,
         "vehicle_convective_incident_heat_mj": vehicle_convective_energy_j / 1e6,
+        "vehicle_convective_valid_heat_mj": vehicle_convective_valid_energy_j / 1e6,
+        "vehicle_convective_energy_valid_fraction": (
+            vehicle_convective_valid_energy_j / vehicle_convective_energy_j
+            if convective_validity_defined and vehicle_convective_energy_j > 0.0
+            else None
+        ),
         "vehicle_radiative_incident_heat_mj": vehicle_radiative_energy_j / 1e6,
         "vehicle_radiative_valid_heat_mj": vehicle_radiative_valid_energy_j / 1e6,
         "vehicle_radiative_energy_valid_fraction": (
@@ -371,6 +402,12 @@ def evaluate(
         ),
         "heat_load_mj_m2": heat_load_j_m2 / 1e6,
         "convective_heat_load_mj_m2": convective_heat_load_j_m2 / 1e6,
+        "convective_valid_heat_load_mj_m2": convective_valid_heat_load_j_m2 / 1e6,
+        "convective_energy_valid_fraction": (
+            convective_valid_heat_load_j_m2 / convective_heat_load_j_m2
+            if convective_validity_defined and convective_heat_load_j_m2 > 0.0
+            else None
+        ),
         "radiative_heat_load_mj_m2": radiative_heat_load_j_m2 / 1e6,
         "radiative_valid_heat_load_mj_m2": radiative_valid_heat_load_j_m2 / 1e6,
         "radiative_energy_valid_fraction": (
@@ -379,6 +416,16 @@ def evaluate(
             else None
         ),
         "minimum_ignition_delay_s": minimum_ignition_delay_s,
+        "convective_correlation_valid_fraction": (
+            conv_valid_steps / convective_steps
+            if convective_validity_defined and convective_steps
+            else None
+        ),
+        "radiative_correlation_active_valid_fraction": (
+            rad_valid_steps / radiative_steps
+            if radiative_steps
+            else None
+        ),
         "radiative_correlation_valid_fraction": (
             rad_valid_steps / heating_steps
             if heating_steps
