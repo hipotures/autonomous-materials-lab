@@ -152,14 +152,14 @@ def brandis_johnston_convective(
     3.0 <= V < 9.5 km/s:
       q = 7.455e-9 rho^0.4705 V^3.089 Rn^-0.52
 
-    9.5 <= V <= 17 km/s:
+    9.5 <= V < 17 km/s:
       q = 1.270e-6 rho^0.4678 V^2.524 Rn^-0.52
     """
     rho = atmosphere.density_kg_m3
     if (
         rho <= 0.0
         or nose_radius_m <= 0.0
-        or not BJ_CONV_V_MIN_M_S <= velocity_m_s <= BJ_V_MAX_M_S
+        or not BJ_CONV_V_MIN_M_S <= velocity_m_s < BJ_V_MAX_M_S
     ):
         return 0.0, False
 
@@ -209,7 +209,7 @@ def brandis_johnston_radiative(
     if (
         rho <= 0.0
         or a_max is None
-        or not BJ_RADIATIVE_V_MIN_M_S <= velocity_m_s <= BJ_V_MAX_M_S
+        or not BJ_RADIATIVE_V_MIN_M_S <= velocity_m_s < BJ_V_MAX_M_S
     ):
         return 0.0, False
 
