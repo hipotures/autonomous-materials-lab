@@ -14,6 +14,8 @@ vehicle:
   lift_to_drag: 0.0
   bank_angle_rad: 0.0
   stagnation_pressure_coefficient: 2.0
+  # Fair-comparison V0: all fluids see the same vehicle trajectory.
+  couple_coolant_mass_to_trajectory: false
 
 atmosphere:
   model: nrlmsis-2.1
@@ -49,7 +51,8 @@ coolant:
   max_exit_temperature_k: 900.0
   wall_to_fluid_approach_k: 25.0
   cooled_area_m2: 12.0
-  available_mass_kg: 1000.0
+  # null = score the required consumable mass without an artificial tank cap.
+  available_mass_kg: null
   injection_pressure_margin: 1.15
   porous_delta_p_pa: 100000.0
   max_injection_pressure_pa: 20000000.0
