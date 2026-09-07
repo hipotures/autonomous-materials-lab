@@ -10,20 +10,32 @@ This makes it possible to measure whether the AI-guided policy adds value.
 
 ## 2. MVP research question
 
-Suggested first task:
+The project now has a preferred first **system benchmark**:
 
-> Within a deliberately bounded family of inorganic crystals, can the system recover low-energy structures while using fewer DFT calculations than naive screening?
+> Can a transparent reduced-order model determine the minimum water mass required for an atmospheric-entry thermal-protection concept using transpiration cooling and, later, directed vapor microjets?
 
-The exact chemistry can be selected later.
+This benchmark deliberately avoids novel-material generation at first. Water properties are known well enough that the project can validate the coupled evaluator before adding chemical discovery.
 
-Important properties of the benchmark:
+The initial benchmark progression is:
 
-- small unit cells;
-- inexpensive elements;
-- known reference structures;
-- manageable Quantum ESPRESSO calculations;
-- compatible with an available ML potential;
-- enough alternative structures to make selection non-trivial.
+~~~text
+W0: passive reference
+W1: water transpiration
+W2: water directed microjets
+W3: optimized water system
+~~~
+
+The primary result is M_water_min: the minimum water mass satisfying the selected thermal and trajectory constraints.
+
+After that benchmark is reproducible, the discovery loop can compare:
+
+- known pure liquids;
+- known mixtures;
+- optimized mixtures;
+- novel molecular candidates;
+- joint fluid + nozzle + control designs.
+
+A bounded inorganic-crystal benchmark remains a useful secondary test for the generic materials-discovery engine, especially for DFT/ML active-learning workflows.
 
 ## 3. Phase 0 — repository design
 
@@ -38,57 +50,59 @@ Deliverables:
 
 Status: current phase.
 
-## 4. Phase 1 — deterministic pipeline
+## 4. Phase 1 — deterministic water benchmark
 
-No AI controller yet.
+No AI controller and no novel-fluid generation yet.
 
 Implement:
 
-```text
-structure input
+~~~text
+mission definition
     |
     v
-normalize
+water property model
     |
     v
-deduplicate
+reduced thermal model
     |
     v
-ML relax
+transpiration / nozzle model
     |
     v
-rank
+vehicle force and trajectory model
     |
     v
-DFT selected candidates
+minimum-water-mass search
     |
     v
-database
-```
+provenance database
+~~~
 
-Goal: prove all tools are callable and results are reproducible.
+Goal: establish M_water_min and show that the complete calculation is reproducible.
 
-## 5. Phase 2 — baseline search policies
+The first implementation may use prescribed heat-load and drag histories before moving to fully coupled aerothermodynamics.
 
-Implement several simple selectors:
+## 5. Phase 2 — known-fluid comparison
 
-- random;
-- top-N predicted energy;
-- uncertainty sampling;
-- diversity sampling;
-- fixed mixture policy.
+Add a small library of known liquids and mixtures using trusted thermodynamic data.
 
-These become the baselines the AI must beat.
+For every fluid, optimize the same system variables under the same mission assumptions and compare:
 
-## 6. Phase 3 — AI controller
+~~~text
+mass_ratio = M_candidate_min / M_water_min
+~~~
+
+This prevents the project from attributing gains from nozzle geometry or control policy to fluid chemistry.
+
+## 6. Phase 3 — optimization and AI controller
 
 Add the reasoning model above the same tool interface.
 
 The AI controller receives only structured summaries and can choose:
 
-- search subspace;
-- generation batch;
-- promotion set;
+- fluid or mixture subspace;
+- geometry/control search region;
+- high-fidelity promotion set;
 - retry actions;
 - budget allocation.
 
@@ -96,10 +110,10 @@ Every action is validated by the deterministic orchestrator.
 
 ## 7. Phase 4 — active learning
 
-After enough DFT data is collected:
+After enough high-fidelity CFD, MD, chemistry, or DFT data is collected:
 
 ```text
-DFT observations
+high-fidelity observations
       |
       v
 surrogate update
@@ -111,21 +125,22 @@ recalculate uncertainty
 new acquisition
       |
       v
-next DFT batch
+next high-fidelity batch
 ```
 
-Measure whether the updated surrogate reduces expensive reference calculations.
+Measure whether the updated surrogate reduces expensive reference calculations while preserving system-level accuracy.
 
 ## 8. Phase 5 — genuinely novel candidates
 
-Only after benchmark success:
+Only after the water and known-fluid benchmarks are trustworthy:
 
-- expand composition space;
-- introduce stronger novelty pressure;
-- compare against known-material databases;
-- perform convex-hull analysis;
-- run phonon validation;
-- escalate the best candidates to HPC.
+- generate novel molecular candidates or mixtures;
+- predict missing thermodynamic/transport properties;
+- validate selected candidates with MD / ab-initio MD / chemistry calculations;
+- introduce CFD for the most promising designs;
+- escalate expensive coupled simulations to HPC.
+
+The crystal-discovery track can independently add composition generation, convex-hull analysis, phonons and DFT validation.
 
 ## 9. Minimal software components
 
