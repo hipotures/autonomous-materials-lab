@@ -155,7 +155,17 @@ def evaluate(candidate: Candidate, target_temperatures_k: list[float]) -> Result
         )
 
     if phase not in {"liquid", "supercritical_liquid"}:
-        errors.append(f"initial phase is {phase}, not liquid")
+        return Result(
+            candidate=candidate,
+            phase_initial=phase,
+            density_kg_m3=math.nan,
+            boiling_temperature_k=None,
+            q_to_vapor_mj_kg=None,
+            q_to_vapor_mj_l=None,
+            q_targets_mj_kg={t: None for t in target_temperatures_k},
+            q_targets_mj_l={t: None for t in target_temperatures_k},
+            errors=[f"initial phase is {phase}, not liquid"],
+        )
 
     h_initial = safe_props(
         "H",
@@ -305,6 +315,7 @@ def print_results(
     targets_k: list[float],
 ) -> None:
     headers = [
+        "rank",
         "fluid",
         "T0_K",
         "P0_bar",
@@ -319,8 +330,9 @@ def print_results(
 
     rows: list[list[str]] = []
 
-    for result in results:
+    for rank_number, result in enumerate(results, start=1):
         row = [
+            str(rank_number),
             result.candidate.label,
             f"{result.candidate.temperature_k:.2f}",
             f"{result.candidate.pressure_pa / 1e5:.3f}",
@@ -458,6 +470,14 @@ def main() -> None:
     ]
 
     reference = water_reference(results, args.water_label)
+
+    results.sort(
+        key=lambda item: (
+            item.q_to_vapor_mj_kg is not None,
+            item.q_to_vapor_mj_kg if item.q_to_vapor_mj_kg is not None else -math.inf,
+        ),
+        reverse=True,
+    )
 
     print(
         f"CoolProp {CoolProp.__version__} | "
