@@ -180,9 +180,13 @@ The AI controller may adjust the policy, but the numerical inputs and final deci
 
 Selected candidates move to higher-fidelity calculations.
 
-Initial reference backend:
+Reference backends are selected by domain:
 
-- Quantum ESPRESSO for DFT.
+- water MVP: validated thermophysical data and a verified reduced thermal evaluator;
+- later liquid TPS: calibrated heat-transfer/nozzle closures, validated CFD and appropriate molecular/chemical references;
+- crystal track: Quantum ESPRESSO for DFT.
+
+No DFT installation is required for the first water benchmark.
 
 Potential later backends:
 
@@ -234,23 +238,11 @@ failure category
 
 ## 3. Trust hierarchy
 
-The system should maintain an explicit hierarchy of evidence.
+Evidence must identify the observable, domain, thermodynamic state, uncertainty, convergence and independent validation. An LLM proposal is not a numerical observation. A surrogate may guide acquisition, but a converged DFT result is only a reference for questions its method can answer; it does not override measured water properties or establish system-level cooling performance.
 
-```text
-heuristic / LLM suggestion
-        <
-ML surrogate prediction
-        <
-converged DFT result
-        <
-cross-code / higher-level validation
-        <
-experimental result
-```
+Do not treat fidelity as a universal scalar ordering. Cross-code agreement can share systematic errors, and a coupled model inherits uncertain component closures. Preserve conflicting evidence and its scope rather than overwriting it.
 
-A lower level can decide what to inspect next. It should not overwrite a contradictory higher-level result.
-
-## 4. Control loop
+## 4. Control loop — crystal adapter example
 
 ```text
 objective
@@ -302,6 +294,10 @@ Failure classes should include, for example:
 - scheduler failure.
 
 The controller can then decide whether the failure is scientific, numerical, or infrastructural.
+
+## Execution contract
+
+Candidate revision, simulation request, attempt, observation and decision are separate records. Reserve budgets atomically before dispatch; use input/version hashes for request identity; reconcile running jobs after restart before retrying. A failed numerical execution is not scientific infeasibility. See the [design review](design-review.md) for the required provenance and recovery behavior.
 
 ## 6. Safety against search collapse
 

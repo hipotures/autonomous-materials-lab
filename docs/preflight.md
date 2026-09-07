@@ -1,6 +1,18 @@
 # Preflight Checklist
 
-Complete this before implementing the autonomous discovery loop.
+Use the checklist for the current milestone. The original GPU/atomistic checks below apply only before those workloads; they do not block CPU-only W1-R.
+
+## W1-R minimum start gate
+
+- [ ] Python CPU environment and exact dependency lock available
+- [ ] complete case definition with SI units, wall model and pressure/flow/temperature limits
+- [ ] water property backend selected with explicit validity range and independent reference states
+- [ ] heating boundary convention and energy/mass control volumes defined
+- [ ] local provenance/artifact storage, free-space monitoring and backup configured
+- [ ] failure classification, timeouts and rerun/recovery behavior specified
+- [ ] verification cases and tolerances from the [model contract](benchmarks/model-contract.md) implemented before accepting an optimum
+
+The following sections prepare the later GPU/atomistic track.
 
 ## Host
 
@@ -113,7 +125,7 @@ Complete this before implementing the autonomous discovery loop.
 - [ ] profiling tools installed
 - [ ] optimization results template created
 
-## Start criterion
+## Later crystal-generation start criterion
 
 Do not start autonomous candidate generation until:
 

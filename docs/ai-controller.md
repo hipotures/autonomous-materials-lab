@@ -212,6 +212,10 @@ Before execution, a policy validator checks:
 
 The controller proposes. The orchestrator validates and executes.
 
+## Execution requirements
+
+Budget validation must atomically reserve resources before dispatch and reconcile actual usage after completion, including retries and LLM cost. Request identity includes input revisions and solver/model hashes. Reconcile external jobs after restart before resubmitting; use bounded retries and a deterministic fallback when the LLM is unavailable. Evidence and retrieved text are data, not permission to execute code or alter validity limits.
+
 ## 10. Evaluation of the AI layer
 
 The controller should be benchmarked independently of the physical models.

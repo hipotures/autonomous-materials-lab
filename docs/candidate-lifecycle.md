@@ -1,5 +1,11 @@
 # Candidate Lifecycle
 
+## Scope and domain-independent records
+
+The structure states below apply to the **crystal adapter**. A water-TPS candidate instead identifies an immutable fluid/composition, geometry and control-policy revision evaluated against a mission revision. It must not pass through DFT states to become usable.
+
+Simulation attempts have separate execution states (queued/running/completed/failed/cancelled). Completed observations separately report feasible, infeasible or unsupported, under a named model and validity range. A numerical failure never becomes a physical rejection automatically. Every revised candidate preserves its parent; every retry gets a new attempt ID. See the [model contract](benchmarks/model-contract.md).
+
 ## 1. Candidate as a persistent entity
 
 A candidate is not just a CIF file. It is an entity with lineage, structures at different fidelity levels, predictions, reference calculations, and state transitions.

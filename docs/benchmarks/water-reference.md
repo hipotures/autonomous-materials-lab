@@ -35,6 +35,10 @@ jet / transpiration behavior
 vehicle dynamics
 ~~~
 
+## Implementation contract
+
+The [physical and numerical contract](model-contract.md) defines R (prescribed-boundary) and C (trajectory-coupled) cases, conservation equations, validity checks and acceptance tests. W1-R is the first milestone. W2 is not required to pass that milestone. Prescribed heating cannot establish a net trajectory benefit.
+
 ## 3. Baseline configurations
 
 ### W0 — no active liquid cooling
@@ -85,9 +89,9 @@ The central benchmark number is:
 M_water_min
 ~~~
 
-defined as the minimum water mass required to satisfy all thermal and trajectory constraints under the benchmark mission definition.
+used as shorthand for the **best feasible water mass found** within recorded model assumptions, search bounds and budget. It is not a certified global minimum. R cases enforce thermal/delivery constraints; only C cases can additionally evaluate trajectory constraints. Report loaded and consumed coolant separately and identify which metric is compared.
 
-Later candidates are compared using:
+Only compare matching case definitions and mass conventions. If the water baseline is zero, the following ratio is undefined. Otherwise later candidates are compared using:
 
 ~~~text
 mass_ratio = M_candidate_min / M_water_min
@@ -111,7 +115,7 @@ means the candidate requires 28% less fluid mass than the optimized water benchm
 
 ## 5. Later system-level metric
 
-After the fluid-only benchmark is stable, replace the metric with:
+Record hardware/passive-TPS mass assumptions from the start. Before any system-superiority claim, supplement the fluid-only metric with:
 
 ~~~text
 system_mass_ratio =
@@ -127,7 +131,8 @@ This includes:
 - manifold;
 - porous structure;
 - nozzles;
-- additional control hardware.
+- additional control hardware;
+- passive TPS retained in the active system and any required power/pressurant hardware, counted exactly once.
 
 A chemically superior coolant should not win if its storage and delivery hardware makes the total system heavier.
 
@@ -195,7 +200,7 @@ Compute:
 - vapor generation rate
 - wall-temperature history
 - approximate jet momentum
-- approximate net braking contribution
+- reaction-force diagnostic only for W2-R; net trajectory benefit only for validated C cases
 ~~~
 
 This model does not need to be high fidelity. It needs to be transparent, numerically stable and useful as a baseline.

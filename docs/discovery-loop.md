@@ -8,6 +8,8 @@ The discovery loop should answer one question repeatedly:
 
 The output of one iteration becomes the evidence for the next.
 
+The examples below define the **later crystal adapter**, not the initial water MVP. The first water loop is deterministic W1-R evaluation and bounded search under the [model contract](benchmarks/model-contract.md); it does not require generation, ML or DFT.
+
 ## 2. Iteration state
 
 Each iteration has a state object:
@@ -178,7 +180,7 @@ Important distinction:
 low total energy != thermodynamic stability
 ```
 
-The comparison set is therefore part of the scientific result.
+The comparison set is therefore part of the scientific result. Reference energies must share a validated computational convention; do not mix raw QE and database/VASP energies blindly. Record hull completeness, functional/U policy, pseudopotentials and correction scheme. See the [review](design-review.md).
 
 ### Step 11 — Dynamic stability
 
@@ -259,7 +261,7 @@ A search branch may stop when any of the following is true:
 
 ## 7. Minimum viable loop
 
-The first implementation should be much smaller than the final architecture:
+The first implementation of the later crystal track should be much smaller than the final architecture:
 
 ```text
 known composition family

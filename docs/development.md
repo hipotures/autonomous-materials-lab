@@ -274,6 +274,10 @@ cp2k:
 
 This becomes part of calculation provenance.
 
+## Water evaluator correctness
+
+Before optimizing the initial CPU evaluator, use the conservation, analytic-limit, property-domain and convergence checks in the [model contract](benchmarks/model-contract.md). Save peak wall/backface temperature, consumed and loaded mass, energy residual and feasibility margins, in addition to runtime. An apparent speedup that changes physical feasibility is not accepted.
+
 ## 12. Benchmark corpus
 
 Prepare a small immutable benchmark corpus before optimization work.

@@ -1,5 +1,11 @@
 # Development and Compute Environment
 
+## Scope and validation status
+
+The first W1-R benchmark needs only a CPU Python environment, NumPy/SciPy, typed schemas, a validated water-property backend and SQLite/files. The GPU and atomistic stack below is optional until the relevant later milestone. Do not reinstall a host or install all scientific engines merely to start the water model.
+
+This document is a dependency survey, not a tested installation manifest. Selected upstream releases were checked in the [design review](design-review.md); full compatibility remains untested. Use milestone-specific locks and pin source tags before running build examples.
+
 ## 1. Recommended base platform
 
 ### Primary recommendation
@@ -35,7 +41,7 @@ The workstation should be considered a high-throughput ML/screening node first a
 
 ## 3. Version baseline
 
-This table is a **known-current reference as of 2026-09-07**, not a permanent lock file. Exact production versions will be pinned after installation tests.
+This table is a **proposed reference snapshot dated 2026-09-07**, not a known-good environment or a permanent lock file. Exact production versions will be pinned after installation and scientific acceptance tests; the review records which upstream releases were independently checked.
 
 | Component | Current reference | Project role |
 | --- | ---: | --- |
@@ -170,12 +176,14 @@ Suggested layout:
 
 ```text
 .venv-core/
-    orchestration
-    ASE
-    pymatgen
-    Phonopy
-    AiiDA client/plugins
-    project code
+    project orchestration and schemas
+    NumPy / SciPy
+    validated water property backend
+    SQLite / reporting
+
+.venv-atomistic/
+    ASE / pymatgen / Phonopy
+    AiiDA client/plugins when needed
 
 .venv-ml/
     PyTorch 2.14
@@ -194,7 +202,7 @@ MatterGen 1.0.3 currently pins an older stack including:
 - Python 3.10 in its documented installation flow;
 - `torch==2.2.1+cu118` on Linux;
 - `numpy<2.0`;
-- `ase<=3.25.0`;
+- `ase>=3.22.1` in the v1.0.3 tag (do not infer an upper bound from another revision);
 - older PyTorch Geometric binary dependencies.
 
 That is intentionally incompatible with the modern main ML environment.
@@ -431,6 +439,7 @@ Use a dedicated upstream-compatible environment first:
 ```bash
 git clone https://github.com/microsoft/mattergen.git
 cd mattergen
+git checkout v1.0.3
 
 uv venv .venv --python 3.10
 source .venv/bin/activate
@@ -599,9 +608,9 @@ pseudopotential checksums
 
 The environment is part of the scientific result.
 
-## 19. First machine validation
+## 19. Later GPU / atomistic machine validation
 
-Before implementing the discovery loop, run a hardware/software acceptance suite.
+Before running the relevant GPU/atomistic workloads, run their hardware/software acceptance suite. This is not a prerequisite for CPU-only W1-R implementation.
 
 ### GPU
 

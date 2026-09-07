@@ -4,7 +4,13 @@ An experimental architecture for AI-guided discovery of hypothetical materials.
 
 The project is intentionally starting as a **design repository**, not as a software implementation. The first goal is to define a rigorous closed-loop workflow in which an AI scientific controller decides where to spend computation, while physical models remain the source of numerical truth.
 
-## Core idea
+## First milestone
+
+The immediate target is **W1-R: a CPU-only water/wall thermal benchmark with prescribed heating**, using a validated property backend, NumPy/SciPy and lightweight provenance. No crystal generator, DFT engine, GPU or LLM is required to begin. Microjets and coupled trajectories are later, separately validated extensions.
+
+Read the [design review](docs/design-review.md) and [physical/numerical contract](docs/benchmarks/model-contract.md) before implementing the evaluator. No water-mass optimum has yet been computed.
+
+## Core idea — later crystal discovery track
 
 ```text
 Research objective
@@ -61,7 +67,7 @@ The local GPUs are best treated primarily as accelerators for structure generati
 
 ## Proposed stack
 
-These are candidates, not hard dependencies:
+These are candidates, not hard dependencies. For the water MVP use NumPy/SciPy, a validated water property backend such as CoolProp, typed schemas and SQLite plus artifact files. The following stack primarily serves the later atomistic/crystal track:
 
 - **ASE** — common atomistic workflow interface
 - **pymatgen** — structures, phase diagrams, materials analysis
@@ -86,6 +92,8 @@ These are candidates, not hard dependencies:
 
 ## Documentation
 
+- [Design review and software assessment](docs/design-review.md)
+- [Water physical and numerical contract](docs/benchmarks/model-contract.md)
 - [Architecture](docs/architecture.md)
 - [Discovery loop](docs/discovery-loop.md)
 - [AI controller](docs/ai-controller.md)

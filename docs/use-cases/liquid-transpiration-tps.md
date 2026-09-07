@@ -30,7 +30,7 @@ p_system(t) <= p_limit
 all operational constraints satisfied
 ~~~
 
-The later system-level objective should become:
+The fluid-only objective is a restricted diagnostic with fixed, disclosed hardware assumptions. Before claiming a superior mission design, the system-level objective must become:
 
 ~~~text
 minimize M_total_TPS
@@ -69,20 +69,9 @@ The real question is:
 
 ### Thermal effectiveness
 
-Define an effective thermal sink per unit mass:
+Use a control-volume energy balance, as specified in the [model contract](../benchmarks/model-contract.md). Fluid enthalpy uptake includes sensible heating and phase changes between stated thermodynamic stations. Reaction effects require a consistent chemical enthalpy convention. Nozzle kinetic energy and external pump/pressurant work must be accounted for at the same boundaries.
 
-~~~text
-q_eff =
-    sensible heating
-  + phase-change enthalpy
-  + vapor superheating
-  + useful endothermic chemistry
-  + reduction of external heat transfer caused by blowing
-~~~
-
-Units: J/kg.
-
-This is not identical to latent heat of vaporization.
+Blowing modifies the external heat-transfer rate; it is not an intrinsic J/kg fluid property. A scenario-specific effective benefit may be reported afterward by integrating avoided external heating and dividing by nonzero consumed mass. Do not add that credit again to an already reduced wall heat load.
 
 ### Braking effectiveness
 
@@ -300,19 +289,7 @@ Each stage must beat the previous baseline under the same system model.
 
 ## 11. Validation hierarchy
 
-~~~text
-tabulated-property screening
-        <
-reduced thermal/nozzle model
-        <
-validated CFD / MD
-        <
-coupled trajectory model
-        <
-experimental subsystem data
-        <
-flight data
-~~~
+Evidence is specific to an observable and operating regime. Track numerical verification, independent physical validation and model applicability separately. A coupled trajectory model is not automatically more trustworthy than a validated component: it inherits uncertainties from every closure. CFD and MD answer different questions. Experiments also require documented uncertainty and relevance to the modeled conditions.
 
 The AI controller selects what to test next. It does not override higher-fidelity evidence.
 

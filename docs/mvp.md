@@ -25,7 +25,7 @@ W2: water directed microjets
 W3: optimized water system
 ~~~
 
-The primary result is M_water_min: the minimum water mass satisfying the selected thermal and trajectory constraints.
+The primary result is M_water_min, shorthand for the best feasible water mass found under the selected model, search bounds and constraints. Only coupled cases can evaluate trajectory constraints.
 
 After that benchmark is reproducible, the discovery loop can compare:
 
@@ -36,6 +36,10 @@ After that benchmark is reproducible, the discovery loop can compare:
 - joint fluid + nozzle + control designs.
 
 A bounded inorganic-crystal benchmark remains a useful secondary test for the generic materials-discovery engine, especially for DFT/ML active-learning workflows.
+
+## Scope of the first milestone
+
+Use the [physical/numerical contract](benchmarks/model-contract.md). W1-R is the first acceptance milestone: prescribed heating and a verified water/wall evaluator on CPU. W2-R adds a nozzle component later. Coupled C cases require independently validated aerodynamic closures. A reproducible optimizer result is the best feasible mass found, not proof of a global minimum.
 
 ## 3. Phase 0 — repository design
 
@@ -78,7 +82,7 @@ minimum-water-mass search
 provenance database
 ~~~
 
-Goal: establish M_water_min and show that the complete calculation is reproducible.
+Goal: establish a verified W1-R thermal calculation and then a reproducible best feasible coolant-mass estimate within stated bounds. The diagram is the eventual evaluator; nozzle/trajectory layers are not prerequisites for W1-R.
 
 The first implementation may use prescribed heat-load and drag histories before moving to fully coupled aerothermodynamics.
 
@@ -207,16 +211,18 @@ The generic platform may later add domain-specific entities such as Structure an
 
 ## 11. First acceptance test
 
-The water-benchmark MVP passes when:
+The W1-R MVP passes when:
 
-1. a fixed mission definition can be loaded from configuration;
-2. water properties are supplied by a versioned, testable property model;
-3. the reduced thermal model computes a stable wall-temperature history;
-4. the transpiration-only case W1 runs end to end;
-5. the directed-microjet case W2 runs end to end;
-6. an optimizer can determine a reproducible estimate of M_water_min;
-7. all assumptions, solver settings and outputs are stored with provenance;
-8. rerunning the benchmark from the same configuration reproduces the result within a defined numerical tolerance.
+1. a complete, immutable prescribed-boundary case loads with explicit units and limits;
+2. the versioned water property model agrees with independent reference states in the relevant domain;
+3. analytic limits, integrated mass/energy balances and numerical refinement pass the model-contract gates;
+4. W0 and W1-R run end to end, including wall/backface constraints appropriate to the spatial model;
+5. depletion, unsupported states and failed simulations cannot be marked feasible;
+6. bounded optimization returns an independently re-evaluated best feasible result with margins and stopping reason;
+7. inputs, model versions, attempts, results and artifacts are stored with provenance;
+8. rerun and recovery tests reproduce the result within defined tolerances.
+
+W2-R and C cases have separate nozzle and aerodynamic validation gates. Passing W1-R does not establish their cooling or braking performance.
 
 ## 12. AI acceptance test
 
@@ -248,13 +254,13 @@ W0 passive reference
 W1 water transpiration
       |
       v
-W2 water microjets
+verify W1-R conservation and validity
       |
       v
 optimize water mass / flow policy
       |
       v
-produce reproducible M_water_min
+produce a reproducible best feasible mass estimate
 ~~~
 
 The GPUs become more important in later phases when the project adds:
@@ -273,7 +279,7 @@ Once the water benchmark is trustworthy:
 
 - compare known pure liquids;
 - compare known mixtures;
-- introduce system-mass accounting for tanks/manifolds/nozzles;
+- refine initial hardware-mass assumptions into validated tank/manifold/nozzle mass models before system ranking;
 - add higher-fidelity aerothermal models;
 - add CFD and reacting-gas chemistry;
 - add molecular and ab-initio validation for selected fluids;

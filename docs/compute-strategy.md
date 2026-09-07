@@ -1,5 +1,9 @@
 # Compute Strategy
 
+## First water milestone
+
+W1-R is a small CPU problem. Begin with the thermal/property evaluator and lightweight provenance; neither dual-GPU acceptance nor DFT builds block this work. The GPU/DFT tiers below describe later atomistic workloads. Benchmark CFD separately; support and performance depend on the exact solver/build/model combination.
+
 ## 1. Initial hardware assumption
 
 The local prototype is designed around:
