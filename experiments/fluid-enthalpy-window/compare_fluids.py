@@ -74,7 +74,31 @@ def parse_args() -> argparse.Namespace:
         "--output",
         type=Path,
         default=None,
-        help="Optional output CSV path.",
+        help="Optional summary CSV output path.",
+    )
+    parser.add_argument(
+        "--sweep-start-k",
+        type=float,
+        default=300.0,
+        help="Temperature-sweep start in kelvin (default: 300).",
+    )
+    parser.add_argument(
+        "--sweep-end-k",
+        type=float,
+        default=1500.0,
+        help="Temperature-sweep end in kelvin (default: 1500).",
+    )
+    parser.add_argument(
+        "--sweep-step-k",
+        type=float,
+        default=25.0,
+        help="Temperature-sweep step in kelvin (default: 25).",
+    )
+    parser.add_argument(
+        "--sweep-output",
+        type=Path,
+        default=Path("enthalpy_sweep.csv"),
+        help="CSV output for q(T) sweep (default: enthalpy_sweep.csv).",
     )
     return parser.parse_args()
 
@@ -284,6 +308,26 @@ def evaluate(candidate: Candidate, target_temperatures_k: list[float]) -> Result
     )
 
 
+def q_to_temperature(candidate: Candidate, target_k: float) -> float | None:
+    """Return idealized enthalpy rise in MJ/kg to target_k at candidate P0."""
+    if target_k <= candidate.temperature_k:
+        return None
+
+    h_initial = safe_props(
+        "H", "T", candidate.temperature_k, "P", candidate.pressure_pa,
+        candidate.coolprop_name,
+    )
+    h_target = safe_props(
+        "H", "T", target_k, "P", candidate.pressure_pa,
+        candidate.coolprop_name,
+    )
+    if h_initial is None or h_target is None:
+        return None
+
+    q_j_kg = h_target - h_initial
+    return q_j_kg / 1e6 if q_j_kg > 0.0 else None
+
+
 def ratio(reference: float | None, candidate: float | None) -> float | None:
     if (
         reference is None
@@ -384,6 +428,143 @@ def print_results(
         print(format_row(row))
 
 
+
+
+def temperature_grid(start_k: float, end_k: float, step_k: float) -> list[float]:
+    if start_k <= 0.0 or end_k <= 0.0 or step_k <= 0.0:
+        raise ValueError("Sweep temperatures and step must be positive.")
+    if end_k < start_k:
+        raise ValueError("Sweep end must be >= sweep start.")
+
+    values: list[float] = []
+    current = start_k
+    while current <= end_k + step_k * 1e-9:
+        values.append(round(current, 10))
+        current += step_k
+    return values
+
+
+def build_sweep(
+    candidates: list[Candidate],
+    temperatures_k: list[float],
+) -> dict[str, dict[float, float | None]]:
+    return {
+        candidate.label: {
+            temperature_k: q_to_temperature(candidate, temperature_k)
+            for temperature_k in temperatures_k
+        }
+        for candidate in candidates
+    }
+
+
+def interpolate_crossover(
+    t0: float,
+    d0: float,
+    t1: float,
+    d1: float,
+) -> float:
+    if d1 == d0:
+        return t1
+    fraction = -d0 / (d1 - d0)
+    return t0 + fraction * (t1 - t0)
+
+
+def find_crossover_temperature(
+    candidate_label: str,
+    water_label: str,
+    temperatures_k: list[float],
+    sweep: dict[str, dict[float, float | None]],
+) -> float | None:
+    if candidate_label == water_label:
+        return None
+
+    previous: tuple[float, float] | None = None
+
+    for temperature_k in temperatures_k:
+        q_water = sweep[water_label].get(temperature_k)
+        q_candidate = sweep[candidate_label].get(temperature_k)
+
+        if q_water is None or q_candidate is None:
+            continue
+
+        difference = q_candidate - q_water
+
+        if difference >= 0.0:
+            if previous is None:
+                return temperature_k
+            t_prev, d_prev = previous
+            if d_prev < 0.0:
+                return interpolate_crossover(
+                    t_prev, d_prev, temperature_k, difference
+                )
+            return temperature_k
+
+        previous = (temperature_k, difference)
+
+    return None
+
+
+def print_crossovers(
+    candidates: list[Candidate],
+    water_label: str,
+    temperatures_k: list[float],
+    sweep: dict[str, dict[float, float | None]],
+) -> None:
+    print()
+    print(
+        "Approximate crossover temperatures where candidate q(T) "
+        "first matches/exceeds water:"
+    )
+
+    for candidate in candidates:
+        if candidate.label == water_label:
+            continue
+
+        crossover = find_crossover_temperature(
+            candidate.label,
+            water_label,
+            temperatures_k,
+            sweep,
+        )
+
+        if crossover is None:
+            print(
+                f"- {candidate.label}: no crossover found in supported "
+                f"{temperatures_k[0]:g}-{temperatures_k[-1]:g} K sweep"
+            )
+        else:
+            print(f"- {candidate.label}: ~{crossover:.1f} K")
+
+
+def write_sweep_csv(
+    path: Path,
+    candidates: list[Candidate],
+    water_label: str,
+    temperatures_k: list[float],
+    sweep: dict[str, dict[float, float | None]],
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            ["temperature_K", "label", "q_MJ_kg", "mass_ratio_vs_water"]
+        )
+
+        for temperature_k in temperatures_k:
+            q_water = sweep[water_label].get(temperature_k)
+            for candidate in candidates:
+                q_candidate = sweep[candidate.label].get(temperature_k)
+                writer.writerow(
+                    [
+                        temperature_k,
+                        candidate.label,
+                        q_candidate,
+                        ratio(q_water, q_candidate),
+                    ]
+                )
+
+
 def write_csv(
     path: Path,
     results: list[Result],
@@ -460,6 +641,15 @@ def main() -> None:
     if any(target <= 0.0 for target in args.targets_k):
         raise SystemExit("All --targets-k values must be positive.")
 
+    try:
+        sweep_temperatures = temperature_grid(
+            args.sweep_start_k,
+            args.sweep_end_k,
+            args.sweep_step_k,
+        )
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+
     candidates = load_candidates(args.fluids)
     if not candidates:
         raise SystemExit("No candidate fluids found.")
@@ -487,6 +677,14 @@ def main() -> None:
     print()
     print_results(results, reference, args.targets_k)
 
+    sweep = build_sweep(candidates, sweep_temperatures)
+    print_crossovers(
+        candidates,
+        args.water_label,
+        sweep_temperatures,
+        sweep,
+    )
+
     problems = [
         result
         for result in results
@@ -504,7 +702,17 @@ def main() -> None:
     if args.output is not None:
         write_csv(args.output, results, reference, args.targets_k)
         print()
-        print(f"CSV written to: {args.output}")
+        print(f"Summary CSV written to: {args.output}")
+
+    if args.sweep_output is not None:
+        write_sweep_csv(
+            args.sweep_output,
+            candidates,
+            args.water_label,
+            sweep_temperatures,
+            sweep,
+        )
+        print(f"Sweep CSV written to: {args.sweep_output}")
 
 
 if __name__ == "__main__":
