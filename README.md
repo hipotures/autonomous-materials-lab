@@ -190,4 +190,4 @@ The first experiments isolate thermodynamics and chemical kinetics. The entry ev
 
 **Phase 1 — reduced-order end-to-end entry evaluator and working-fluid comparison.**
 
-The repository now contains both local property / chemistry screens and a first trajectory-level evaluator. The immediate task is to run and validate the V0 entry model, compare water and non-water fluids under identical entry assumptions, and identify which low-fidelity assumptions most strongly control the ranking before escalating to CFD or other high-fidelity models.
+The repository now contains both local property / chemistry screens and a first trajectory-level evaluator. The entry evaluator now includes a [V1 angular surface model and numerical verification study](experiments/entry-evaluator/V1.md). Its 80-case study tests time-step/grid convergence and fluid-ranking stability under explicit surface assumptions. These numerical checks do not establish physical validity of the heating closures; the next work should address the dominant model uncertainties before escalation to CFD or other high-fidelity models.

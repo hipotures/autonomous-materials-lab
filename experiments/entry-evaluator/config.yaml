@@ -1,4 +1,4 @@
-name: hard-entry-hydrogen-v0
+name: hard-entry-hydrogen-v1
 
 entry:
   altitude_km: 200.0
@@ -34,6 +34,15 @@ heating:
   radiative_enabled: true
   convective_scale: 1.0
   radiative_scale: 1.0
+
+# Angular surrogate; not a calibrated shape or CFD result.
+# cooled_area_m2 is actual modeled surface area, NOT aerodynamic projected area.
+surface:
+  model: cosine_cap
+  theta_max_deg: 90.0
+  zones: 32
+  convective_exponent: 1.0
+  radiative_exponent: 1.0
 
 wall:
   initial_temperature_k: 300.0
