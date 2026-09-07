@@ -48,19 +48,19 @@ def evaluate(
     dt = float(numerics.get("dt_s", 0.05))
     max_time = float(numerics.get("max_time_s", 2000.0))
     initial_mass = float(vehicle["initial_mass_kg"])
-    dry_mass = float(
-        vehicle.get(
-            "dry_mass_kg",
-            initial_mass
-            - float(coolant_cfg.get("available_mass_kg", 0.0)),
-        )
-    )
     available_raw = coolant_cfg.get("available_mass_kg")
     available_coolant = (
         None
         if available_raw is None
         else float(available_raw)
     )
+    dry_mass_raw = vehicle.get("dry_mass_kg")
+    if dry_mass_raw is not None:
+        dry_mass = float(dry_mass_raw)
+    elif available_coolant is not None:
+        dry_mass = initial_mass - available_coolant
+    else:
+        dry_mass = initial_mass
     couple_mass = bool(
         vehicle.get("couple_coolant_mass_to_trajectory", False)
     )
