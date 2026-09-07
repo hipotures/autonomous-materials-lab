@@ -144,120 +144,144 @@ The crystal-discovery track can independently add composition generation, convex
 
 ## 9. Minimal software components
 
-A pragmatic first implementation could contain:
+A pragmatic first implementation for the water benchmark could contain:
 
-```text
+~~~text
 src/
   orchestrator/
-  candidates/
-  screening/
-  dft/
+  mission/
+  fluids/
+  thermal/
+  nozzle/
+  trajectory/
+  optimization/
   controller/
   storage/
 
 configs/
-  objectives/
-  dft-presets/
-  models/
+  missions/
+  fluids/
+  solver-presets/
+
+benchmarks/
+  water/
 
 data/
   .gitkeep
 
 tests/
-```
+~~~
 
 Likely Python ecosystem:
 
-- ASE;
-- pymatgen;
-- PyTorch;
-- one ML interatomic potential;
-- Quantum ESPRESSO;
+- NumPy / SciPy;
+- CoolProp or another validated property backend if selected after review;
+- Cantera where reacting-gas chemistry becomes relevant;
+- Pydantic for typed schemas;
 - SQLite initially;
-- Pydantic for typed schemas.
+- plotting/reporting tools for benchmark inspection.
 
-AiiDA can be introduced when workflow/provenance complexity justifies it rather than on day one.
+CFD, MD, DFT and AiiDA should be introduced only when the reduced-order benchmark is stable enough to justify higher-fidelity calculations.
 
 ## 10. Minimal data model
 
 First entities:
 
-```text
+~~~text
 Objective
-Candidate
-Structure
-Prediction
-Calculation
+Mission
+Fluid
+FluidModel
+Geometry
+ControlPolicy
+Simulation
 Observation
 Decision
 Hypothesis
 BudgetLedger
-```
+~~~
 
-This is sufficient to reconstruct why any DFT job was launched.
+This is sufficient to reconstruct why a given design was evaluated and how its mass score was obtained.
+
+The generic platform may later add domain-specific entities such as Structure and DFTCalculation for the crystal-discovery track.
 
 ## 11. First acceptance test
 
-The MVP passes when:
+The water-benchmark MVP passes when:
 
-1. at least 100 candidate structures are ingested/generated;
-2. all are normalized and deduplicated;
-3. all valid candidates receive an ML score;
-4. at least two selection policies choose DFT subsets;
-5. Quantum ESPRESSO calculations complete for selected candidates;
-6. results are parsed into the database;
-7. the full lineage from objective to final observation is queryable;
-8. rerunning the experiment from the same configuration is reproducible.
+1. a fixed mission definition can be loaded from configuration;
+2. water properties are supplied by a versioned, testable property model;
+3. the reduced thermal model computes a stable wall-temperature history;
+4. the transpiration-only case W1 runs end to end;
+5. the directed-microjet case W2 runs end to end;
+6. an optimizer can determine a reproducible estimate of M_water_min;
+7. all assumptions, solver settings and outputs are stored with provenance;
+8. rerunning the benchmark from the same configuration reproduces the result within a defined numerical tolerance.
 
 ## 12. AI acceptance test
 
 The AI layer should not be considered useful merely because it produces plausible scientific prose.
 
-It passes only if, across repeated benchmark runs, it demonstrates measurable benefit such as:
+For the liquid-TPS track, it passes only if it demonstrates measurable benefit over simpler optimization/search baselines, for example:
 
-- better candidate found for the same DFT budget;
-- equivalent candidate found with fewer DFT jobs;
-- fewer redundant calculations;
-- better recovery from failed calculations;
-- broader useful exploration without excessive compute cost.
+- lower feasible system mass for the same simulation budget;
+- equivalent design found with fewer high-fidelity simulations;
+- better allocation between fluid, geometry and control exploration;
+- fewer redundant CFD/MD evaluations;
+- better recovery from failed or numerically unstable simulations.
+
+The same principle applies to the crystal-discovery track with DFT budget replacing CFD/MD budget.
 
 ## 13. First practical milestone on 2 × RTX 4090
 
-A reasonable workstation demonstration is:
+The first practical milestone does not need both GPUs heavily.
 
-```text
-1000 candidate structures
-        |
-        v
-ML relax / score on 2 GPUs
-        |
-        v
-cluster + uncertainty analysis
-        |
-        v
-select 20-50 candidates
-        |
-        v
-small DFT validation batch
-        |
-        v
-compare selection policies
-```
+It should be:
 
-The exact numbers should be adjusted to atom count and DFT cost.
+~~~text
+fixed entry mission
+      |
+      v
+W0 passive reference
+      |
+      v
+W1 water transpiration
+      |
+      v
+W2 water microjets
+      |
+      v
+optimize water mass / flow policy
+      |
+      v
+produce reproducible M_water_min
+~~~
+
+The GPUs become more important in later phases when the project adds:
+
+- surrogate models;
+- molecular dynamics;
+- learned fluid/property models;
+- CFD acceleration where supported;
+- high-throughput candidate evaluation.
+
+This sequencing avoids using GPU compute merely because it is available.
 
 ## 14. What comes after the MVP
 
-Once the benchmark is trustworthy:
+Once the water benchmark is trustworthy:
 
-- integrate a crystal generator;
-- add active-learning surrogate updates;
-- add external materials databases;
-- add phase-diagram construction;
-- add phonon workflows;
+- compare known pure liquids;
+- compare known mixtures;
+- introduce system-mass accounting for tanks/manifolds/nozzles;
+- add higher-fidelity aerothermal models;
+- add CFD and reacting-gas chemistry;
+- add molecular and ab-initio validation for selected fluids;
+- add surrogate models and active learning;
 - add HPC submission;
 - add an AI hypothesis ledger;
-- add finite-temperature validation;
-- eventually test inverse-design objectives.
+- search novel mixtures and molecular candidates.
 
-The system should grow by adding new tools beneath the same controller interface, not by making the controller itself increasingly unconstrained.
+The crystal-discovery track can be added in parallel using the same controller, provenance and budget infrastructure.
+
+The system should grow by adding new domain tools beneath the same controller interface, not by making the controller itself increasingly unconstrained.
