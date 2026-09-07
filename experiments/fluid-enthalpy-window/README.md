@@ -137,7 +137,9 @@ q_MJ_kg
 mass_ratio_vs_water
 ~~~
 
-and prints an approximate crossover temperature where each candidate first reaches or exceeds water in MJ/kg.
+and reports sampled temperature intervals where each candidate has greater or equal q(T) than water.
+
+It also reports whether that advantage is **sustained after water has vaporized** all the way to the end of the sweep. This is more meaningful than a single interpolated crossover because enthalpy as a function of temperature has a jump at a constant-pressure phase change.
 
 Example:
 
@@ -149,7 +151,7 @@ python compare_fluids.py \
   --sweep-output enthalpy_sweep.csv
 ~~~
 
-A missing crossover means either that the candidate did not beat water in the searched interval or that CoolProp stopped supporting one of the required states before a crossover could be established.
+The report deliberately does not interpolate across phase-change jumps. A candidate may beat water at low temperature, lose after water vaporizes, and possibly win again later. Missing CoolProp states prevent a sustained-advantage claim rather than being treated as a favorable result.
 
 ## Candidate file format
 
