@@ -1,0 +1,4 @@
+label,cantera_fuel,coolprop_name,T_storage_K,P_storage_Pa,notes
+Hydrogen,H2:1,Hydrogen,19.0,101325,Cryogenic reference state from previous screen
+Methane,CH4:1,Methane,110.0,101325,Cryogenic reference state from previous screen
+Ammonia,NH3:1,Ammonia,230.0,101325,Subcooled reference state from previous screen
