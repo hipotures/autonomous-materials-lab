@@ -1,92 +1,171 @@
 # Autonomous Materials Lab
 
-An experimental architecture for AI-guided discovery of hypothetical materials.
+An experimental architecture for AI-guided inverse design of materials and material-enabled systems.
 
-The project is intentionally starting as a **design repository**, not as a software implementation. The first goal is to define a rigorous closed-loop workflow in which an AI scientific controller decides where to spend computation, while physical models remain the source of numerical truth.
+The project is intentionally starting as a **design repository**, not as a software implementation. Its purpose is to build a reproducible search-and-validation system in which AI chooses what to evaluate next while numerical physics remains the source of quantitative evidence.
 
-## Core idea
+## Current primary use case
 
-```text
-Research objective
-      |
-      v
-AI scientific controller
-      |
-      v
-Chemical-space selection
-      |
-      v
-Candidate structure generation
-      |
-      v
-Deterministic filters
-      |
-      v
-ML potential screening
-      |
-      v
-Candidate ranking + uncertainty
-      |
-      +-------------------+
-      |                   |
-      v                   v
-   exploit             explore
-      |                   |
-      +---------+---------+
-                |
-                v
-          DFT validation
-                |
-                v
-          results database
-                |
-                v
-       model / policy update
-                |
-                +----> next iteration
-```
+The first concrete research track is **atmospheric-entry working-fluid discovery**.
 
-The AI controller does **not** replace density-functional theory, atomistic simulation, or uncertainty-aware surrogate models. Its job is to choose the next useful computation, interpret failures, allocate a finite compute budget, and decide when to broaden or narrow the search.
+The goal is **not** to design a water-cooled heat shield.
+
+The goal is to discover or formulate a liquid / liquid mixture that minimizes the working-fluid mass required to:
+
+- keep the vehicle within thermal limits;
+- provide any useful additional braking through directed vapor discharge;
+- remain physically storable, deliverable and compatible with the system.
+
+Water is used only as a **reference and evaluator-validation fluid** because its properties are well characterized.
+
+Read [Project Goal](docs/project-goal.md) first.
+
+## Core liquid-discovery loop
+
+~~~text
+mission + architecture
+        |
+        v
+candidate fluid / mixture
+        |
+        v
+known or predicted properties
+        |
+        v
+fluid evaluator
+        |
+        +---- thermal contribution
+        |
+        +---- vapor / nozzle contribution
+        |
+        +---- aerodynamic interaction
+        |
+        v
+required working-fluid mass
+        |
+        v
+compare with water reference
+        |
+        v
+AI / optimizer chooses next candidate
+        |
+        +--------------------> repeat
+~~~
+
+The same evaluator should accept water, known liquids, mixtures and later hypothetical molecular candidates without changing the project objective.
+
+## Water's role
+
+Water is a calibration point, not the desired end product.
+
+~~~text
+water
+  -> verify property model
+  -> verify conservation
+  -> obtain reference score
+
+candidate X
+  -> same evaluator
+  -> compare required mass with water
+~~~
+
+A scientifically meaningful result is of the form:
+
+> Under the stated mission, hardware assumptions and model fidelity, candidate X requires Y% less working-fluid mass than the water reference while satisfying the same constraints.
+
+## Other research tracks
+
+The architecture remains general enough to support other domains, including crystal discovery.
+
+~~~text
+Autonomous Materials Lab
+        |
+        +-- fluid / mixture inverse design
+        |     -> thermodynamics
+        |     -> MD / chemistry
+        |     -> aerothermal system evaluator
+        |
+        +-- crystal discovery
+              -> structure generation
+              -> ML screening
+              -> DFT
+              -> phonons / stability
+~~~
+
+These tracks share:
+
+- orchestration;
+- provenance;
+- budget accounting;
+- AI experiment selection;
+- uncertainty handling;
+- high-fidelity escalation.
+
+They do not share the same physical evaluator.
 
 ## Initial target hardware
 
-The first prototype is designed around a workstation with:
+The first prototype is designed around:
 
-- 2 × NVIDIA RTX 4090
-- conventional multicore CPU
-- local SSD storage
-- optional access to an external university/HPC cluster for expensive validation
+- 2 × NVIDIA RTX 4090;
+- multicore x86_64 CPU;
+- local NVMe storage;
+- optional university/HPC access.
 
-The local GPUs are best treated primarily as accelerators for structure generation, machine-learning interatomic potentials, surrogate models, and molecular dynamics. High-accuracy DFT can run locally for small jobs and be escalated to HPC when justified.
+The first reduced fluid evaluator may run almost entirely on CPU. The GPUs become important for high-throughput ML, molecular simulation, surrogate models and later expensive candidate screening.
 
-## Proposed stack
+## Proposed software stack
 
-These are candidates, not hard dependencies:
+Domain-dependent candidates include:
 
-- **ASE** — common atomistic workflow interface
-- **pymatgen** — structures, phase diagrams, materials analysis
-- **MatterGen or another crystal generator** — candidate structure generation
-- **MACE / CHGNet / related ML potential** — fast relaxation and screening
-- **Quantum ESPRESSO** — open-source DFT reference backend
-- **CP2K** — molecular dynamics and larger-system DFT workflows
-- **Phonopy** — phonon workflows
-- **AiiDA or a lightweight custom orchestrator** — provenance and workflow execution
-- **SQLite/PostgreSQL + object storage** — experiment metadata and large artifacts
-- **LLM / reasoning model** — scientific controller and experiment planner
+### Fluid / TPS track
+
+- NumPy / SciPy — reduced-order models and optimization;
+- validated thermophysical-property backend;
+- Cantera — thermodynamics / reacting-gas chemistry where applicable;
+- LAMMPS — molecular dynamics;
+- CP2K — selected ab-initio MD / molecular reference calculations;
+- SU2 or another open CFD solver — later aerothermal interaction modelling;
+- custom trajectory / thermal / injection evaluator.
+
+### Crystal track
+
+- ASE;
+- pymatgen;
+- MatterGen or another generator;
+- MACE / CHGNet;
+- Quantum ESPRESSO;
+- CP2K;
+- Phonopy.
+
+### Shared
+
+- Python 3.12 production baseline;
+- SQLite/PostgreSQL + artifact storage;
+- Pydantic or equivalent typed schemas;
+- LLM / reasoning model as scientific controller;
+- optional AiiDA when remote-workflow complexity justifies it.
 
 ## Design principles
 
-1. **Physics outranks language-model preference.**
-2. **Every rejected candidate has an explicit reason.**
-3. **AI recommendations are soft unless backed by deterministic constraints.**
-4. **Expensive calculations are treated as a budgeted resource.**
-5. **Exploration must be preserved; unfamiliar chemistry must not be discarded merely because it is unfamiliar.**
-6. **Every result is reproducible from stored inputs, code versions, model versions, and calculation settings.**
-7. **The controller should be able to explain why a particular computation was selected.**
+1. **The search target must be explicit.**
+2. **Water is a benchmark, not the design objective.**
+3. **Physics outranks language-model preference.**
+4. **Every rejected candidate has an explicit reason.**
+5. **A numerical failure is not a physical rejection.**
+6. **Expensive calculations are treated as budgeted resources.**
+7. **Every result is reproducible from stored inputs, versions and settings.**
+8. **The controller must explain why a calculation was selected.**
+9. **Candidate comparison must use the same evaluator and comparable system assumptions.**
 
 ## Documentation
 
+- [Project goal](docs/project-goal.md)
 - [Architecture](docs/architecture.md)
+- [Liquid TPS / working-fluid use case](docs/use-cases/liquid-transpiration-tps.md)
+- [Generic fluid evaluator contract](docs/benchmarks/fluid-evaluator-contract.md)
+- [Water reference benchmark](docs/benchmarks/water-reference.md)
+- [MVP plan](docs/mvp.md)
 - [Discovery loop](docs/discovery-loop.md)
 - [AI controller](docs/ai-controller.md)
 - [Candidate lifecycle](docs/candidate-lifecycle.md)
@@ -94,12 +173,9 @@ These are candidates, not hard dependencies:
 - [Development and compute environment](docs/environment.md)
 - [Source development and optimization](docs/development.md)
 - [Preflight checklist](docs/preflight.md)
-- [Liquid transpiration / microjet TPS use case](docs/use-cases/liquid-transpiration-tps.md)
-- [Water reference benchmark](docs/benchmarks/water-reference.md)
-- [MVP plan](docs/mvp.md)
 
 ## Status
 
-**Phase 0 — architecture definition, workstation preparation, and first system benchmark definition.**
+**Phase 0 — scientific objective definition, evaluator contract and workstation preparation.**
 
-No claim is made yet that the proposed pipeline can discover a synthesizable material. The first concrete system benchmark is a water-based liquid transpiration / directed-microjet thermal-protection model. The immediate objective is to reproduce known physics with a transparent baseline before searching novel fluids, mixtures, crystals, or other material classes.
+The next implementation should validate a generic fluid evaluator with a known reference fluid, then immediately begin comparing multiple fluids. Water verification is a prerequisite for confidence in the evaluator, not the scientific endpoint.
