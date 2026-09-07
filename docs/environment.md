@@ -194,7 +194,7 @@ MatterGen 1.0.3 currently pins an older stack including:
 - Python 3.10 in its documented installation flow;
 - `torch==2.2.1+cu118` on Linux;
 - `numpy<2.0`;
-- `ase<=3.25.0`;
+- `ase>=3.22.1` in the v1.0.3 tag;
 - older PyTorch Geometric binary dependencies.
 
 That is intentionally incompatible with the modern main ML environment.
@@ -431,6 +431,7 @@ Use a dedicated upstream-compatible environment first:
 ```bash
 git clone https://github.com/microsoft/mattergen.git
 cd mattergen
+git checkout v1.0.3
 
 uv venv .venv --python 3.10
 source .venv/bin/activate
