@@ -43,7 +43,7 @@ This table is a **known-current reference as of 2026-09-07**, not a permanent lo
 | NVIDIA driver | >= 580.65.06 for CUDA 13.x HPC SDK | GPU driver |
 | CUDA Toolkit | 13.3.1 latest stable; do not force all software to use it | CUDA development |
 | NVIDIA HPC SDK | 26.5 | NVFortran/OpenACC, QE GPU build |
-| Python | 3.14.7 latest; **3.13 recommended for main project env** | orchestration/ML |
+| Python | **3.12 recommended for production**; 3.13+ reserved for compatibility testing | orchestration/ML |
 | PyTorch | 2.14 | ML runtime |
 | Quantum ESPRESSO | 7.6 | primary open-source DFT backend |
 | CP2K | 2026.2 | MD / large-system DFT backend |
@@ -209,26 +209,32 @@ This is a good candidate for future source-level work.
 
 ## 7. Main Python environment
 
-Recommended initial interpreter:
+Recommended production interpreter:
 
 ```text
-Python 3.13
+Python 3.12
 ```
+
+Python 3.13 should be maintained only as a compatibility-testing target until the complete scientific stack is validated against it.
 
 Reason:
 
-- modern enough for current PyTorch;
-- less ecosystem risk than immediately standardizing on the newest CPython release;
+- broad binary-wheel coverage across scientific Python packages;
+- conservative compatibility target for compiled extensions and scientific libraries;
+- supported by the current core stack, including PyTorch, CHGNet and AiiDA;
+- lower ecosystem risk than standardizing immediately on Python 3.13 or newer;
 - avoids coupling the project to the host distribution Python.
+
+For this project, interpreter stability is more valuable than language-version novelty.
 
 Example:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-uv python install 3.13
-uv venv .venv-core --python 3.13
-uv venv .venv-ml --python 3.13
+uv python install 3.12
+uv venv .venv-core --python 3.12
+uv venv .venv-ml --python 3.12
 ```
 
 The exact package locks should be committed later as `uv.lock` files.
