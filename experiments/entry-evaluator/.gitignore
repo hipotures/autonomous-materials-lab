@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+tests/__pycache__/
+entry_history.csv
+entry_summary.json
+batch-results/
+convergence-results/
+convergence-v1/

@@ -1,8 +1,14 @@
-# Low-Fidelity Earth Entry Evaluator (V0)
+# Low-Fidelity Earth Entry Evaluator (V1)
 
 This experiment is the first end-to-end evaluator for the working-fluid discovery track.
 
 Instead of manually selecting one temperature and pressure, it propagates a complete atmospheric-entry trajectory and evaluates the fluid along the evolving environment.
+
+## V1 scope
+
+V1 separates local stagnation heating from integrated forebody power. It adds independent angular wall zones and a time-step/grid/ranking verification runner. Trajectory, atmosphere, chemistry ceilings, rarefied cutoffs and heating correlations retain V0 assumptions. No CFD, Cantera integration or new physical phenomena are added.
+
+See [the surface model and verification protocol](V1.md). Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` explicitly selects a cosine profile. The default single-run angle stays at -8 degrees, so it still produces a skip with disabled rarefied heating. The verification study explicitly uses -11 degrees.
 
 ## Primary question
 
@@ -36,10 +42,10 @@ planar spherical-Earth trajectory
     +--> Tauber-Sutton radiative heating
     |
     v
-lumped wall thermal state
+angular wall zones + zero-area stagnation probe
     |
     v
-minimum required coolant heat removal
+minimum required local coolant heat removal
     |
     v
 CoolProp enthalpy window
@@ -168,7 +174,7 @@ The V0 result is not high-fidelity radiative shock-layer analysis.
 
 ## Wall model
 
-The wall is represented per unit heated area:
+Each angular zone and the stagnation probe have an independent lumped wall state per unit area:
 
 ```text
 C_areal * dTwall/dt =
@@ -179,12 +185,13 @@ The controller requests the minimum coolant heat flux required to prevent the ne
 
 ## Coolant model
 
-For each step, CoolProp computes:
+For each active zone, CoolProp computes (exact state cache, without rounded first-visitor values):
 
 ```text
 delta_h = h(T_exit, P_surface) - h(T_storage, P_storage)
 mass_flux = q_coolant / delta_h
-mass_flow = mass_flux * cooled_area
+mass_flow_zone = mass_flux_zone * zone_area
+mass_flow_total = sum(mass_flow_zone)
 ```
 
 By default V0 uses a **fixed trajectory mass** while integrating the required coolant mass. This is deliberate: every candidate fluid is first scored on the same vehicle trajectory, so a fluid is not rewarded or penalized by changing the trajectory while it is being compared.
@@ -219,7 +226,7 @@ ignition_delay >= residence_time * ignition_safety_factor
 
 No Cantera integration is performed inside the trajectory loop.
 
-## What V0 reports
+## What V1 reports
 
 Important outputs include:
 
@@ -233,12 +240,17 @@ peak_wall_temperature
 peak_coolant_flow
 peak_required_injection_pressure
 minimum_ignition_delay
-PASS / FAIL
+status (terminal_velocity / terminal_altitude / atmospheric_exit / failed / max_time)
+vehicle_incident_heat_mj
+peak_vehicle_heating_power_w
+vehicle_coolant_heat_mj
+wall_energy_relative_residual
+rarefied_heating_disabled_time_s
 ```
 
 ## What V0 cannot prove
 
-A pass is not flight qualification. The model does not yet contain CFD, DSMC, a reacting boundary layer, porous-media flow, film-cooling effectiveness, multilayer wall conduction, ablation, structural stresses, pump/tank mass, real injector geometry, radiation-flow coupling, or catalytic wall chemistry.
+Terminal status is not a physical-validity flag or flight qualification. The model does not yet contain CFD, DSMC, a reacting boundary layer, porous-media flow, film-cooling effectiveness, multilayer wall conduction, ablation, structural stresses, pump/tank mass, real injector geometry, radiation-flow coupling, or catalytic wall chemistry.
 
 A strong candidate should be escalated to higher-fidelity models rather than accepted as a final design.
 

@@ -1,0 +1,27 @@
+# Fixed trajectory benchmark; does not use the angle matrix in batch.yaml.
+entry:
+  altitude_km: 200.0
+  velocity_km_s: 15.0
+  flight_path_angle_deg: -11.0
+dt_s: [0.1, 0.05, 0.025, 0.0125]
+surface_profiles:
+  uniform_v0_control:
+    model: uniform
+  broad:
+    model: cosine_cap
+    theta_max_deg: 90.0
+    zones: 32
+    convective_exponent: 0.5
+    radiative_exponent: 0.5
+  nominal:
+    model: cosine_cap
+    theta_max_deg: 90.0
+    zones: 32
+    convective_exponent: 1.0
+    radiative_exponent: 1.0
+  narrow:
+    model: cosine_cap
+    theta_max_deg: 90.0
+    zones: 32
+    convective_exponent: 2.0
+    radiative_exponent: 2.0

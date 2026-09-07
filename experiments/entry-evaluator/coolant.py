@@ -5,6 +5,7 @@ import math
 from typing import Any
 
 import CoolProp.CoolProp as CP
+from CoolProp import AbstractState
 
 from chemistry import ChemistryLimiter
 
@@ -54,6 +55,7 @@ class CoolantModel:
             config.get("max_injection_pressure_pa", 1e9)
         )
         self._cache: dict[tuple[float, float], float] = {}
+        self._outlet_state = AbstractState("HEOS", self.fluid)
 
         self.h_storage = float(
             CP.PropsSI(
@@ -83,21 +85,16 @@ class CoolantModel:
         temperature_k: float,
         pressure_pa: float,
     ) -> float:
-        key = (
-            round(temperature_k, 1),
-            round(math.log10(max(pressure_pa, 1.0)), 3),
-        )
+        # Exact keys avoid first-visitor rounding bias between time steps/rings.
+        key = (float(temperature_k), max(float(pressure_pa), 100.0))
         if key not in self._cache:
-            self._cache[key] = float(
-                CP.PropsSI(
-                    "H",
-                    "T",
-                    temperature_k,
-                    "P",
-                    max(pressure_pa, 100.0),
-                    self.fluid,
-                )
-            )
+            self._outlet_state.update(CP.PT_INPUTS, key[1], key[0])
+            value = float(self._outlet_state.hmass())
+            if not math.isfinite(value):
+                raise ValueError("non-finite outlet enthalpy")
+            if len(self._cache) >= 4096:
+                self._cache.clear()
+            self._cache[key] = value
         return self._cache[key]
 
     def evaluate(
@@ -105,7 +102,12 @@ class CoolantModel:
         wall_temperature_k: float,
         surface_pressure_pa: float,
         coolant_heat_flux_w_m2: float,
+        *,
+        area_m2: float | None = None,
     ) -> CoolantStep:
+        area = self.cooled_area_m2 if area_m2 is None else float(area_m2)
+        if not math.isfinite(area) or area < 0:
+            raise ValueError("coolant evaluation area must be finite and nonnegative")
         if coolant_heat_flux_w_m2 <= 0.0:
             required_injection_pressure = (
                 self.pressure_margin * surface_pressure_pa
@@ -186,7 +188,7 @@ class CoolantModel:
             )
 
         mass_flux = max(0.0, coolant_heat_flux_w_m2) / delta_h
-        mass_flow = mass_flux * self.cooled_area_m2
+        mass_flow = mass_flux * area
         return CoolantStep(
             requested_exit,
             delta_h,
