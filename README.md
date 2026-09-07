@@ -68,6 +68,7 @@ These are candidates, not hard dependencies:
 - **MatterGen or another crystal generator** — candidate structure generation
 - **MACE / CHGNet / related ML potential** — fast relaxation and screening
 - **Quantum ESPRESSO** — open-source DFT reference backend
+- **CP2K** — molecular dynamics and larger-system DFT workflows
 - **Phonopy** — phonon workflows
 - **AiiDA or a lightweight custom orchestrator** — provenance and workflow execution
 - **SQLite/PostgreSQL + object storage** — experiment metadata and large artifacts
@@ -90,10 +91,13 @@ These are candidates, not hard dependencies:
 - [AI controller](docs/ai-controller.md)
 - [Candidate lifecycle](docs/candidate-lifecycle.md)
 - [Compute strategy](docs/compute-strategy.md)
+- [Development and compute environment](docs/environment.md)
+- [Source development and optimization](docs/development.md)
+- [Preflight checklist](docs/preflight.md)
 - [MVP plan](docs/mvp.md)
 
 ## Status
 
-**Phase 0 — architecture definition.**
+**Phase 0 — architecture definition and workstation preparation.**
 
 No claim is made yet that the proposed pipeline can discover a synthesizable material. The immediate objective is to build a small, auditable system that can reproduce known materials-discovery tasks before searching genuinely novel chemical space.
