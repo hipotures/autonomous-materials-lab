@@ -45,6 +45,7 @@ def evaluate(
 
     state = _initial_state(config)
     surface = Forebody(config.get("surface", {}), float(coolant_cfg["cooled_area_m2"]), wall_cfg)
+    surface_meta = surface.metadata()
     wall = surface.stagnation
     dt = float(numerics.get("dt_s", 0.05))
     max_time = float(numerics.get("max_time_s", 2000.0))
@@ -182,7 +183,6 @@ def evaluate(
 
         incident_energy_j += surface_step.incident_power_w * step_dt
         coolant_energy_j += surface_step.coolant_power_w * step_dt
-        surface_meta = surface.metadata()
         convective_vehicle_step_j = (
             heating.convective_w_m2
             * surface_meta["surface_convective_area_factor"]
@@ -326,7 +326,7 @@ def evaluate(
     summary = {
         "evaluator_version": "v1",
         "dt_s": dt,
-        **surface.metadata(),
+        **surface_meta,
         "vehicle_incident_heat_mj": incident_energy_j / 1e6,
         "vehicle_convective_incident_heat_mj": vehicle_convective_energy_j / 1e6,
         "vehicle_radiative_incident_heat_mj": vehicle_radiative_energy_j / 1e6,
