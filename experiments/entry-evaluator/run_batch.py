@@ -4,7 +4,9 @@ from __future__ import annotations
 import argparse
 import copy
 import csv
+import itertools
 import json
+import re
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
@@ -24,13 +26,65 @@ def deep_merge(
             isinstance(value, dict)
             and isinstance(result.get(key), dict)
         ):
-            result[key] = deep_merge(
-                result[key],
-                value,
-            )
+            result[key] = deep_merge(result[key], value)
         else:
             result[key] = copy.deepcopy(value)
     return result
+
+
+def set_dotted(
+    config: dict[str, Any],
+    path: str,
+    value: Any,
+) -> None:
+    keys = path.split(".")
+    node = config
+    for key in keys[:-1]:
+        if key not in node or not isinstance(node[key], dict):
+            node[key] = {}
+        node = node[key]
+    node[keys[-1]] = value
+
+
+def slug(value: Any) -> str:
+    text = str(value).replace("-", "m").replace(".", "p")
+    return re.sub(r"[^A-Za-z0-9_]+", "_", text).strip("_")
+
+
+def expand_cases(
+    base: dict[str, Any],
+    batch: dict[str, Any],
+) -> list[dict[str, Any]]:
+    fluid_cases = batch.get("cases", [{}])
+    matrix = batch.get("matrix", {}) or {}
+    matrix_keys = list(matrix.keys())
+    matrix_values = [matrix[key] for key in matrix_keys]
+    combinations = (
+        list(itertools.product(*matrix_values))
+        if matrix_keys
+        else [()]
+    )
+
+    expanded: list[dict[str, Any]] = []
+    for case_override in fluid_cases:
+        case = deep_merge(base, case_override)
+        base_name = str(case.get("name", "case"))
+        for values in combinations:
+            item = copy.deepcopy(case)
+            suffixes: list[str] = []
+            for key, value in zip(matrix_keys, values):
+                set_dotted(item, key, value)
+                suffixes.append(
+                    f"{key.split('.')[-1]}_{slug(value)}"
+                )
+            if suffixes:
+                item["name"] = (
+                    base_name
+                    + "__"
+                    + "__".join(suffixes)
+                )
+            expanded.append(item)
+    return expanded
 
 
 def worker(
@@ -91,24 +145,28 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    if args.workers <= 0:
+        raise SystemExit("--workers must be positive")
+
     base = yaml.safe_load(
         args.base_config.read_text(encoding="utf-8")
     )
     batch = yaml.safe_load(
         args.batch.read_text(encoding="utf-8")
     )
-    cases = [
-        deep_merge(base, item)
-        for item in batch["cases"]
-    ]
+    cases = expand_cases(base, batch)
     args.output_dir.mkdir(
         parents=True,
         exist_ok=True,
     )
 
+    print(
+        f"cases={len(cases)} "
+        f"workers={min(args.workers, len(cases))}"
+    )
     summaries: list[dict[str, Any]] = []
     with ProcessPoolExecutor(
-        max_workers=args.workers
+        max_workers=min(args.workers, len(cases))
     ) as pool:
         futures = {
             pool.submit(
@@ -138,6 +196,9 @@ def main() -> None:
                 )
                 print(f"{name}: EXCEPTION {exc}")
 
+    summaries.sort(
+        key=lambda row: str(row.get("case_name", ""))
+    )
     keys = sorted(
         {
             key
