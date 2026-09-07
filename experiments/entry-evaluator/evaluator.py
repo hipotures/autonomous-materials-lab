@@ -55,13 +55,23 @@ def evaluate(
             - float(coolant_cfg.get("available_mass_kg", 0.0)),
         )
     )
-    available_coolant = float(
-        coolant_cfg.get("available_mass_kg", 1e12)
+    available_raw = coolant_cfg.get("available_mass_kg")
+    available_coolant = (
+        None
+        if available_raw is None
+        else float(available_raw)
+    )
+    couple_mass = bool(
+        vehicle.get("couple_coolant_mass_to_trajectory", False)
     )
     mass = initial_mass
     coolant_used = 0.0
     time_s = 0.0
     heat_load_j_m2 = 0.0
+    initial_altitude_m = state.altitude_m
+    minimum_altitude_m = state.altitude_m
+    minimum_knudsen = float("inf")
+    has_descended = False
     rad_valid_steps = 0
     heating_steps = 0
     failure_reason: str | None = None
@@ -81,6 +91,16 @@ def evaluate(
     history: list[dict[str, Any]] = []
 
     while time_s < max_time:
+        minimum_altitude_m = min(minimum_altitude_m, state.altitude_m)
+        if state.altitude_m < initial_altitude_m - 1000.0:
+            has_descended = True
+        if (
+            has_descended
+            and state.altitude_m >= initial_altitude_m
+            and state.flight_path_angle_rad > 0.0
+        ):
+            status = "atmospheric_exit"
+            break
         if (
             state.altitude_m
             <= float(terminal.get("altitude_km", 20.0)) * 1000.0
@@ -98,6 +118,7 @@ def evaluate(
             break
 
         atm = atmosphere.sample(state.altitude_m)
+        minimum_knudsen = min(minimum_knudsen, atm.knudsen)
         aero = aero_state(state, atm, mass, vehicle)
         heating = total_heating(
             atm,
@@ -132,13 +153,19 @@ def evaluate(
 
         mdot = coolant_step.mass_flow_kg_s
         dm = mdot * dt
-        if coolant_used + dm > available_coolant:
+        if (
+            available_coolant is not None
+            and coolant_used + dm > available_coolant
+        ):
             status = "failed"
             failure_reason = "configured coolant mass exhausted"
             break
 
         coolant_used += dm
-        mass = max(dry_mass, initial_mass - coolant_used)
+        if couple_mass:
+            mass = max(dry_mass, initial_mass - coolant_used)
+        else:
+            mass = initial_mass
         wall.temperature_k = provisional_wall.next_temperature_k
         heat_load_j_m2 += heating.total_external_w_m2 * dt
 
@@ -263,9 +290,17 @@ def evaluate(
         ),
         "downrange_km": state.downrange_m / 1000.0,
         "coolant_used_kg": coolant_used,
-        "coolant_remaining_kg": max(
-            0.0,
-            available_coolant - coolant_used,
+        "coolant_remaining_kg": (
+            None
+            if available_coolant is None
+            else max(0.0, available_coolant - coolant_used)
+        ),
+        "trajectory_mass_coupled_to_coolant": couple_mass,
+        "minimum_altitude_km": minimum_altitude_m / 1000.0,
+        "minimum_knudsen": (
+            None
+            if minimum_knudsen == float("inf")
+            else minimum_knudsen
         ),
         "heat_load_mj_m2": heat_load_j_m2 / 1e6,
         "minimum_ignition_delay_s": minimum_ignition_delay_s,
