@@ -1,10 +1,10 @@
-# Use Case: Liquid Transpiration and Microjet Thermal Protection
+# Use Case: Working-Fluid Discovery for Transpiration / Microjet Thermal Protection
 
 ## 1. Purpose
 
-This use case reframes the project from unconstrained materials discovery into a concrete inverse-design problem.
+This use case is a concrete inverse-design problem whose primary search variable is the **working fluid**. The project is not intended to design a water-cooled heat shield; water appears only as a known reference fluid.
 
-The objective is to identify a liquid or liquid mixture, together with a delivery and nozzle strategy, that minimizes the mass required to protect and decelerate an atmospheric-entry vehicle.
+The objective is to discover, model and rank liquids or liquid mixtures that minimize the mass required to protect and, where useful, additionally decelerate an atmospheric-entry vehicle.
 
 The candidate fluid may contribute through two coupled mechanisms:
 
@@ -274,29 +274,29 @@ Quantum ESPRESSO remains useful for selected electronic-structure questions but 
 
 ## 10. Discovery progression
 
-Do not begin by generating exotic molecules.
+Water verification comes first only to validate the evaluator. The scientific search begins immediately afterward.
 
 ~~~text
-Stage A:
-water baseline
+Evaluator verification:
+water reference
 
-Stage B:
+Discovery Stage 1:
 known pure liquids
 
-Stage C:
-known mixtures
+Discovery Stage 2:
+known mixtures and mixture-ratio search
 
-Stage D:
-optimized mixtures
+Discovery Stage 3:
+hypothetical / predicted molecular candidates
 
-Stage E:
-novel molecular candidates
+Discovery Stage 4:
+high-fidelity validation of promising candidates
 
-Stage F:
+Discovery Stage 5:
 joint fluid + geometry + control optimization
 ~~~
 
-Each stage must beat the previous baseline under the same system model.
+Water is not a discovery stage and does not need the early chemistry-generation or property-prediction flow.
 
 ## 11. Validation hierarchy
 
