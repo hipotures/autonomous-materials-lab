@@ -88,7 +88,9 @@ entry_history.csv
 entry_summary.json
 ```
 
-The history contains the full time series. The summary contains peak values and total coolant consumed.
+The history contains the full time series. The summary contains peak values, minimum altitude, minimum Knudsen number, terminal/skip status, and total coolant consumed.
+
+For hyperbolic or shallow skip trajectories the run terminates with `status: atmospheric_exit` after the vehicle descends and then climbs back through the initial altitude. It no longer integrates thousands of seconds into space.
 
 ## Parallel batch
 
@@ -185,7 +187,11 @@ mass_flux = q_coolant / delta_h
 mass_flow = mass_flux * cooled_area
 ```
 
-The vehicle mass decreases as coolant is consumed.
+By default V0 uses a **fixed trajectory mass** while integrating the required coolant mass. This is deliberate: every candidate fluid is first scored on the same vehicle trajectory, so a fluid is not rewarded or penalized by changing the trajectory while it is being compared.
+
+Set `vehicle.couple_coolant_mass_to_trajectory: true` only for later system-level studies where the carried coolant inventory is known and should change vehicle dynamics.
+
+Likewise, `coolant.available_mass_kg: null` means "score the required mass without an artificial tank-cap failure." Give it a finite value only when testing a specific carried inventory.
 
 V0 deliberately gives no aerodynamic blowing credit to the coolant. External heating is calculated as if the transpiration film did not reduce incoming heat flux.
 
