@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-The system is a closed-loop computational materials-discovery platform. It should search hypothetical chemical and structural space, estimate which candidates deserve more expensive computation, validate selected candidates with higher-fidelity physics, and use the resulting evidence to choose the next search direction.
+The system is a closed-loop computational inverse-design platform for materials and material-enabled systems. It should search candidate chemistry, structure, mixtures, geometry, and operating policies; estimate which candidates deserve more expensive computation; validate selected candidates with higher-fidelity physics; and use the resulting evidence to choose the next search direction.
 
 The architecture deliberately separates:
 
@@ -64,6 +64,32 @@ Responsibilities:
 - produce a machine-readable rationale for every decision.
 
 The controller must not silently convert a heuristic judgment into a physical fact.
+
+### Domain adapters
+
+The core controller/orchestrator should not be hard-coded to crystalline solids.
+
+A domain adapter defines:
+
+- candidate representation;
+- cheap filters;
+- surrogate models;
+- high-fidelity solvers;
+- observables;
+- feasibility constraints;
+- final objective function.
+
+Initial domain adapters may include:
+
+~~~text
+crystal discovery
+    -> structures / DFT / phonons / phase stability
+
+liquid TPS inverse design
+    -> fluids / thermodynamics / MD / CFD / trajectory
+~~~
+
+The same decision, provenance and budget infrastructure should be shared across both.
 
 ### Layer C — Candidate generation
 
