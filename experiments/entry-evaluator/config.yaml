@@ -37,7 +37,8 @@ wall:
   initial_temperature_k: 300.0
   temperature_setpoint_k: 1100.0
   maximum_temperature_k: 1200.0
-  areal_heat_capacity_j_m2_k: 1200000.0
+  # Screening placeholder: e.g. ~100 kg/m2 at ~1000 J/kg/K.
+  areal_heat_capacity_j_m2_k: 100000.0
   emissivity: 0.85
   backface_loss_w_m2: 0.0
 
