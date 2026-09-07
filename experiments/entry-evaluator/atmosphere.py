@@ -76,19 +76,50 @@ class AtmosphereModel:
         )
         data = np.asarray(raw).reshape(n, -1)
 
-        self.density = data[:, pymsis.Variable.MASS_DENSITY].astype(float)
-        self.temperature = data[:, pymsis.Variable.TEMPERATURE].astype(float)
-        self.n2 = data[:, pymsis.Variable.N2].astype(float)
-        self.o2 = data[:, pymsis.Variable.O2].astype(float)
-        self.o = data[:, pymsis.Variable.O].astype(float)
-        self.he = data[:, pymsis.Variable.HE].astype(float)
-        self.h = data[:, pymsis.Variable.H].astype(float)
-        self.ar = data[:, pymsis.Variable.AR].astype(float)
-        self.n = data[:, pymsis.Variable.N].astype(float)
-        self.no = data[:, pymsis.Variable.NO].astype(float)
+        self.density = np.nan_to_num(
+            data[:, pymsis.Variable.MASS_DENSITY].astype(float),
+            nan=1e-16,
+            posinf=1e-16,
+            neginf=1e-16,
+        )
+        self.temperature = np.nan_to_num(
+            data[:, pymsis.Variable.TEMPERATURE].astype(float),
+            nan=200.0,
+            posinf=200.0,
+            neginf=200.0,
+        )
 
-        species = [self.n2, self.o2, self.o, self.he, self.h, self.ar, self.n, self.no]
-        self.number_density = np.sum(np.vstack(species), axis=0)
+        def species(variable: pymsis.Variable) -> np.ndarray:
+            return np.nan_to_num(
+                data[:, variable].astype(float),
+                nan=0.0,
+                posinf=0.0,
+                neginf=0.0,
+            )
+
+        self.n2 = species(pymsis.Variable.N2)
+        self.o2 = species(pymsis.Variable.O2)
+        self.o = species(pymsis.Variable.O)
+        self.he = species(pymsis.Variable.HE)
+        self.h = species(pymsis.Variable.H)
+        self.ar = species(pymsis.Variable.AR)
+        self.n = species(pymsis.Variable.N)
+        self.no = species(pymsis.Variable.NO)
+
+        species_arrays = [
+            self.n2,
+            self.o2,
+            self.o,
+            self.he,
+            self.h,
+            self.ar,
+            self.n,
+            self.no,
+        ]
+        self.number_density = np.sum(
+            np.vstack(species_arrays),
+            axis=0,
+        )
         self.pressure = self.number_density * BOLTZMANN * self.temperature
 
     @staticmethod
