@@ -2,286 +2,303 @@
 
 ## 1. Objective
 
-Build the smallest system that proves the closed-loop architecture works.
+Build the smallest system that can **compare candidate working fluids fairly**.
 
-The MVP should **not** begin by searching arbitrary unknown chemistry. It should first reproduce a controlled benchmark where a good answer is already known.
+The MVP is not a water-cooling project. Water is used only to validate the evaluator and provide a reference score.
 
-This makes it possible to measure whether the AI-guided policy adds value.
+The primary MVP research question is:
 
-## 2. MVP research question
+> Can the system rank multiple fluids by the working-fluid mass required to satisfy the same thermal and mission constraints?
 
-The project now has a preferred first **system benchmark**:
+## 2. MVP stages
 
-> Can a transparent reduced-order model determine the minimum water mass required for an atmospheric-entry thermal-protection concept using transpiration cooling and, later, directed vapor microjets?
+### Phase 0 — evaluator contract
 
-This benchmark deliberately avoids novel-material generation at first. Water properties are known well enough that the project can validate the coupled evaluator before adding chemical discovery.
+Define:
 
-The initial benchmark progression is:
+- mission inputs;
+- hardware/comparison assumptions;
+- thermodynamic boundaries;
+- heat-transfer convention;
+- flow/nozzle convention;
+- validity limits;
+- numerical verification gates;
+- provenance schema.
 
-~~~text
-W0: passive reference
-W1: water transpiration
-W2: water directed microjets
-W3: optimized water system
-~~~
+Use the [generic fluid evaluator contract](benchmarks/fluid-evaluator-contract.md).
 
-The primary result is M_water_min: the minimum water mass satisfying the selected thermal and trajectory constraints.
+### Phase 1 — evaluator verification with water
 
-After that benchmark is reproducible, the discovery loop can compare:
+Use water because its properties are well characterized.
 
-- known pure liquids;
-- known mixtures;
-- optimized mixtures;
-- novel molecular candidates;
-- joint fluid + nozzle + control designs.
+Goals:
 
-A bounded inorganic-crystal benchmark remains a useful secondary test for the generic materials-discovery engine, especially for DFT/ML active-learning workflows.
+- verify thermophysical-property access;
+- verify mass and energy conservation;
+- verify phase-change handling;
+- verify numerical convergence;
+- produce a reference mass score.
 
-## 3. Phase 0 — repository design
-
-Deliverables:
-
-- architecture;
-- candidate lifecycle;
-- AI-controller contract;
-- compute strategy;
-- experiment schema;
-- benchmark definition.
-
-Status: current phase.
-
-## 4. Phase 1 — deterministic water benchmark
-
-No AI controller and no novel-fluid generation yet.
-
-Implement:
+This phase produces:
 
 ~~~text
-mission definition
-    |
-    v
-water property model
-    |
-    v
-reduced thermal model
-    |
-    v
-transpiration / nozzle model
-    |
-    v
-vehicle force and trajectory model
-    |
-    v
-minimum-water-mass search
-    |
-    v
-provenance database
+M_water_reference
 ~~~
 
-Goal: establish M_water_min and show that the complete calculation is reproducible.
+It does **not** define the project goal as optimizing a water-cooled heat shield.
 
-The first implementation may use prescribed heat-load and drag histories before moving to fully coupled aerothermodynamics.
+### Phase 2 — known-fluid screening
 
-## 5. Phase 2 — known-fluid comparison
-
-Add a small library of known liquids and mixtures using trusted thermodynamic data.
-
-For every fluid, optimize the same system variables under the same mission assumptions and compare:
+Immediately evaluate multiple known candidate fluids using the same geometry, mission and control assumptions.
 
 ~~~text
-mass_ratio = M_candidate_min / M_water_min
+water
+fluid A
+fluid B
+fluid C
+...
+    |
+    v
+same evaluator
+    |
+    v
+required mass
 ~~~
 
-This prevents the project from attributing gains from nozzle geometry or control policy to fluid chemistry.
+Primary comparison:
 
-## 6. Phase 3 — optimization and AI controller
+~~~text
+mass_ratio =
+    M_candidate_required /
+    M_water_reference
+~~~
 
-Add the reasoning model above the same tool interface.
+The important milestone is not merely reproducing water. It is demonstrating that the same evaluator can rank non-water fluids consistently.
 
-The AI controller receives only structured summaries and can choose:
+### Phase 3 — mixtures
 
-- fluid or mixture subspace;
-- geometry/control search region;
-- high-fidelity promotion set;
-- retry actions;
-- budget allocation.
+Add known or deliberately constructed mixtures.
 
-Every action is validated by the deterministic orchestrator.
+Requirements:
 
-## 7. Phase 4 — active learning
+- explicit composition basis;
+- validated mixture property model;
+- no naive averaging of pure-fluid phase properties;
+- uncertainty recorded.
 
-After enough high-fidelity CFD, MD, chemistry, or DFT data is collected:
+Search mixture ratios with conventional numerical optimization before adding an LLM.
 
-```text
-high-fidelity observations
-      |
-      v
-surrogate update
-      |
-      v
-recalculate uncertainty
-      |
-      v
-new acquisition
-      |
-      v
-next high-fidelity batch
-```
+### Phase 4 — property prediction and molecular simulation
 
-Measure whether the updated surrogate reduces expensive reference calculations while preserving system-level accuracy.
+For candidates without reliable tabulated properties, add:
 
-## 8. Phase 5 — genuinely novel candidates
+- molecular dynamics;
+- ab-initio MD where justified;
+- learned property models;
+- uncertainty estimation;
+- chemical/decomposition analysis.
 
-Only after the water and known-fluid benchmarks are trustworthy:
+The goal is to fill missing inputs for the same evaluator, not to replace it.
 
-- generate novel molecular candidates or mixtures;
-- predict missing thermodynamic/transport properties;
-- validate selected candidates with MD / ab-initio MD / chemistry calculations;
-- introduce CFD for the most promising designs;
-- escalate expensive coupled simulations to HPC.
+### Phase 5 — AI-guided candidate selection
 
-The crystal-discovery track can independently add composition generation, convex-hull analysis, phonons and DFT validation.
+The AI controller may now:
 
-## 9. Minimal software components
+- choose chemical families;
+- propose mixture regions;
+- choose candidates for expensive MD / ab-initio / CFD;
+- identify uncertain properties that dominate the score;
+- balance exploration and exploitation.
 
-A pragmatic first implementation for the water benchmark could contain:
+The AI must be compared against simpler acquisition/search strategies.
+
+### Phase 6 — coupled jet / aerodynamic optimization
+
+Once the fluid-ranking path is stable, add increasingly realistic models of:
+
+- directed vapor discharge;
+- nozzle reaction force;
+- injection-dependent drag;
+- injection-dependent heat flux;
+- coupled trajectory dynamics.
+
+Only then evaluate the full benefit of braking and cooling together.
+
+### Phase 7 — joint system optimization
+
+Finally allow simultaneous optimization of:
+
+- fluid chemistry;
+- mixture ratio;
+- mass-flow schedule;
+- pressure schedule;
+- nozzle geometry;
+- nozzle distribution;
+- passive/active TPS split.
+
+At this stage use total system mass rather than fluid mass alone.
+
+## 3. Fair comparison hierarchy
+
+To avoid confusing fluid quality with hardware quality:
+
+~~~text
+Experiment A
+fixed hardware
+fixed control law
+compare fluids
+
+Experiment B
+fixed hardware bounds
+optimize control per fluid
+
+Experiment C
+co-optimize fluid + hardware + control
+include hardware mass
+~~~
+
+A fluid should not receive credit for a better nozzle geometry that was never offered to the water reference.
+
+## 4. Minimal software components
+
+A pragmatic first implementation:
 
 ~~~text
 src/
   orchestrator/
   mission/
   fluids/
+  properties/
   thermal/
-  nozzle/
-  trajectory/
+  evaluator/
   optimization/
-  controller/
   storage/
 
 configs/
   missions/
   fluids/
-  solver-presets/
+  evaluator/
 
 benchmarks/
-  water/
-
-data/
-  .gitkeep
+  references/
+    water/
 
 tests/
+  conservation/
+  properties/
+  evaluator/
 ~~~
 
-Likely Python ecosystem:
+Initial Python ecosystem:
 
+- Python 3.12;
 - NumPy / SciPy;
-- CoolProp or another validated property backend if selected after review;
-- Cantera where reacting-gas chemistry becomes relevant;
-- Pydantic for typed schemas;
-- SQLite initially;
-- plotting/reporting tools for benchmark inspection.
+- validated thermophysical-property backend;
+- Pydantic or equivalent typed schemas;
+- SQLite + artifact files;
+- plotting/reporting tools.
 
-CFD, MD, DFT and AiiDA should be introduced only when the reduced-order benchmark is stable enough to justify higher-fidelity calculations.
+No DFT engine, crystal generator, GPU stack or LLM is required to compare the first set of known fluids.
 
-## 10. Minimal data model
-
-First entities:
+## 5. Minimal data model
 
 ~~~text
 Objective
 Mission
-Fluid
-FluidModel
-Geometry
+FluidCandidate
+FluidPropertyModel
+HardwareConfiguration
 ControlPolicy
-Simulation
+SimulationRequest
+SimulationAttempt
 Observation
+Comparison
 Decision
-Hypothesis
 BudgetLedger
 ~~~
 
-This is sufficient to reconstruct why a given design was evaluated and how its mass score was obtained.
+The crystal-discovery track may later add Structure, DFTCalculation and related entities.
 
-The generic platform may later add domain-specific entities such as Structure and DFTCalculation for the crystal-discovery track.
+## 6. First acceptance test
 
-## 11. First acceptance test
+The first useful MVP passes when:
 
-The water-benchmark MVP passes when:
+1. a fixed mission/comparison case loads with explicit units and constraints;
+2. water property calculations pass independent reference checks;
+3. mass and energy balances pass numerical verification;
+4. the evaluator returns a reproducible water reference result;
+5. at least **three non-water fluids** run through the same evaluator;
+6. the system produces a ranked comparison with constraint margins;
+7. failures and unsupported states cannot appear as feasible solutions;
+8. all model versions, assumptions and outputs are stored with provenance.
 
-1. a fixed mission definition can be loaded from configuration;
-2. water properties are supplied by a versioned, testable property model;
-3. the reduced thermal model computes a stable wall-temperature history;
-4. the transpiration-only case W1 runs end to end;
-5. the directed-microjet case W2 runs end to end;
-6. an optimizer can determine a reproducible estimate of M_water_min;
-7. all assumptions, solver settings and outputs are stored with provenance;
-8. rerunning the benchmark from the same configuration reproduces the result within a defined numerical tolerance.
+This deliberately prevents “water benchmark completed” from being mistaken for the project milestone.
 
-## 12. AI acceptance test
+## 7. First scientific output
 
-The AI layer should not be considered useful merely because it produces plausible scientific prose.
-
-For the liquid-TPS track, it passes only if it demonstrates measurable benefit over simpler optimization/search baselines, for example:
-
-- lower feasible system mass for the same simulation budget;
-- equivalent design found with fewer high-fidelity simulations;
-- better allocation between fluid, geometry and control exploration;
-- fewer redundant CFD/MD evaluations;
-- better recovery from failed or numerically unstable simulations.
-
-The same principle applies to the crystal-discovery track with DFT budget replacing CFD/MD budget.
-
-## 13. First practical milestone on 2 × RTX 4090
-
-The first practical milestone does not need both GPUs heavily.
-
-It should be:
+A first meaningful result should look like:
 
 ~~~text
-fixed entry mission
-      |
-      v
-W0 passive reference
-      |
-      v
-W1 water transpiration
-      |
-      v
-W2 water microjets
-      |
-      v
-optimize water mass / flow policy
-      |
-      v
-produce reproducible M_water_min
+Fixed mission / hardware / control assumptions
+
+Water       required mass: 1.000 reference
+Fluid A     mass ratio:    0.91
+Fluid B     mass ratio:    1.14
+Fluid C     mass ratio:    0.78
 ~~~
 
-The GPUs become more important in later phases when the project adds:
+with:
 
-- surrogate models;
+- thermal constraint margins;
+- property-model validity;
+- uncertainty;
+- model fidelity;
+- explicit statement of whether braking effects are included.
+
+## 8. First GPU milestone
+
+The 2 × RTX 4090 become useful when the project begins to evaluate candidates whose properties are not already available.
+
+Possible workloads:
+
 - molecular dynamics;
-- learned fluid/property models;
-- CFD acceleration where supported;
-- high-throughput candidate evaluation.
+- ML property prediction;
+- uncertainty ensembles;
+- learned interatomic potentials;
+- candidate-generation models;
+- later CFD acceleration where supported.
 
-This sequencing avoids using GPU compute merely because it is available.
+The project should not invent a GPU workload merely to use the hardware.
 
-## 14. What comes after the MVP
+## 9. AI acceptance test
 
-Once the water benchmark is trustworthy:
+The AI layer passes only if, at equal physical-evaluation budget, it measurably improves discovery.
 
-- compare known pure liquids;
-- compare known mixtures;
-- introduce system-mass accounting for tanks/manifolds/nozzles;
-- add higher-fidelity aerothermal models;
-- add CFD and reacting-gas chemistry;
-- add molecular and ab-initio validation for selected fluids;
-- add surrogate models and active learning;
-- add HPC submission;
-- add an AI hypothesis ledger;
-- search novel mixtures and molecular candidates.
+Examples:
 
-The crystal-discovery track can be added in parallel using the same controller, provenance and budget infrastructure.
+- finds a lower-mass feasible fluid sooner;
+- identifies better mixture regions;
+- reduces expensive property calculations;
+- avoids redundant high-fidelity evaluations;
+- explores high-uncertainty chemical regions without collapsing onto one family.
 
-The system should grow by adding new domain tools beneath the same controller interface, not by making the controller itself increasingly unconstrained.
+Plausible prose is not a success metric.
+
+## 10. Parallel crystal track
+
+Crystal discovery remains a valid second domain:
+
+~~~text
+candidate structures
+    |
+    v
+ML screening
+    |
+    v
+DFT
+    |
+    v
+phase / phonon validation
+~~~
+
+It shares orchestration and AI-selection infrastructure with the fluid track, but it is not a prerequisite for the current working-fluid problem.
