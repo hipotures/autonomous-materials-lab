@@ -78,7 +78,8 @@ chemistry:
   phi: 4.0
   residence_time_s: 0.001
   ignition_safety_factor: 10.0
-  ignition_csv: "../hydrogen-ignition-delay/ignition_delay.csv"
+  allow_nearest_phi: false
+  ignition_csv: "../hydrogen-ignition-delay/ignition_delay_v4.csv"
 
 numerics:
   dt_s: 0.05

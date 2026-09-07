@@ -113,6 +113,10 @@ def evaluate(
         "coolant_mass_flux_kg_m2_s": 0.0,
     }
     minimum_ignition_delay_s: float | None = None
+    minimum_ignition_margin: float | None = None
+    maximum_coolant_exit_temperature_k = coolant.storage_temperature_k
+    minimum_active_cooling_surface_pressure_pa = float("inf")
+    maximum_active_cooling_surface_pressure_pa = 0.0
     history: list[dict[str, Any]] = []
 
     while time_s < max_time:
@@ -174,6 +178,15 @@ def evaluate(
             break
 
         mdot = surface_step.mass_flow_kg_s
+        if surface_step.coolant_power_w > 0.0:
+            minimum_active_cooling_surface_pressure_pa = min(
+                minimum_active_cooling_surface_pressure_pa,
+                aero.surface_pressure_pa,
+            )
+            maximum_active_cooling_surface_pressure_pa = max(
+                maximum_active_cooling_surface_pressure_pa,
+                aero.surface_pressure_pa,
+            )
         dm = mdot * step_dt
         if (
             available_coolant is not None
@@ -246,6 +259,10 @@ def evaluate(
             peaks["dynamic_pressure_pa"],
             aero.dynamic_pressure_pa,
         )
+        peaks["surface_pressure_pa"] = max(
+            peaks.get("surface_pressure_pa", 0.0),
+            aero.surface_pressure_pa,
+        )
         peaks["deceleration_g"] = max(
             peaks["deceleration_g"],
             aero.acceleration_g,
@@ -267,6 +284,10 @@ def evaluate(
         peaks["vehicle_coolant_power_w"] = max(peaks["vehicle_coolant_power_w"], surface_step.coolant_power_w)
         peaks["coolant_mass_flux_kg_m2_s"] = max(peaks["coolant_mass_flux_kg_m2_s"], surface_step.peak_mass_flux_kg_m2_s)
 
+        maximum_coolant_exit_temperature_k = max(
+            maximum_coolant_exit_temperature_k,
+            coolant_step.exit_temperature_k,
+        )
         if coolant_step.ignition_delay_s is not None:
             minimum_ignition_delay_s = (
                 coolant_step.ignition_delay_s
@@ -274,6 +295,15 @@ def evaluate(
                 else min(
                     minimum_ignition_delay_s,
                     coolant_step.ignition_delay_s,
+                )
+            )
+        if coolant_step.ignition_margin is not None:
+            minimum_ignition_margin = (
+                coolant_step.ignition_margin
+                if minimum_ignition_margin is None
+                else min(
+                    minimum_ignition_margin,
+                    coolant_step.ignition_margin,
                 )
             )
 
@@ -331,6 +361,10 @@ def evaluate(
                         coolant_step.required_injection_pressure_pa
                     ),
                     "ignition_delay_s": coolant_step.ignition_delay_s,
+                    "required_ignition_delay_s": (
+                        coolant_step.required_ignition_delay_s
+                    ),
+                    "ignition_margin": coolant_step.ignition_margin,
                 }
             )
 
@@ -348,7 +382,7 @@ def evaluate(
         status = "max_time"
 
     summary = {
-        "evaluator_version": "v3",
+        "evaluator_version": "v4",
         "heating_backend": heating_backend,
         "dt_s": dt,
         **surface_meta,
@@ -415,7 +449,38 @@ def evaluate(
             if radiative_heat_load_j_m2 > 0.0
             else None
         ),
+        "chemistry_mode": chemistry.mode,
+        "chemistry_phi": chemistry.phi,
+        "chemistry_residence_time_s": chemistry.residence_time_s,
+        "chemistry_safety_factor": chemistry.safety_factor,
+        "chemistry_required_ignition_delay_s": (
+            chemistry.required_ignition_delay_s
+        ),
         "minimum_ignition_delay_s": minimum_ignition_delay_s,
+        "minimum_ignition_margin": minimum_ignition_margin,
+        "maximum_coolant_exit_temperature_k": (
+            maximum_coolant_exit_temperature_k
+        ),
+        "minimum_active_cooling_surface_pressure_pa": (
+            None
+            if minimum_active_cooling_surface_pressure_pa == float("inf")
+            else minimum_active_cooling_surface_pressure_pa
+        ),
+        "maximum_active_cooling_surface_pressure_pa": (
+            maximum_active_cooling_surface_pressure_pa
+            if maximum_active_cooling_surface_pressure_pa > 0.0
+            else None
+        ),
+        "minimum_active_cooling_surface_pressure_bar": (
+            None
+            if minimum_active_cooling_surface_pressure_pa == float("inf")
+            else minimum_active_cooling_surface_pressure_pa / 1e5
+        ),
+        "maximum_active_cooling_surface_pressure_bar": (
+            maximum_active_cooling_surface_pressure_pa / 1e5
+            if maximum_active_cooling_surface_pressure_pa > 0.0
+            else None
+        ),
         "convective_correlation_valid_fraction": (
             conv_valid_steps / convective_steps
             if convective_validity_defined and convective_steps

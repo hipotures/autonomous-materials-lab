@@ -1,0 +1,4 @@
+.venv/
+__pycache__/
+ignition_delay_v4.csv
+ignition_delay_v4.manifest.json

@@ -21,6 +21,8 @@ class CoolantStep:
     ignition_delay_s: float | None
     feasible: bool
     failure_reason: str | None
+    required_ignition_delay_s: float | None = None
+    ignition_margin: float | None = None
 
 
 class CoolantModel:
@@ -129,6 +131,27 @@ class CoolantModel:
             surface_pressure_pa,
             self.nominal_max_exit_temperature_k,
         )
+        if not chemistry_limit.feasible:
+            required_injection_pressure = (
+                self.pressure_margin * surface_pressure_pa
+                + self.porous_delta_p_pa
+            )
+            return CoolantStep(
+                exit_temperature_k=self.storage_temperature_k,
+                usable_enthalpy_j_kg=0.0,
+                mass_flux_kg_m2_s=0.0,
+                mass_flow_kg_s=0.0,
+                required_injection_pressure_pa=required_injection_pressure,
+                chemistry_source=chemistry_limit.source,
+                ignition_delay_s=None,
+                feasible=False,
+                failure_reason=chemistry_limit.failure_reason,
+                required_ignition_delay_s=(
+                    chemistry_limit.required_ignition_delay_s
+                ),
+                ignition_margin=None,
+            )
+
         requested_exit = min(
             chemistry_limit.max_exit_temperature_k,
             wall_temperature_k - self.approach_delta_k,
@@ -136,6 +159,24 @@ class CoolantModel:
         requested_exit = max(
             self.storage_temperature_k + 1.0,
             requested_exit,
+        )
+
+        actual_ignition_delay_s = chemistry_limit.estimated_ignition_delay_s
+        if chemistry_limit.source == "ignition_csv":
+            try:
+                actual_ignition_delay_s = self.chemistry.estimate_delay(
+                    surface_pressure_pa,
+                    requested_exit,
+                )
+            except ValueError:
+                actual_ignition_delay_s = None
+        required_ignition_delay_s = chemistry_limit.required_ignition_delay_s
+        ignition_margin = (
+            actual_ignition_delay_s / required_ignition_delay_s
+            if actual_ignition_delay_s is not None
+            and required_ignition_delay_s is not None
+            and required_ignition_delay_s > 0.0
+            else None
         )
 
         required_injection_pressure = (
@@ -150,9 +191,11 @@ class CoolantModel:
                 0.0,
                 required_injection_pressure,
                 chemistry_limit.source,
-                chemistry_limit.estimated_ignition_delay_s,
+                actual_ignition_delay_s,
                 False,
                 "required injection pressure exceeds configured limit",
+                required_ignition_delay_s,
+                ignition_margin,
             )
 
         try:
@@ -168,9 +211,11 @@ class CoolantModel:
                 0.0,
                 required_injection_pressure,
                 chemistry_limit.source,
-                chemistry_limit.estimated_ignition_delay_s,
+                actual_ignition_delay_s,
                 False,
                 f"CoolProp outlet state failed: {exc}",
+                required_ignition_delay_s,
+                ignition_margin,
             )
 
         delta_h = h_out - self.h_storage
@@ -182,9 +227,11 @@ class CoolantModel:
                 0.0,
                 required_injection_pressure,
                 chemistry_limit.source,
-                chemistry_limit.estimated_ignition_delay_s,
+                actual_ignition_delay_s,
                 False,
                 "usable coolant enthalpy is non-positive",
+                required_ignition_delay_s,
+                ignition_margin,
             )
 
         mass_flux = max(0.0, coolant_heat_flux_w_m2) / delta_h
@@ -196,7 +243,9 @@ class CoolantModel:
             mass_flow,
             required_injection_pressure,
             chemistry_limit.source,
-            chemistry_limit.estimated_ignition_delay_s,
+            actual_ignition_delay_s,
             True,
             None,
+            required_ignition_delay_s,
+            ignition_margin,
         )

@@ -261,3 +261,18 @@ Cantera 3.2 documentation:
 - constant-pressure ideal-gas reactor;
 - ignition-delay examples;
 - distributed `h2o2.yaml` mechanism.
+
+
+## V4 dense lookup table
+
+The entry-evaluator V4 chemistry gate uses a denser table and log-space
+interpolation across temperature and pressure. Generate the default lookup with:
+
+```bash
+python generate_v4_table.py --workers 16
+```
+
+The generated `ignition_delay_v4.csv` and manifest are local run artifacts and
+are intentionally ignored by Git. The default table spans 600-1100 K,
+0.001-30 bar and phi = 2, 4, 8, 16. See
+`../entry-evaluator/V4.md` for how the table is consumed.
