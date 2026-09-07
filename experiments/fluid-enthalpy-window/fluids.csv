@@ -1,0 +1,11 @@
+label,coolprop_name,T0_K,P0_Pa,notes
+Water,Water,293.15,101325,Room-temperature reference
+Heavy water,HeavyWater,293.15,101325,Room-temperature comparison
+Methanol,Methanol,293.15,101325,Ambient liquid
+Ethanol,Ethanol,293.15,101325,Ambient liquid
+Propylene glycol,PropyleneGlycol,293.15,101325,Ambient liquid
+Liquid methane,Methane,110.0,101325,Illustrative subcooled cryogenic liquid state
+Liquid oxygen,Oxygen,88.0,101325,Illustrative subcooled cryogenic liquid state
+Liquid nitrogen,Nitrogen,75.0,101325,Illustrative subcooled cryogenic liquid state
+Liquid hydrogen,Hydrogen,19.0,101325,Illustrative subcooled cryogenic liquid state
+Liquid ammonia,Ammonia,230.0,101325,Illustrative subcooled liquid state
