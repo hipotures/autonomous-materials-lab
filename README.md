@@ -182,11 +182,12 @@ Start here:
 - [Cryogenic / storage-state enthalpy screening](experiments/fluid-enthalpy-window/README.md)
 - [Reactive fluid + air equilibrium check](experiments/reactive-fluid-air/README.md)
 - [Hydrogen / air ignition-delay sweep](experiments/hydrogen-ignition-delay/README.md)
+- [Low-fidelity end-to-end Earth entry evaluator](experiments/entry-evaluator/README.md)
 
-The first experiment compares fluids that are liquid at a common ambient state. The second gives every candidate its own initial `T0/P0`, allowing cryogenic liquids such as methane, oxygen, nitrogen and hydrogen to enter the comparison. The third uses Cantera equilibrium to estimate the chemical oxidation potential of hot H2 / CH4 / NH3 after mixing with air. The fourth adds finite-rate H2 / air chemistry and sweeps homogeneous ignition delay versus temperature, pressure and equivalence ratio. None of these experiments includes CFD, trajectory or nozzle geometry.
+The first experiments isolate thermodynamics and chemical kinetics. The entry evaluator is the first system-level calculation: it propagates a configurable Earth-entry trajectory, evaluates atmosphere, stagnation-point convective and radiative heating, wall thermal response, coolant enthalpy and required coolant mass flow. Independent cases can be distributed across CPU processes. It remains intentionally below CFD / DSMC fidelity and does not yet model detailed boundary-layer blowing, porous flow or nozzle geometry.
 
 ## Status
 
-**Phase 0 — scientific objective definition, evaluator contract, workstation preparation, and first thermodynamic screening experiment.**
+**Phase 1 — reduced-order end-to-end entry evaluator and working-fluid comparison.**
 
-The next implementation should validate a generic fluid evaluator with a known reference fluid, then immediately begin comparing multiple fluids. Water verification is a prerequisite for confidence in the evaluator, not the scientific endpoint.
+The repository now contains both local property / chemistry screens and a first trajectory-level evaluator. The immediate task is to run and validate the V0 entry model, compare water and non-water fluids under identical entry assumptions, and identify which low-fidelity assumptions most strongly control the ranking before escalating to CFD or other high-fidelity models.
