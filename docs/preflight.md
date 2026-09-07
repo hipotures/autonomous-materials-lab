@@ -53,7 +53,7 @@ Complete this before implementing the autonomous discovery loop.
 ## Python
 
 - [ ] uv installed
-- [ ] Python 3.13 available
+- [ ] Python 3.12 available
 - [ ] core environment created
 - [ ] ML environment created
 - [ ] MatterGen legacy environment created separately
