@@ -98,7 +98,17 @@ On a 16-core CPU:
 python run_batch.py --workers 16
 ```
 
-The default batch compares hydrogen, water, methane, and ammonia. Each worker executes one complete sequential trajectory. No nested parallelism is used.
+The default batch compares hydrogen, water, methane, and ammonia and applies a four-value entry-angle matrix, producing 16 independent trajectories. Each worker executes one complete sequential trajectory. No nested parallelism is used.
+
+A generic Cartesian matrix can be added with dotted configuration paths, for example:
+
+```yaml
+matrix:
+  entry.flight_path_angle_deg: [-5, -7, -9, -11]
+  entry.velocity_km_s: [12, 15]
+```
+
+That example produces every angle / velocity combination for every fluid case.
 
 ## Atmosphere and rarefied-flow handling
 
