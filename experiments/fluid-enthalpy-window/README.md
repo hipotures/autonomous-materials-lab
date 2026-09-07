@@ -51,7 +51,9 @@ It does not model:
 - tank mass;
 - insulation mass.
 
-For organic fluids, a CoolProp enthalpy value at high temperature does **not** prove that the molecule remains chemically intact there. High-temperature columns are therefore exploratory and must later be filtered by chemistry/stability models.
+For reactive fluids, a CoolProp enthalpy value at high temperature does **not** prove that the same chemical species remains intact or inert in the external atmosphere. High-temperature columns are therefore exploratory and must later be filtered by chemistry/stability models.
+
+This is especially important for hydrogen and hydrocarbons. A large sensible-enthalpy window can coexist with a very large exothermic oxidation potential after the hot gas mixes with oxygen-containing air. Chemical heat release is deliberately **not** subtracted in this experiment; it belongs in a separate reacting-flow/chemistry stage.
 
 ## Why this is useful
 
@@ -115,6 +117,39 @@ Change the high-temperature checkpoints:
 ~~~bash
 python compare_fluids.py --targets-k 400 600 800
 ~~~
+
+## Temperature sweep and water crossover
+
+The script also performs a default sweep from 300 K to 1500 K in 25 K steps.
+
+It writes:
+
+~~~text
+enthalpy_sweep.csv
+~~~
+
+with:
+
+~~~text
+temperature_K
+fluid label
+q_MJ_kg
+mass_ratio_vs_water
+~~~
+
+and prints an approximate crossover temperature where each candidate first reaches or exceeds water in MJ/kg.
+
+Example:
+
+~~~bash
+python compare_fluids.py \
+  --sweep-start-k 300 \
+  --sweep-end-k 1500 \
+  --sweep-step-k 10 \
+  --sweep-output enthalpy_sweep.csv
+~~~
+
+A missing crossover means either that the candidate did not beat water in the searched interval or that CoolProp stopped supporting one of the required states before a crossover could be established.
 
 ## Candidate file format
 
