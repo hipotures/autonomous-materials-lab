@@ -1,0 +1,73 @@
+name: hard-entry-hydrogen-v0
+
+entry:
+  altitude_km: 200.0
+  velocity_km_s: 15.0
+  flight_path_angle_deg: -8.0
+
+vehicle:
+  initial_mass_kg: 8000.0
+  dry_mass_kg: 7000.0
+  reference_area_m2: 12.0
+  nose_radius_m: 1.0
+  drag_coefficient: 1.4
+  lift_to_drag: 0.0
+  bank_angle_rad: 0.0
+  stagnation_pressure_coefficient: 2.0
+
+atmosphere:
+  model: nrlmsis-2.1
+  date: "2026-09-07T12:00:00Z"
+  latitude_deg: 0.0
+  longitude_deg: 0.0
+  f107: 150.0
+  f107a: 150.0
+  ap: 7.0
+  min_altitude_km: 0.0
+  max_altitude_km: 220.0
+  grid_step_km: 0.5
+  collision_diameter_m: 3.7e-10
+
+heating:
+  radiative_enabled: true
+  convective_scale: 1.0
+  radiative_scale: 1.0
+
+wall:
+  initial_temperature_k: 300.0
+  temperature_setpoint_k: 1100.0
+  maximum_temperature_k: 1200.0
+  areal_heat_capacity_j_m2_k: 1200000.0
+  emissivity: 0.85
+  backface_loss_w_m2: 0.0
+
+coolant:
+  coolprop_name: Hydrogen
+  storage_temperature_k: 19.0
+  storage_pressure_pa: 101325.0
+  max_exit_temperature_k: 900.0
+  wall_to_fluid_approach_k: 25.0
+  cooled_area_m2: 12.0
+  available_mass_kg: 1000.0
+  injection_pressure_margin: 1.15
+  porous_delta_p_pa: 100000.0
+  max_injection_pressure_pa: 20000000.0
+
+chemistry:
+  # V0 default: conservative H2 ceiling from the local kinetics screen.
+  # Switch to ignition_csv after generating a dense table with
+  # ../hydrogen-ignition-delay/ignition_delay.py.
+  mode: fixed_limit
+  fixed_max_exit_temperature_k: 750.0
+  phi: 4.0
+  residence_time_s: 0.001
+  ignition_safety_factor: 10.0
+  ignition_csv: "../hydrogen-ignition-delay/ignition_delay.csv"
+
+numerics:
+  dt_s: 0.05
+  max_time_s: 2000.0
+
+terminal:
+  altitude_km: 20.0
+  velocity_km_s: 1.0

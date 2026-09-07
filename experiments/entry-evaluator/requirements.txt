@@ -1,0 +1,4 @@
+CoolProp==8.0.0
+pymsis==0.12.0
+numpy>=1.26,<3
+PyYAML>=6.0,<7

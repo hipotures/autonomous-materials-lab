@@ -1,0 +1,39 @@
+cases:
+  - name: hard-entry-hydrogen
+    coolant:
+      coolprop_name: Hydrogen
+      storage_temperature_k: 19.0
+      storage_pressure_pa: 101325.0
+      max_exit_temperature_k: 900.0
+    chemistry:
+      mode: fixed_limit
+      fixed_max_exit_temperature_k: 750.0
+
+  - name: hard-entry-water
+    coolant:
+      coolprop_name: Water
+      storage_temperature_k: 293.15
+      storage_pressure_pa: 101325.0
+      max_exit_temperature_k: 1000.0
+    chemistry:
+      mode: disabled
+
+  - name: hard-entry-methane
+    coolant:
+      coolprop_name: Methane
+      storage_temperature_k: 110.0
+      storage_pressure_pa: 101325.0
+      max_exit_temperature_k: 750.0
+    chemistry:
+      mode: fixed_limit
+      fixed_max_exit_temperature_k: 750.0
+
+  - name: hard-entry-ammonia
+    coolant:
+      coolprop_name: Ammonia
+      storage_temperature_k: 230.0
+      storage_pressure_pa: 101325.0
+      max_exit_temperature_k: 750.0
+    chemistry:
+      mode: fixed_limit
+      fixed_max_exit_temperature_k: 750.0
