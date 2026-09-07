@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from math import pi, sqrt
+import math
 from typing import Any
 
 import numpy as np
@@ -145,8 +146,24 @@ class AtmosphereModel:
         return -np.log10(knudsen) - 1.0
 
     def sample(self, altitude_m: float) -> AtmosphereState:
+        requested_altitude_km = altitude_m / 1000.0
+        if requested_altitude_km > self.altitudes_km[-1]:
+            return AtmosphereState(
+                altitude_m=altitude_m,
+                density_kg_m3=0.0,
+                temperature_k=float(self.temperature[-1]),
+                pressure_pa=0.0,
+                number_density_m3=0.0,
+                mean_free_path_m=math.inf,
+                knudsen=math.inf,
+                continuum_factor=0.0,
+                n2_m3=0.0,
+                o2_m3=0.0,
+                o_m3=0.0,
+            )
+
         altitude_km = np.clip(
-            altitude_m / 1000.0,
+            requested_altitude_km,
             self.altitudes_km[0],
             self.altitudes_km[-1],
         )
