@@ -4,10 +4,8 @@ from dataclasses import dataclass
 import math
 from typing import Any
 
-import CoolProp.CoolProp as CP
-from CoolProp import AbstractState
-
 from chemistry import ChemistryLimiter
+from property_provider import build_property_provider
 
 
 @dataclass(frozen=True)
@@ -33,7 +31,13 @@ class CoolantModel:
     ):
         self.config = config
         self.chemistry = chemistry
-        self.fluid = str(config["coolprop_name"])
+        self.properties = build_property_provider(config)
+        legacy_name = config.get("coolprop_name")
+        self.fluid = (
+            str(legacy_name)
+            if legacy_name
+            else self.properties.identity
+        )
         self.storage_temperature_k = float(
             config["storage_temperature_k"]
         )
@@ -57,24 +61,14 @@ class CoolantModel:
             config.get("max_injection_pressure_pa", 1e9)
         )
         self._cache: dict[tuple[float, float], float] = {}
-        self._outlet_state = AbstractState("HEOS", self.fluid)
 
-        self.h_storage = float(
-            CP.PropsSI(
-                "H",
-                "T",
-                self.storage_temperature_k,
-                "P",
-                self.storage_pressure_pa,
-                self.fluid,
-            )
-        )
-        phase = CP.PhaseSI(
-            "T",
+        self.h_storage = self.properties.enthalpy_j_kg(
             self.storage_temperature_k,
-            "P",
             self.storage_pressure_pa,
-            self.fluid,
+        )
+        phase = self.properties.phase(
+            self.storage_temperature_k,
+            self.storage_pressure_pa,
         )
         if phase not in {"liquid", "supercritical_liquid"}:
             raise ValueError(
@@ -90,8 +84,10 @@ class CoolantModel:
         # Exact keys avoid first-visitor rounding bias between time steps/rings.
         key = (float(temperature_k), max(float(pressure_pa), 100.0))
         if key not in self._cache:
-            self._outlet_state.update(CP.PT_INPUTS, key[1], key[0])
-            value = float(self._outlet_state.hmass())
+            value = self.properties.enthalpy_j_kg(
+                key[0],
+                key[1],
+            )
             if not math.isfinite(value):
                 raise ValueError("non-finite outlet enthalpy")
             if len(self._cache) >= 4096:
@@ -220,6 +216,50 @@ class CoolantModel:
 
         delta_h = h_out - self.h_storage
         if delta_h <= 0.0:
+            same_pressure_h_in = None
+            same_pressure_delta_h = None
+            same_pressure_phase = None
+            outlet_phase = None
+            diagnostic_error = None
+            try:
+                same_pressure_h_in = self.properties.enthalpy_j_kg(
+                    self.storage_temperature_k,
+                    max(float(surface_pressure_pa), 100.0),
+                )
+                same_pressure_delta_h = h_out - same_pressure_h_in
+                same_pressure_phase = self.properties.phase(
+                    self.storage_temperature_k,
+                    max(float(surface_pressure_pa), 100.0),
+                )
+                outlet_phase = self.properties.phase(
+                    requested_exit,
+                    max(float(surface_pressure_pa), 100.0),
+                )
+            except Exception as exc:
+                diagnostic_error = str(exc)
+
+            reason = (
+                "usable coolant enthalpy is non-positive: "
+                f"delta_h_cross_pressure={delta_h:.9g} J/kg; "
+                f"h_out={h_out:.9g} J/kg at "
+                f"T_out={requested_exit:.9g} K, "
+                f"P_surface={surface_pressure_pa:.9g} Pa; "
+                f"h_storage={self.h_storage:.9g} J/kg at "
+                f"T_storage={self.storage_temperature_k:.9g} K, "
+                f"P_storage={self.storage_pressure_pa:.9g} Pa; "
+                f"P_injection_required={required_injection_pressure:.9g} Pa; "
+                f"provider={self.properties.identity}"
+            )
+            if same_pressure_h_in is not None:
+                reason += (
+                    f"; h_in_same_P={same_pressure_h_in:.9g} J/kg; "
+                    f"delta_h_same_P={same_pressure_delta_h:.9g} J/kg; "
+                    f"phase_in_same_P={same_pressure_phase}; "
+                    f"phase_out={outlet_phase}"
+                )
+            if diagnostic_error is not None:
+                reason += f"; diagnostic_error={diagnostic_error}"
+
             return CoolantStep(
                 requested_exit,
                 delta_h,
@@ -229,7 +269,7 @@ class CoolantModel:
                 chemistry_limit.source,
                 actual_ignition_delay_s,
                 False,
-                "usable coolant enthalpy is non-positive",
+                reason,
                 required_ignition_delay_s,
                 ignition_margin,
             )

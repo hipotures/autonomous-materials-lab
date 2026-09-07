@@ -1,4 +1,4 @@
-# Low-Fidelity Earth Entry Evaluator (V4)
+# Low-Fidelity Earth Entry Evaluator (V5a)
 
 This experiment is the first end-to-end evaluator for the working-fluid discovery track.
 
@@ -6,9 +6,9 @@ Instead of manually selecting one temperature and pressure, it propagates a comp
 
 ## Current scope
 
-V1 establishes numerical convergence, V2 adds physical-sensitivity screening, and V3 cross-checks the legacy aeroheating closure against Brandis-Johnston 2014. V4 replaces the fixed hydrogen outlet-temperature ceiling with a pressure-dependent homogeneous ignition-delay constraint and sweeps residence time, equivalence ratio and safety factor.
+V1 establishes numerical convergence, V2 adds physical-sensitivity screening, V3 cross-checks the aeroheating closure, and V4 replaces the fixed hydrogen temperature ceiling with an ignition-delay constraint. V5a starts the actual liquid-candidate layer: pure fluids and binary mixtures now enter the coolant model through a common property-provider interface.
 
-See [V1](V1.md), [V2](V2.md), [V3](V3.md) and [V4](V4.md) for the staged verification path. Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` selects a cosine profile. The default single-run angle stays at -8 degrees, while the V1 verification benchmark uses -11 degrees.
+See [V1](V1.md), [V2](V2.md), [V3](V3.md), [V4](V4.md) and [V5a](V5a.md) for the staged path. Existing configurations without a `surface` section use the uniform V0 area model; the supplied `config.yaml` selects a cosine profile. The default single-run angle stays at -8 degrees, while the V1 verification benchmark uses -11 degrees.
 
 ## Primary question
 
@@ -48,7 +48,13 @@ angular wall zones + zero-area stagnation probe
 minimum required local coolant heat removal
     |
     v
-CoolProp enthalpy window
+PropertyProvider
+    |-- pure CoolProp HEOS
+    |-- binary CoolProp HEOS mixture
+    |-- later: surrogate / molecular property model
+    |
+    v
+coolant enthalpy window
     |
     +--> optional ignition-delay lookup / fixed chemistry limit
     |
@@ -62,13 +68,17 @@ Independent cases are parallelized with `ProcessPoolExecutor` in `run_batch.py`.
 
 ## Environment
 
-Recommended:
+Recommended baseline for V1-V4:
 
 ```text
 Python 3.12
 CoolProp 8.0.0
 pymsis 0.12.0
 ```
+
+V5a mixtures use the separately pinned CoolProp development revision from
+`requirements-v5a.txt`; do not infer V5a reproducibility from the V1-V4
+CoolProp 8.0.0 environment.
 
 Install:
 
@@ -326,3 +336,69 @@ python run_chemistry_sensitivity.py --workers 16 --output-dir chemistry-v4
 ```
 
 See [V4.md](V4.md).
+
+
+## V5a binary liquid / mixture layer
+
+Existing pure-fluid configs still use:
+
+```yaml
+coolant:
+  coolprop_name: Water
+```
+
+A mixture can now use:
+
+```yaml
+coolant:
+  property_provider:
+    type: coolprop
+    backend: HEOS
+    components: [Water, Ethanol]
+    composition_basis: mole
+    fractions: [0.5, 0.5]
+```
+
+The first benchmark sweeps Water/Ethanol from 0/100 to 100/0 mole fraction,
+validates storage and T/P property states, records bubble/dew temperatures and
+transport-property coverage, then sends all compositions through the same entry
+evaluator:
+
+```bash
+python run_mixture_sweep.py --workers 16 --output-dir mixture-v5a-results
+```
+
+V5a directly couples composition-dependent `h(T,P,z)` into coolant mass flow.
+Density, viscosity, conductivity and phase-envelope properties are recorded but
+are not yet coupled to tank mass, porous pressure drop or film-cooling
+effectiveness. Chemistry is disabled for the mixture benchmark until a
+composition-dependent stability/decomposition model exists.
+
+See [V5a.md](V5a.md).
+
+
+For CoolProp mixture PT solver sensitivity, run the same V5a sweep explicitly
+with both supported algorithms:
+
+```bash
+python run_mixture_sweep.py --stability-algorithm 1 --workers 16 --output-dir mixture-v5a-michelsen
+python run_mixture_sweep.py --stability-algorithm 0 --workers 16 --output-dir mixture-v5a-legacy
+```
+
+Algorithm 1 is CoolProp 8's default Michelsen path; algorithm 0 is its legacy
+Gernert path. V5a never switches between them silently.
+
+
+### V5a CoolProp requirement
+
+The Water/Ethanol mixture benchmark requires the pinned development revision in
+`requirements-v5a.txt`. Do not run V5a with the V1-V4
+`CoolProp==8.0.0` environment.
+
+```bash
+python -m pip install -r requirements-v5a.txt
+python -c "import CoolProp.CoolProp as CP; print(CP.get_global_param_string('version'), CP.get_global_param_string('gitrevision'))"
+```
+
+Then run the V5a sweep normally. The runner rejects an unsupported CoolProp
+revision before launching any trajectories.

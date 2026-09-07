@@ -1,0 +1,57 @@
+# V5a known-mixture benchmark.
+#
+# Component A mole fraction is swept from 0 to 1. Endpoints are collapsed to
+# true pure-fluid CoolProp states before evaluation.
+#
+# Water/Ethanol is the first pair because CoolProp documents this binary pair
+# with the HEOS low-level mixture interface. This is a property-pipeline
+# benchmark, not a claim that ethanol is a promising TPS coolant.
+
+name: water-ethanol
+components:
+  - Water
+  - Ethanol
+composition_basis: mole
+
+# CoolProp 8 mixture PT stability solver:
+# 1 = Michelsen (default/recommended)
+# 0 = legacy Gernert. V5a can run both explicitly for solver sensitivity.
+stability_algorithm: 1
+
+fraction_component_a:
+  - 0.0
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
+  - 0.6
+  - 0.7
+  - 0.8
+  - 0.9
+  - 1.0
+
+storage_temperature_k: 293.15
+storage_pressure_pa: 101325.0
+max_exit_temperature_k: 500.0
+wall_to_fluid_approach_k: 25.0
+cooled_area_m2: 12.0
+
+heating_backend: brandis_johnston_2014
+
+# Pure component A (Water for this benchmark) is the mass-score reference.
+reference_fraction_component_a: 1.0
+
+# Property states used only for V5a provider validation. Unsupported states are
+# reported explicitly; they are not converted into favorable scores.
+validation:
+  temperatures_k:
+    - 293.15
+    - 350.0
+    - 400.0
+    - 450.0
+    - 500.0
+  pressures_pa:
+    - 101325.0
+    - 500000.0
+    - 2000000.0

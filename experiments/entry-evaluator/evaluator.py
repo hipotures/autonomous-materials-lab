@@ -382,7 +382,7 @@ def evaluate(
         status = "max_time"
 
     summary = {
-        "evaluator_version": "v4",
+        "evaluator_version": "v5a",
         "heating_backend": heating_backend,
         "dt_s": dt,
         **surface_meta,
@@ -413,7 +413,11 @@ def evaluate(
         "case_name": config.get("name", "entry-case"),
         "status": status,
         "failure_reason": failure_reason,
-        "fluid": coolant_cfg["coolprop_name"],
+        "fluid": coolant.fluid,
+        "property_provider": coolant.properties.metadata(),
+        "property_backend": coolant.properties.metadata()["backend"],
+        "property_components": coolant.properties.metadata()["components"],
+        "property_mole_fractions": coolant.properties.metadata()["mole_fractions"],
         "time_s": time_s,
         "final_altitude_km": state.altitude_m / 1000.0,
         "final_velocity_km_s": state.velocity_m_s / 1000.0,
