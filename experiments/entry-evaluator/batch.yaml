@@ -1,3 +1,8 @@
+# Cartesian matrix is applied to every fluid case below.
+# 4 fluids x 4 entry angles = 16 independent trajectories by default.
+matrix:
+  entry.flight_path_angle_deg: [-5.0, -7.0, -9.0, -11.0]
+
 cases:
   - name: hard-entry-hydrogen
     coolant:
@@ -25,8 +30,7 @@ cases:
       storage_pressure_pa: 101325.0
       max_exit_temperature_k: 750.0
     chemistry:
-      mode: fixed_limit
-      fixed_max_exit_temperature_k: 750.0
+      mode: disabled
 
   - name: hard-entry-ammonia
     coolant:
@@ -35,5 +39,4 @@ cases:
       storage_pressure_pa: 101325.0
       max_exit_temperature_k: 750.0
     chemistry:
-      mode: fixed_limit
-      fixed_max_exit_temperature_k: 750.0
+      mode: disabled
