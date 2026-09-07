@@ -94,10 +94,12 @@ These are candidates, not hard dependencies:
 - [Development and compute environment](docs/environment.md)
 - [Source development and optimization](docs/development.md)
 - [Preflight checklist](docs/preflight.md)
+- [Liquid transpiration / microjet TPS use case](docs/use-cases/liquid-transpiration-tps.md)
+- [Water reference benchmark](docs/benchmarks/water-reference.md)
 - [MVP plan](docs/mvp.md)
 
 ## Status
 
-**Phase 0 — architecture definition and workstation preparation.**
+**Phase 0 — architecture definition, workstation preparation, and first system benchmark definition.**
 
-No claim is made yet that the proposed pipeline can discover a synthesizable material. The immediate objective is to build a small, auditable system that can reproduce known materials-discovery tasks before searching genuinely novel chemical space.
+No claim is made yet that the proposed pipeline can discover a synthesizable material. The first concrete system benchmark is a water-based liquid transpiration / directed-microjet thermal-protection model. The immediate objective is to reproduce known physics with a transparent baseline before searching novel fluids, mixtures, crystals, or other material classes.
