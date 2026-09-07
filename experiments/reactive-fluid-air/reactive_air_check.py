@@ -252,7 +252,7 @@ def evaluate_case(
             oxidizer=AIR,
         )
 
-        initial_x = gas.X
+        initial_x = gas.X.copy()
         initial_enthalpy_mass = float(gas.enthalpy_mass)
         fuel_index = gas.species_index(fuel_species)
         fuel_mass_fraction = float(gas.Y[fuel_index])
