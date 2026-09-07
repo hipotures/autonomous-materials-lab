@@ -178,9 +178,10 @@ Domain-dependent candidates include:
 
 Start here:
 
-- [Fluid heat-sink screening experiment](experiments/fluid-heat-sink/README.md)
+- [Ambient-liquid heat-sink screening](experiments/fluid-heat-sink/README.md)
+- [Cryogenic / storage-state enthalpy screening](experiments/fluid-enthalpy-window/README.md)
 
-It performs a deliberately minimal comparison of known CoolProp liquids against water using only enthalpy uptake from the initial liquid state to saturated vapor at a fixed pressure. No nozzle, CFD, trajectory or AI model is involved.
+The first experiment compares fluids that are liquid at a common ambient state. The second gives every candidate its own initial `T0/P0`, allowing cryogenic liquids such as methane, oxygen, nitrogen and hydrogen to enter the comparison. Neither experiment includes nozzles, CFD, trajectory or AI.
 
 ## Status
 
