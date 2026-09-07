@@ -212,8 +212,8 @@ def evaluate_case(
         )
 
     reactor = make_reactor(gas, reactor_type)
-    reactor.set_advance_limit("temperature", advance_limit_k)
     network = ct.ReactorNet([reactor])
+    reactor.set_advance_limit("temperature", advance_limit_k)
 
     times = [0.0]
     temperatures = [float(reactor.T)]
