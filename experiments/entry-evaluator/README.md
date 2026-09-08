@@ -372,3 +372,24 @@ disabled. No HEOS mixture workaround or development CoolProp build is used.
 
 See [V5a.md](V5a.md) for model limits and [V5a-NRTL-results.md](V5a-NRTL-results.md)
 for the completed benchmark.
+
+## V5b structure-derived provider
+
+V5b introduces a FeOS provider that accepts molecular structure instead of a known-fluid property identity:
+
+    coolant:
+      property_provider:
+        type: feos
+        model: gc_pcsaft_joback
+        name: candidate-id
+        smiles: CCO
+
+The provider uses the pinned Rehner 2023 heterosegmented GC-PC-SAFT residual model and Joback ideal-gas heat-capacity contribution, both derived from the same SMILES through the pinned Sauer group decomposition.
+
+The V5b-1 and V5b-2 validation runners live in experiments/property-predictor-v5b. V5b-2 adds a deterministic calibration/evaluation split, RDKit Morgan/Tanimoto structural applicability domain and split-conformal screening uncertainty.
+
+Install:
+
+    uv pip install -r requirements-v5b.txt
+
+Then run the full unit-test suite before the V5b-2 calibration benchmark.
