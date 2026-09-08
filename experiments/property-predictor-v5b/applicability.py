@@ -151,7 +151,7 @@ def assess_domain(
             uncertainty_valid=False,
             reason=(
                 "some structural support exists, but the calibrated "
-                "neighborhood is too weak for certified uncertainty"
+                "neighborhood is too weak for screening-supported uncertainty"
             ),
         )
     return DomainAssessment(

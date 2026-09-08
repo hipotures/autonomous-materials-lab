@@ -248,6 +248,7 @@ class V5b21RepeatedSplitTests(unittest.TestCase):
 class V5b21LanguageTests(unittest.TestCase):
     def test_uncertainty_code_does_not_claim_certification(self):
         paths = [
+            V5B / "applicability.py",
             V5B / "run_calibration.py",
             V5B / "run_robustness.py",
             V5B / "README.md",

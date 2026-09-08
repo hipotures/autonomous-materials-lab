@@ -1,0 +1,68 @@
+version: v5c-1
+name: constrained-inverse-molecular-search
+
+search:
+  workers: 16
+  require_v5c_ready: true
+  require_in_domain: true
+  require_screening_uncertainty: true
+  conservative_score_multiplier: 1.0
+  maximum_candidates_after_dedup: 500
+
+candidate_constraints:
+  allowed_atomic_numbers: [6, 8]
+  require_neutral: true
+  min_molecular_weight_g_mol: 40.0
+  max_molecular_weight_g_mol: 180.0
+  min_heavy_atoms: 3
+  max_heavy_atoms: 12
+  max_rings: 1
+
+storage:
+  temperature_k: 293.15
+  pressure_pa: 101325.0
+  require_liquid: true
+  require_saturation_at_storage_pressure: true
+
+cooling:
+  max_exit_temperature_k: 500.0
+  wall_to_fluid_approach_k: 25.0
+  cooled_area_m2: 12.0
+
+entry:
+  heating_backend: brandis_johnston_2014
+
+uncertainty:
+  coverage_target: 0.90
+  k_neighbors: 5
+  similarity_floor: 0.05
+  in_domain_similarity: 0.45
+  edge_similarity: 0.25
+  minimum_neighbors: 2
+
+generation:
+  alkanes:
+    min_c: 3
+    max_c: 10
+  branched_alkanes:
+    min_total_c: 5
+    max_total_c: 10
+  alkenes:
+    min_c: 3
+    max_c: 9
+  primary_alcohols:
+    min_c: 2
+    max_c: 8
+  ketones:
+    min_c: 3
+    max_c: 9
+  ethers:
+    min_total_c: 3
+    max_total_c: 8
+  alkyl_benzenes:
+    min_sidechain_c: 1
+    max_sidechain_c: 4
+  cycloalkanes:
+    min_ring: 5
+    max_ring: 8
+    methyl_substitution: true
