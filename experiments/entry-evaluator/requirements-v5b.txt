@@ -1,0 +1,4 @@
+# V5b-1 structure-to-property predictor environment.
+-r requirements-v5a.txt
+feos==0.10.1
+rdkit==2026.3.6
