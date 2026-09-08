@@ -470,9 +470,19 @@ def main() -> int:
         metric_calibrations["entry_error"]["conformal_factor"]
         is not None
     )
+    in_domain_evaluation_count = sum(
+        row["split"] == "evaluation"
+        and row["domain"]["status"] == "in_domain"
+        and row["domain"]["uncertainty_valid"]
+        for row in candidate_uncertainty
+    )
+    minimum_in_domain_evaluation = int(
+        uncertainty_cfg["minimum_in_domain_evaluation_candidates"]
+    )
     study_complete = (
         comparable_count >= minimum_comparable
         and len(evaluation_ids) >= 3
+        and in_domain_evaluation_count >= minimum_in_domain_evaluation
         and entry_calibration_ready
     )
 
@@ -554,6 +564,10 @@ def main() -> int:
         "reference_failure_count": len(reference_failures),
         "entry_comparable_count": comparable_count,
         "minimum_comparable_candidates": minimum_comparable,
+        "in_domain_evaluation_count": in_domain_evaluation_count,
+        "minimum_in_domain_evaluation_candidates": (
+            minimum_in_domain_evaluation
+        ),
         "reference_revealed_after_prediction": True,
         "structure_only_prediction": True,
         "calibration_split": {
