@@ -1,0 +1,1654 @@
+{
+  "description": "Executed NRTL screening benchmark; numerical verification only; caloric validation pending",
+  "manifest": {
+    "config_sha256": {
+      "/workspace/scratch/0fe6e6f4ede6/autonomous-materials-lab/experiments/entry-evaluator/config.yaml": "f81d54d4cce603b1e0a49b147a239bf34e8193d49024d2ee1960bcb9fb3631dc",
+      "/workspace/scratch/0fe6e6f4ede6/autonomous-materials-lab/experiments/entry-evaluator/mixture-v5a.yaml": "014b9df8cc00cbd72c787a81c3a4ee655ee5a8606f3a6762a2f6fcede2aba1c6",
+      "/workspace/scratch/0fe6e6f4ede6/autonomous-materials-lab/experiments/entry-evaluator/physical-sensitivity.yaml": "db2ae7b9f1e2b2a15f16a72b9f209212f4780c942d56ffc7c7b2a73699ec82d7"
+    },
+    "coolprop_runtime": {
+      "gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+      "version": "8.0.0"
+    },
+    "git_commit": "f901db4de837d949e17b1c58c92b96467e49f9b8",
+    "git_dirty": true,
+    "important_limitation": "NRTL reproduces a documented VLE example; caloric fit validity is unestablished. Ideal gas vapor, additive liquid volumes, no mixture transport or chemistry. Ranking is provisional.",
+    "input_configs": {
+      "base": {
+        "atmosphere": {
+          "ap": 7.0,
+          "collision_diameter_m": 3.7e-10,
+          "date": "2026-09-07T12:00:00Z",
+          "f107": 150.0,
+          "f107a": 150.0,
+          "grid_step_km": 0.5,
+          "latitude_deg": 0.0,
+          "longitude_deg": 0.0,
+          "max_altitude_km": 220.0,
+          "min_altitude_km": 0.0,
+          "model": "nrlmsis-2.1"
+        },
+        "chemistry": {
+          "allow_nearest_phi": false,
+          "fixed_max_exit_temperature_k": 750.0,
+          "ignition_csv": "../hydrogen-ignition-delay/ignition_delay_v4.csv",
+          "ignition_safety_factor": 10.0,
+          "mode": "fixed_limit",
+          "phi": 4.0,
+          "residence_time_s": 0.001
+        },
+        "coolant": {
+          "available_mass_kg": null,
+          "cooled_area_m2": 12.0,
+          "coolprop_name": "Hydrogen",
+          "injection_pressure_margin": 1.15,
+          "max_exit_temperature_k": 900.0,
+          "max_injection_pressure_pa": 20000000.0,
+          "porous_delta_p_pa": 100000.0,
+          "storage_pressure_pa": 101325.0,
+          "storage_temperature_k": 19.0,
+          "wall_to_fluid_approach_k": 25.0
+        },
+        "entry": {
+          "altitude_km": 200.0,
+          "flight_path_angle_deg": -8.0,
+          "velocity_km_s": 15.0
+        },
+        "heating": {
+          "backend": "legacy",
+          "convective_scale": 1.0,
+          "radiative_enabled": true,
+          "radiative_scale": 1.0
+        },
+        "name": "hard-entry-hydrogen-v1",
+        "numerics": {
+          "dt_s": 0.05,
+          "max_time_s": 2000.0
+        },
+        "surface": {
+          "convective_exponent": 1.0,
+          "model": "cosine_cap",
+          "radiative_exponent": 1.0,
+          "theta_max_deg": 90.0,
+          "zones": 32
+        },
+        "terminal": {
+          "altitude_km": 20.0,
+          "velocity_km_s": 1.0
+        },
+        "vehicle": {
+          "bank_angle_rad": 0.0,
+          "couple_coolant_mass_to_trajectory": false,
+          "drag_coefficient": 1.4,
+          "dry_mass_kg": 7000.0,
+          "initial_mass_kg": 8000.0,
+          "lift_to_drag": 0.0,
+          "nose_radius_m": 1.0,
+          "reference_area_m2": 12.0,
+          "stagnation_pressure_coefficient": 2.0
+        },
+        "wall": {
+          "areal_heat_capacity_j_m2_k": 100000.0,
+          "backface_loss_w_m2": 0.0,
+          "emissivity": 0.85,
+          "initial_temperature_k": 300.0,
+          "maximum_temperature_k": 1200.0,
+          "temperature_setpoint_k": 1100.0
+        }
+      },
+      "physical": {
+        "fixed_overrides": {
+          "numerics.dt_s": 0.05,
+          "surface.model": "cosine_cap",
+          "surface.theta_max_deg": 90.0,
+          "surface.zones": 32
+        },
+        "nominal_values": {
+          "chemistry.fixed_max_exit_temperature_k": 750.0,
+          "coolant.cooled_area_m2": 12.0,
+          "entry.flight_path_angle_deg": -11.0,
+          "entry.velocity_km_s": 15.0,
+          "heating.convective_scale": 1.0,
+          "heating.radiative_scale": 1.0,
+          "surface.convective_exponent": 1.0,
+          "surface.radiative_exponent": 1.0,
+          "vehicle.nose_radius_m": 1.0,
+          "wall.areal_heat_capacity_j_m2_k": 100000.0,
+          "wall.emissivity": 0.85
+        },
+        "ranges": {
+          "chemistry.fixed_max_exit_temperature_k": [
+            650.0,
+            850.0
+          ],
+          "coolant.cooled_area_m2": [
+            6.0,
+            18.0
+          ],
+          "entry.flight_path_angle_deg": [
+            -20.0,
+            -10.0
+          ],
+          "entry.velocity_km_s": [
+            11.0,
+            15.0
+          ],
+          "heating.convective_scale": [
+            0.9,
+            1.1
+          ],
+          "heating.radiative_scale": [
+            0.7,
+            1.3
+          ],
+          "surface.convective_exponent": [
+            0.5,
+            2.0
+          ],
+          "surface.radiative_exponent": [
+            0.5,
+            2.0
+          ],
+          "vehicle.nose_radius_m": [
+            0.5,
+            2.0
+          ],
+          "wall.areal_heat_capacity_j_m2_k": [
+            50000.0,
+            200000.0
+          ],
+          "wall.emissivity": [
+            0.7,
+            0.95
+          ]
+        },
+        "ranking_margin_fraction": 0.01,
+        "samples": 64,
+        "seed": 20260907
+      },
+      "study": {
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "cooled_area_m2": 12.0,
+        "fraction_component_a": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "heating_backend": "brandis_johnston_2014",
+        "max_exit_temperature_k": 500.0,
+        "name": "water-ethanol",
+        "property_provider": {
+          "model": "NRTL",
+          "parameter_set": "ddbst_p05_01b",
+          "type": "thermo"
+        },
+        "reference_fraction_component_a": 1.0,
+        "storage_pressure_pa": 101325.0,
+        "storage_temperature_k": 293.15,
+        "validation": {
+          "pressures_pa": [
+            25000.0,
+            101325.0,
+            500000.0,
+            2000000.0
+          ],
+          "temperatures_k": [
+            293.15,
+            350.0,
+            400.0,
+            450.0,
+            500.0
+          ]
+        },
+        "wall_to_fluid_approach_k": 25.0
+      }
+    },
+    "packages": {
+      "CoolProp": "8.0.0",
+      "PyYAML": "6.0.3",
+      "chemicals": "1.5.2",
+      "fluids": "1.3.1",
+      "numpy": "2.5.3",
+      "pymsis": "0.12.0",
+      "scipy": "1.18.1",
+      "thermo": "0.6.1"
+    },
+    "physical_validation_complete": false,
+    "providers": [
+      {
+        "backend": "HEOS",
+        "components": [
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "coolprop_runtime": {
+          "gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+          "version": "8.0.0"
+        },
+        "identity": "HEOS:Ethanol",
+        "input_fractions": [
+          1.0
+        ],
+        "interaction_model": "pure-fluid HEOS",
+        "molar_mass_kg_mol": 0.04606844,
+        "mole_fractions": [
+          1.0
+        ],
+        "project_validation_status": "pure-fluid reference",
+        "provider_type": "coolprop",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.9]&Water[0.1]",
+        "input_fractions": [
+          0.1,
+          0.9
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.043263124,
+        "mole_fractions": [
+          0.1,
+          0.9
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.8]&Water[0.2]",
+        "input_fractions": [
+          0.2,
+          0.8
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.040457808000000005,
+        "mole_fractions": [
+          0.2,
+          0.8
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.7]&Water[0.3]",
+        "input_fractions": [
+          0.3,
+          0.7
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.037652492,
+        "mole_fractions": [
+          0.3,
+          0.7
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.6]&Water[0.4]",
+        "input_fractions": [
+          0.4,
+          0.6
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.03484717600000001,
+        "mole_fractions": [
+          0.4,
+          0.6
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.5]&Water[0.5]",
+        "input_fractions": [
+          0.5,
+          0.5
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.03204186,
+        "mole_fractions": [
+          0.5,
+          0.5
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.4]&Water[0.6]",
+        "input_fractions": [
+          0.6,
+          0.4
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.029236544000000003,
+        "mole_fractions": [
+          0.6,
+          0.4
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.3]&Water[0.7]",
+        "input_fractions": [
+          0.7,
+          0.30000000000000004
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.026431228000000005,
+        "mole_fractions": [
+          0.7,
+          0.30000000000000004
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.2]&Water[0.8]",
+        "input_fractions": [
+          0.8,
+          0.19999999999999996
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.023625912,
+        "mole_fractions": [
+          0.8,
+          0.19999999999999996
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "alpha": [
+          [
+            0.0,
+            0.2974
+          ],
+          [
+            0.2974,
+            0.0
+          ]
+        ],
+        "backend": "FlashVL",
+        "caloric_basis": "Psat",
+        "components": [
+          "Water",
+          "Ethanol"
+        ],
+        "composition_basis": "mole",
+        "enthalpy_reference": "same thermo ideal-gas reference at 298.15 K for inlet and outlet; H includes HE",
+        "equilibrium_basis": "Psat",
+        "gas_model": "IdealGas",
+        "identity": "thermo:NRTL:Ethanol[0.1]&Water[0.9]",
+        "input_fractions": [
+          0.9,
+          0.09999999999999998
+        ],
+        "model": "NRTL",
+        "molar_mass_kg_mol": 0.020820595999999997,
+        "mole_fractions": [
+          0.9,
+          0.09999999999999998
+        ],
+        "operational_domain": {
+          "pressure_pa": [
+            100,
+            2000000
+          ],
+          "temperature_k": [
+            273.15,
+            500
+          ]
+        },
+        "packages": {
+          "chemicals": "1.5.2",
+          "fluids": "1.3.1",
+          "scipy": "1.18.1",
+          "thermo": "0.6.1"
+        },
+        "parameter_fit_validity_range": null,
+        "parameter_order": [
+          "Ethanol",
+          "Water"
+        ],
+        "parameter_set": "ddbst_p05_01b",
+        "parameter_source": "https://thermo.readthedocs.io/thermo.nrtl.html",
+        "project_validation_status": "documented VLE example reproduction; caloric validation pending",
+        "provider_type": "thermo",
+        "pure_correlation_methods": {
+          "HeatCapacityGases": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ],
+          "VaporPressures": [
+            "HEOS_FIT",
+            "IAPWS_PSAT"
+          ],
+          "VolumeLiquids": [
+            "HEOS_FIT",
+            "HEOS_FIT"
+          ]
+        },
+        "tau_b_kelvin": [
+          [
+            0.0,
+            -61.02497992981518
+          ],
+          [
+            673.2359767158717,
+            0.0
+          ]
+        ],
+        "transport_validation_status": "not implemented for mixtures",
+        "uncertainty_model": null
+      },
+      {
+        "backend": "HEOS",
+        "components": [
+          "Water"
+        ],
+        "composition_basis": "mole",
+        "coolprop_runtime": {
+          "gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+          "version": "8.0.0"
+        },
+        "identity": "HEOS:Water",
+        "input_fractions": [
+          1.0
+        ],
+        "interaction_model": "pure-fluid HEOS",
+        "molar_mass_kg_mol": 0.018015268,
+        "mole_fractions": [
+          1.0
+        ],
+        "project_validation_status": "pure-fluid reference",
+        "provider_type": "coolprop",
+        "uncertainty_model": null
+      }
+    ],
+    "python": "3.12.13",
+    "source_sha256": {
+      "__init__.py": "40bc280e2c55e4a939d2aa08d6982e91c4f7357ffe460a8cc29d9c04738bd329",
+      "atmosphere.py": "4d8296be518745872b4d1465613c420ea8f58759604542b27f90487649a26b8b",
+      "chemistry.py": "7eed992d08ed27e17b8953cf4dd99896a3f92aae2da283b566561169c3fcca37",
+      "coolant.py": "db5c27a40f376e36f97573bdc11da24e7d576ef297900aa44e18246d31a8d94b",
+      "evaluator.py": "7715db440dcd9d28614aa59dc2438e6181df3e62a2be8d0801ea15cf6722b6c6",
+      "heating.py": "37232b6adacfe25ecc8c0998a5bc6812ea032c6a251959f06d45bcef53c801ac",
+      "property_provider.py": "f7c40cda6d8438d1b3bcbdc99dd79d39b891802b33997b1bc2414215c10681c4",
+      "run_batch.py": "da99720640eb717d0d2229fd03af55e0a8cab2d3a4b570e21454bb97b0d0a53e",
+      "run_chemistry_sensitivity.py": "ecaa55c69921156e28bdf156852db2536bc5fed082f13abc1441410e5ffd286c",
+      "run_convergence.py": "fdbd7118b8e792c4f6d77bb2847b70e5412ff937282cf6249e62b14a9673ff4d",
+      "run_entry.py": "a4a7e8b0235a56864eda992188e7020c890ef7737551519a1cb8527754b426a0",
+      "run_heating_model_comparison.py": "0109133f848d56279713401c0a4b61110fb0ca47e21e89ecdfc58b86288046e8",
+      "run_mixture_sweep.py": "61bb309890fdc2ce68eebbfbe751379478caf62903f58609528e51ccf09fafd9",
+      "run_physical_sensitivity.py": "5d56f46c07b8a47413f6cdb9910bd4de420ecb8d6d3d2388f2ea1f5201264053",
+      "surface.py": "794afbd2fc3d85569b55f752241b5415d8c70be4702b0d46c3dcee3c8c1630ee",
+      "thermo_provider.py": "4622e5125e70990f3f65aa63d0fd22c6633530d132c8b1235b02ca4e9b52fc76",
+      "trajectory.py": "45709a9ef9323551a63030b24427ee751acfad7607758a220d6a5efff02e7ec0",
+      "wall.py": "62489c105f3ff0050ca45dc3219eb5c8d5dc7b3c9054c7d28ad7dfcfb0161ce2"
+    },
+    "study_version": "v5a-nrtl"
+  },
+  "summary": {
+    "caloric_validation": "pending experimental delta_h / excess-enthalpy validation",
+    "candidate_count": 11,
+    "conductivity_coverage_fraction": 0.18181818181818182,
+    "endpoint_model_comparison": {
+      "interpretation": "backend-limit diagnostic, not calorimetric validation; no offset correction applied",
+      "rows": [
+        {
+          "coolprop_delta_h_j_kg": 1287875.2169974633,
+          "near_fraction_component_a": 1e-06,
+          "outlet_pressure_pa": 25000.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 0.0,
+          "relative_difference": 0.002889457312952015,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 1291596.4774613862
+        },
+        {
+          "coolprop_delta_h_j_kg": 1286034.755840277,
+          "near_fraction_component_a": 1e-06,
+          "outlet_pressure_pa": 101325.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 0.0,
+          "relative_difference": 0.004324705530586708,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 1291596.4774613862
+        },
+        {
+          "coolprop_delta_h_j_kg": 1276162.2096648128,
+          "near_fraction_component_a": 1e-06,
+          "outlet_pressure_pa": 500000.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 0.0,
+          "relative_difference": 0.012094283688769714,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 1291596.4774613862
+        },
+        {
+          "coolprop_delta_h_j_kg": 1234078.0215347717,
+          "near_fraction_component_a": 1e-06,
+          "outlet_pressure_pa": 2000000.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 0.0,
+          "relative_difference": 0.046608443650168294,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 1291596.4774613862
+        },
+        {
+          "coolprop_delta_h_j_kg": 2847399.7763065686,
+          "near_fraction_component_a": 0.999999,
+          "outlet_pressure_pa": 25000.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 1.0,
+          "relative_difference": 0.001119088469695159,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 2850586.268564846
+        },
+        {
+          "coolprop_delta_h_j_kg": 2844500.4658641648,
+          "near_fraction_component_a": 0.999999,
+          "outlet_pressure_pa": 101325.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 1.0,
+          "relative_difference": 0.0021394978744826002,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 2850586.268564846
+        },
+        {
+          "coolprop_delta_h_j_kg": 2828701.837589976,
+          "near_fraction_component_a": 0.999999,
+          "outlet_pressure_pa": 500000.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 1.0,
+          "relative_difference": 0.007736563353568326,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 2850586.268564846
+        },
+        {
+          "coolprop_delta_h_j_kg": 2757364.364833197,
+          "near_fraction_component_a": 0.999999,
+          "outlet_pressure_pa": 2000000.0,
+          "outlet_temperature_k": 500.0,
+          "pure_fraction_component_a": 1.0,
+          "relative_difference": 0.03380833701943056,
+          "supported": true,
+          "thermo_near_pure_delta_h_j_kg": 2850586.268564846
+        }
+      ]
+    },
+    "entry_scoring": {
+      "beat_threshold_ratio": 0.99,
+      "beats_reference_count": 0,
+      "best_candidate": {
+        "candidate_id": "water-ethanol-xa-1",
+        "coolant_mass_ratio_vs_reference": 1.0,
+        "fraction_component_a": 1.0,
+        "score_coolant_kg": 3484.6253358061417
+      },
+      "comparable_candidate_count": 11,
+      "failed_candidate_count": 0,
+      "failed_candidates": [],
+      "interpretation": "provisional model ranking; caloric validation pending; consumed mass on failure is not a score",
+      "reference_candidate_id": "water-ethanol-xa-1",
+      "reference_coolant_kg": 3484.6253358061417,
+      "reference_fraction_component_a": 1.0
+    },
+    "numerical_sweep_complete": true,
+    "physical_validation_complete": false,
+    "property_validation": {
+      "all_storage_states_liquid": true,
+      "all_thermo_grid_points_supported": true,
+      "component_a": "Water",
+      "component_b": "Ethanol",
+      "composition_count": 11,
+      "endpoint_pure_state_pass": true,
+      "interpretation": "Smoothness metrics are diagnostics only. Non-ideal mixtures can be physically non-monotonic; V5a does not hard-reject on shape.",
+      "metrics": {
+        "bubble_temperature_k": {
+          "adjacent_changes": [
+            {
+              "relative_change": 0.0002773085748281178,
+              "x0": 0.0,
+              "x1": 0.1
+            },
+            {
+              "relative_change": 0.00039881448129385215,
+              "x0": 0.1,
+              "x1": 0.2
+            },
+            {
+              "relative_change": 0.0009790529485228638,
+              "x0": 0.2,
+              "x1": 0.3
+            },
+            {
+              "relative_change": 0.0014553102369581777,
+              "x0": 0.3,
+              "x1": 0.4
+            },
+            {
+              "relative_change": 0.0018321837075237098,
+              "x0": 0.4,
+              "x1": 0.5
+            },
+            {
+              "relative_change": 0.002161902183827619,
+              "x0": 0.5,
+              "x1": 0.6
+            },
+            {
+              "relative_change": 0.0026555596705405814,
+              "x0": 0.6,
+              "x1": 0.7
+            },
+            {
+              "relative_change": 0.00407196070015501,
+              "x0": 0.7,
+              "x1": 0.8
+            },
+            {
+              "relative_change": 0.009444190601984533,
+              "x0": 0.8,
+              "x1": 0.9
+            },
+            {
+              "relative_change": 0.0360517002211259,
+              "x0": 0.9,
+              "x1": 1.0
+            }
+          ],
+          "max_adjacent_relative_change": 0.0360517002211259,
+          "supported_compositions": 11,
+          "unsupported_intervals": []
+        },
+        "dew_temperature_k": {
+          "adjacent_changes": [
+            {
+              "relative_change": 0.00027637874436021184,
+              "x0": 0.0,
+              "x1": 0.1
+            },
+            {
+              "relative_change": 0.0006136842161824252,
+              "x0": 0.1,
+              "x1": 0.2
+            },
+            {
+              "relative_change": 0.0021578784725863535,
+              "x0": 0.2,
+              "x1": 0.3
+            },
+            {
+              "relative_change": 0.005094749729216329,
+              "x0": 0.3,
+              "x1": 0.4
+            },
+            {
+              "relative_change": 0.009073594696528672,
+              "x0": 0.4,
+              "x1": 0.5
+            },
+            {
+              "relative_change": 0.009960513108156212,
+              "x0": 0.5,
+              "x1": 0.6
+            },
+            {
+              "relative_change": 0.009296337454403216,
+              "x0": 0.6,
+              "x1": 0.7
+            },
+            {
+              "relative_change": 0.008484179477962287,
+              "x0": 0.7,
+              "x1": 0.8
+            },
+            {
+              "relative_change": 0.007746253285525655,
+              "x0": 0.8,
+              "x1": 0.9
+            },
+            {
+              "relative_change": 0.007108717531315306,
+              "x0": 0.9,
+              "x1": 1.0
+            }
+          ],
+          "max_adjacent_relative_change": 0.009960513108156212,
+          "supported_compositions": 11,
+          "unsupported_intervals": []
+        },
+        "storage_conductivity_w_m_k": {
+          "adjacent_changes": [],
+          "max_adjacent_relative_change": null,
+          "supported_compositions": 2,
+          "unsupported_intervals": [
+            {
+              "x0": 0.0,
+              "x1": 0.1
+            },
+            {
+              "x0": 0.1,
+              "x1": 0.2
+            },
+            {
+              "x0": 0.2,
+              "x1": 0.3
+            },
+            {
+              "x0": 0.3,
+              "x1": 0.4
+            },
+            {
+              "x0": 0.4,
+              "x1": 0.5
+            },
+            {
+              "x0": 0.5,
+              "x1": 0.6
+            },
+            {
+              "x0": 0.6,
+              "x1": 0.7
+            },
+            {
+              "x0": 0.7,
+              "x1": 0.8
+            },
+            {
+              "x0": 0.8,
+              "x1": 0.9
+            },
+            {
+              "x0": 0.9,
+              "x1": 1.0
+            }
+          ]
+        },
+        "storage_cp_j_kg_k": {
+          "adjacent_changes": [
+            {
+              "relative_change": 0.01946099308593184,
+              "x0": 0.0,
+              "x1": 0.1
+            },
+            {
+              "relative_change": 0.04334201012637032,
+              "x0": 0.1,
+              "x1": 0.2
+            },
+            {
+              "relative_change": 0.045984237188624745,
+              "x0": 0.2,
+              "x1": 0.3
+            },
+            {
+              "relative_change": 0.048772066173034596,
+              "x0": 0.3,
+              "x1": 0.4
+            },
+            {
+              "relative_change": 0.05177691058270506,
+              "x0": 0.4,
+              "x1": 0.5
+            },
+            {
+              "relative_change": 0.05517258924584272,
+              "x0": 0.5,
+              "x1": 0.6
+            },
+            {
+              "relative_change": 0.059366788492355674,
+              "x0": 0.6,
+              "x1": 0.7
+            },
+            {
+              "relative_change": 0.06530344001451394,
+              "x0": 0.7,
+              "x1": 0.8
+            },
+            {
+              "relative_change": 0.07516206939186966,
+              "x0": 0.8,
+              "x1": 0.9
+            },
+            {
+              "relative_change": 0.11216036699383401,
+              "x0": 0.9,
+              "x1": 1.0
+            }
+          ],
+          "max_adjacent_relative_change": 0.11216036699383401,
+          "supported_compositions": 11,
+          "unsupported_intervals": []
+        },
+        "storage_density_kg_m3": {
+          "adjacent_changes": [
+            {
+              "relative_change": 0.008710346411512733,
+              "x0": 0.0,
+              "x1": 0.1
+            },
+            {
+              "relative_change": 0.010004678174359124,
+              "x0": 0.1,
+              "x1": 0.2
+            },
+            {
+              "relative_change": 0.011611655221246752,
+              "x0": 0.2,
+              "x1": 0.3
+            },
+            {
+              "relative_change": 0.013639588774433862,
+              "x0": 0.3,
+              "x1": 0.4
+            },
+            {
+              "relative_change": 0.016249561660708355,
+              "x0": 0.4,
+              "x1": 0.5
+            },
+            {
+              "relative_change": 0.019687848827280134,
+              "x0": 0.5,
+              "x1": 0.6
+            },
+            {
+              "relative_change": 0.02434637223229352,
+              "x0": 0.6,
+              "x1": 0.7
+            },
+            {
+              "relative_change": 0.03087991143457406,
+              "x0": 0.7,
+              "x1": 0.8
+            },
+            {
+              "relative_change": 0.040450382608284964,
+              "x0": 0.8,
+              "x1": 0.9
+            },
+            {
+              "relative_change": 0.055283983761418236,
+              "x0": 0.9,
+              "x1": 1.0
+            }
+          ],
+          "max_adjacent_relative_change": 0.055283983761418236,
+          "supported_compositions": 11,
+          "unsupported_intervals": []
+        },
+        "storage_enthalpy_j_kg": {
+          "comparison": "not compared: absolute enthalpy references differ between thermo and CoolProp; compare delta_h"
+        },
+        "storage_viscosity_pa_s": {
+          "adjacent_changes": [],
+          "max_adjacent_relative_change": null,
+          "supported_compositions": 2,
+          "unsupported_intervals": [
+            {
+              "x0": 0.0,
+              "x1": 0.1
+            },
+            {
+              "x0": 0.1,
+              "x1": 0.2
+            },
+            {
+              "x0": 0.2,
+              "x1": 0.3
+            },
+            {
+              "x0": 0.3,
+              "x1": 0.4
+            },
+            {
+              "x0": 0.4,
+              "x1": 0.5
+            },
+            {
+              "x0": 0.5,
+              "x1": 0.6
+            },
+            {
+              "x0": 0.6,
+              "x1": 0.7
+            },
+            {
+              "x0": 0.7,
+              "x1": 0.8
+            },
+            {
+              "x0": 0.8,
+              "x1": 0.9
+            },
+            {
+              "x0": 0.9,
+              "x1": 1.0
+            }
+          ]
+        }
+      },
+      "storage_liquid_count": 11
+    },
+    "study_complete": true,
+    "thermo_grid_supported_fraction": 1.0,
+    "viscosity_coverage_fraction": 0.18181818181818182
+  },
+  "entry_results": [
+    {
+      "candidate_id": "water-ethanol-xa-0",
+      "fraction_component_a": 0.0,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 7711.133298399529,
+      "coolant_mass_ratio_vs_reference": 2.2129016910839905,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 379.6182499681691,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p1",
+      "fraction_component_a": 0.1,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 7304.091018543285,
+      "coolant_mass_ratio_vs_reference": 2.096090774376907,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 359.45296641585225,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p2",
+      "fraction_component_a": 0.2,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 6934.641748285234,
+      "coolant_mass_ratio_vs_reference": 1.9900681077614208,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 341.27142461998994,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p3",
+      "fraction_component_a": 0.3,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 6555.452852637299,
+      "coolant_mass_ratio_vs_reference": 1.8812504131439842,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 322.6105709933622,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p4",
+      "fraction_component_a": 0.4,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 6165.206426539586,
+      "coolant_mass_ratio_vs_reference": 1.7692594848545782,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 303.4055480633517,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p5",
+      "fraction_component_a": 0.5,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 5762.295446583766,
+      "coolant_mass_ratio_vs_reference": 1.6536341475146572,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 283.57727010529277,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p6",
+      "fraction_component_a": 0.6,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 5344.754429592066,
+      "coolant_mass_ratio_vs_reference": 1.5338103567899353,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 263.0290106741156,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p7",
+      "fraction_component_a": 0.7,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 4910.183653308966,
+      "coolant_mass_ratio_vs_reference": 1.4090994526311198,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 241.64267331111932,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p8",
+      "fraction_component_a": 0.8,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 4455.684187759876,
+      "coolant_mass_ratio_vs_reference": 1.2786695149047027,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 219.27559427126604,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-0p9",
+      "fraction_component_a": 0.9,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 3977.8511192460987,
+      "coolant_mass_ratio_vs_reference": 1.1415434188496059,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 195.76020905867557,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    },
+    {
+      "candidate_id": "water-ethanol-xa-1",
+      "fraction_component_a": 1.0,
+      "status": "terminal_velocity",
+      "score_coolant_kg": 3484.6253358061417,
+      "coolant_mass_ratio_vs_reference": 1.0,
+      "peak_wall_temperature_k": 1100.0,
+      "peak_coolant_flow_kg_s": 171.530359309332,
+      "peak_injection_pressure_pa": 437968.9914731904,
+      "minimum_active_cooling_surface_pressure_pa": 24896.910128128027,
+      "maximum_active_cooling_surface_pressure_pa": 293886.07954190474,
+      "failure_reason": null
+    }
+  ],
+  "additional_integration_checks": {
+    "excluded_property_candidate": "2 successful references and 1 excluded composition; exit 1",
+    "all_candidates_excluded": "0 scores and 3 failures, no worker launch; exit 1"
+  }
+}

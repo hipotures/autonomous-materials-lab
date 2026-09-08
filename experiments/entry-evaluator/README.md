@@ -50,7 +50,7 @@ minimum required local coolant heat removal
     v
 PropertyProvider
     |-- pure CoolProp HEOS
-    |-- binary CoolProp HEOS mixture
+    |-- Water/Ethanol thermo NRTL + FlashVL
     |-- later: surrogate / molecular property model
     |
     v
@@ -76,9 +76,8 @@ CoolProp 8.0.0
 pymsis 0.12.0
 ```
 
-V5a mixtures use the separately pinned CoolProp development revision from
-`requirements-v5a.txt`; do not infer V5a reproducibility from the V1-V4
-CoolProp 8.0.0 environment.
+V5a adds thermo 0.6.1 + NRTL for Water/Ethanol mixtures through
+`requirements-v5a.txt`. Pure fluids continue to use CoolProp 8.0.0.
 
 Install:
 
@@ -340,65 +339,36 @@ See [V4.md](V4.md).
 
 ## V5a binary liquid / mixture layer
 
-Existing pure-fluid configs still use:
-
-```yaml
-coolant:
-  coolprop_name: Water
-```
-
-A mixture can now use:
+Pure-fluid configs continue to use `coolant.coolprop_name: Water`.
+Water/Ethanol mixtures use the separate NRTL provider:
 
 ```yaml
 coolant:
   property_provider:
-    type: coolprop
-    backend: HEOS
+    type: thermo
+    model: NRTL
+    parameter_set: ddbst_p05_01b
     components: [Water, Ethanol]
     composition_basis: mole
     fractions: [0.5, 0.5]
 ```
 
-The first benchmark sweeps Water/Ethanol from 0/100 to 100/0 mole fraction,
-validates storage and T/P property states, records bubble/dew temperatures and
-transport-property coverage, then sends all compositions through the same entry
-evaluator:
-
-```bash
-python run_mixture_sweep.py --workers 16 --output-dir mixture-v5a-results
-```
-
-V5a directly couples composition-dependent `h(T,P,z)` into coolant mass flow.
-Density, viscosity, conductivity and phase-envelope properties are recorded but
-are not yet coupled to tank mass, porous pressure drop or film-cooling
-effectiveness. Chemistry is disabled for the mixture benchmark until a
-composition-dependent stability/decomposition model exists.
-
-See [V5a.md](V5a.md).
-
-
-For CoolProp mixture PT solver sensitivity, run the same V5a sweep explicitly
-with both supported algorithms:
-
-```bash
-python run_mixture_sweep.py --stability-algorithm 1 --workers 16 --output-dir mixture-v5a-michelsen
-python run_mixture_sweep.py --stability-algorithm 0 --workers 16 --output-dir mixture-v5a-legacy
-```
-
-Algorithm 1 is CoolProp 8's default Michelsen path; algorithm 0 is its legacy
-Gernert path. V5a never switches between them silently.
-
-
-### V5a CoolProp requirement
-
-The Water/Ethanol mixture benchmark requires the pinned development revision in
-`requirements-v5a.txt`. Do not run V5a with the V1-V4
-`CoolProp==8.0.0` environment.
-
 ```bash
 python -m pip install -r requirements-v5a.txt
-python -c "import CoolProp.CoolProp as CP; print(CP.get_global_param_string('version'), CP.get_global_param_string('gitrevision'))"
+python -m unittest discover -s tests -v
+python run_mixture_sweep.py --workers 16 --output-dir mixture-v5a-nrtl
 ```
 
-Then run the V5a sweep normally. The runner rejects an unsupported CoolProp
-revision before launching any trajectories.
+The runner validates property states and then compares all 11 compositions using
+the same entry configuration. Exact pure endpoints use CoolProp; mixtures use
+thermo NRTL with full vapor/liquid flash and excess enthalpy. Both enthalpies in
+each heat-uptake difference use the same provider.
+
+Failed/partial trajectories have no `score_coolant_kg` or reference ratio.
+Numerical completion is reported separately from physical validation: the
+parameter set reproduces a documented VLE example but still needs independent
+caloric validation. Mixture transport properties are null and chemistry remains
+disabled. No HEOS mixture workaround or development CoolProp build is used.
+
+See [V5a.md](V5a.md) for model limits and [V5a-NRTL-results.md](V5a-NRTL-results.md)
+for the completed benchmark.

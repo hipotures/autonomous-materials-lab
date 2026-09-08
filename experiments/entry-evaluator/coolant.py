@@ -209,7 +209,7 @@ class CoolantModel:
                 chemistry_limit.source,
                 actual_ignition_delay_s,
                 False,
-                f"CoolProp outlet state failed: {exc}",
+                f"property backend outlet state failed: {exc}",
                 required_ignition_delay_s,
                 ignition_margin,
             )

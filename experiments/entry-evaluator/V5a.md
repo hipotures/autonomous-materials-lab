@@ -1,266 +1,144 @@
-# V5a: Known binary liquid-mixture property layer
-
-## Purpose
-
-V5a is the first stage of the actual liquid-candidate track.
-
-The objective is narrow:
-
-> Make the entry evaluator accept a real binary mixture through the same
-> coolant interface as a pure fluid, preserve pure-component endpoints, and
-> score composition-dependent thermodynamics without trajectory-specific
-> mixture code.
-
-V5a is a property-pipeline benchmark, not yet an optimizer over hypothetical
-molecules.
-
-## Property-provider contract
-
-The coolant model consumes a common provider:
-
-    enthalpy_j_kg(T, P)
-    phase(T, P)
-    state(T, P)
-    saturation_at_pressure(P)
-    metadata()
-
-Legacy pure-fluid configurations remain valid:
-
-    coolant:
-      coolprop_name: Water
-
-A mixture can use:
-
-    coolant:
-      property_provider:
-        type: coolprop
-        backend: HEOS
-        components: [Water, Ethanol]
-        composition_basis: mole
-        fractions: [0.5, 0.5]
-
-The entry evaluator does not need to know whether the candidate is a pure fluid
-or mixture.
-
-## Pure endpoints
-
-Zero-fraction components are removed before the CoolProp state is created.
-
-For Water/Ethanol:
-
-    x_water = 0.0 -> HEOS:Ethanol
-    x_water = 1.0 -> HEOS:Water
-
-The endpoints are therefore true pure-fluid reference calculations.
-
-## First benchmark: Water / Ethanol
-
-The default study is:
-
-    mixture-v5a.yaml
-
-It evaluates:
-
-    x_water = 0.0, 0.1, ... 0.9, 1.0
-
-Water/Ethanol is used as a known binary-mixture benchmark. This is not a claim
-that ethanol is a promising entry coolant.
-
-All compositions use the same nominal physical entry assumptions and the
-Brandis-Johnston heating backend. Mixture chemistry/decomposition is disabled
-because V5a does not yet contain a validated composition-dependent chemistry
-model.
-
-## Required CoolProp backend
-
-Do not run the Water/Ethanol benchmark with released CoolProp 8.0.0.
-
-CoolProp issue #1900 is specifically about incorrect or failed Water/Ethanol
-mixture calculations. The maintainer reports the fix in the development branch.
-
-V5a pins the exact upstream revision:
-
-    d5b0cfb51cd9a9343284cc5af8ebd6a8bd0eecc0
-
-Install it with:
-
-    python -m pip install -r requirements-v5a.txt
-
-The ordinary:
-
-    requirements.txt
-
-remains pinned to CoolProp 8.0.0 so V1-V4 keep their original dependency
-contract.
-
-The V5a runner checks CoolProp's embedded git revision before launching any
-property or trajectory calculations. The manifest records both version and git
-revision.
-
-References:
-
-- https://github.com/CoolProp/CoolProp/issues/1900
-- https://github.com/CoolProp/CoolProp/issues/3243
-
-## PT and saturation evaluation
-
-V5a uses two separate CoolProp AbstractState objects:
-
-    property_state
-        -> PT property evaluation
-
-    saturation_state
-        -> PQ bubble/dew evaluation
-
-For mixtures, the saturation state is used only to determine whether a PT point
-is unambiguously outside the two-phase envelope at the same pressure:
-
-    T < min(Tbubble, Tdew)
-        -> specify liquid on property_state
-
-    T > max(Tbubble, Tdew)
-        -> specify gas on property_state
-
-    otherwise
-        -> leave phase unspecified and use the full mixture PT flash
-
-The PT state and saturation state are separate because CoolProp issue #3243
-documents stale VLE state/cache corrupting later imposed-phase PT root
-selection when both operations share one AbstractState.
-
-This guard is used only with the pinned development revision where the
-imposed-phase PT path has the upstream fix. V5a does not invent a phase boundary
-or interpolate pure-component boiling points; the phase decision comes from the
-mixture bubble/dew calculation at the same composition and pressure.
-
-## Regression target for Water/Ethanol
-
-CoolProp 8.0.0 produced pathological states for some mid-range compositions,
-including dense metastable roots and enthalpies of order -1e8 to -1e9 J/kg.
-
-V5a regression tests therefore check physical quantities rather than relying on
-CoolProp's textual phase label.
-
-For:
-
-    x_water = 0.4, 0.5, 0.6
-    T = 500 K
-    P = 25 kPa
-
-the test requires:
-
-    density < 10 kg/m3
-    h(500 K, 25 kPa) - h(293.15 K, 1 atm) > 0
-    abs(h(500 K, 25 kPa)) < 10 MJ/kg
-
-These are deliberately broad guards. Their purpose is to reject the known
-wrong dense-liquid root without encoding a new thermodynamic model in this
-repository.
-
-## Property validation
-
-Before trajectory scoring, each composition is evaluated at the storage state
-and on a small T/P grid.
-
-Recorded properties include:
-
-    phase
-    density
-    specific enthalpy
-    cp
-    viscosity
-    thermal conductivity
-    bubble temperature
-    dew temperature
-
-Missing transport properties are reported as coverage gaps and are not turned
-into favorable candidate scores.
-
-Continuity between adjacent composition grid points is diagnostic only.
-Non-ideal mixtures may be non-monotonic.
-
-## Entry coupling
-
-The quantity directly coupled into the coolant mass balance is:
-
-    delta_h =
-        h_candidate(T_exit, P_surface)
-        - h_candidate(T_storage, P_storage)
-
-and:
-
-    mdot = Qdot_coolant / delta_h
-
-Thus composition-dependent enthalpy already affects every active coolant step.
-
-The following are recorded but not yet coupled to system physics:
-
-- density -> tank volume / tank mass;
-- viscosity -> porous pressure drop;
-- thermal conductivity -> internal heat transfer;
-- surface tension;
-- decomposition / oxidation chemistry;
-- mixture-dependent blowing effectiveness.
-
-V5a is therefore a thermophysical screening result, not a complete system
-ranking.
+# V5a: Water/Ethanol NRTL screening benchmark
+
+V5a compares discrete liquid compositions using the same entry trajectory,
+forebody, wall model and outlet temperature. It establishes a working property
+pipeline. Its rankings remain provisional until caloric accuracy is checked
+against independent measurements.
+
+## Backend decision
+
+- Pure fluids and exact composition endpoints: CoolProp 8.0.0 HEOS.
+- Water/Ethanol mixtures: thermo 0.6.1, NRTL, GibbsExcessLiquid and FlashVL.
+- No multicomponent CoolProp HEOS, imposed phases, stability-solver switches,
+  interpolation across failures, or fallback to another mixture model.
+
+The previous HEOS mixture path produced failed runs at intermediate compositions.
+Their consumed masses were partial-run diagnostics, not candidate scores. The
+new provider rejects requests to use HEOS for a mixture.
+
+`property_provider.py` owns the common interface and pure-fluid provider.
+`thermo_provider.py` owns the bounded binary model. Legacy `coolprop_name` configs
+continue to use the pure-fluid path without importing thermo.
+
+```yaml
+coolant:
+  property_provider:
+    type: thermo
+    model: NRTL
+    parameter_set: ddbst_p05_01b
+    components: [Water, Ethanol]
+    composition_basis: mole
+    fractions: [0.5, 0.5]
+```
+
+Mass fractions are also supported and converted to mole fractions before flash.
+Zero fractions collapse to true pure fluids; small nonzero fractions stay mixtures.
+The internal NRTL parameter order is **Ethanol, Water**, independent of input order.
+
+## Thermodynamics and what has actually been verified
+
+The parameter set reproduces the [thermo NRTL / DDBST P05.01b example](https://thermo.readthedocs.io/thermo.nrtl.html).
+It uses tau_ij = B_ij/T with the documented calorie-to-joule conversion and
+alpha_12 = alpha_21 = 0.2974. At 343.15 K and ethanol mole fraction 0.252,
+the regression targets are gamma = [1.9360516514, 1.1536630452] and
+H_excess = 582.9648539 J/mol.
+
+These are example-reproduction targets. They are **not independent experimental
+validation of heat uptake**, and the parameter fit range has not been established.
+A VLE fit alone cannot establish the accuracy of its temperature derivative or
+excess enthalpy. The output therefore always records
+`physical_validation_complete: false` for this stage.
+
+The [liquid phase model](https://thermo.readthedocs.io/thermo.phases.html)
+uses `equilibrium_basis="Psat"` and `caloric_basis="Psat"`, including the NRTL
+excess-enthalpy contribution, with ideal-gas vapor and full vapor/liquid flash.
+Bulk molar enthalpy includes phase fractions and is divided by mixture molar mass
+in kg/mol to obtain J/kg. Species and phase-fraction balances are checked.
+
+For every candidate, both storage and outlet enthalpies come from the **same
+provider**:
+
+```text
+delta_h = h_provider(T_out, P_out, z) - h_provider(T_storage, P_storage, z)
+mass_flow = heat_removal_rate / delta_h
+```
+
+A negative absolute enthalpy can be valid because its zero is conventional.
+Cross-backend absolute enthalpies must never be subtracted or used to infer a
+composition discontinuity. The runner compares heat uptake near both pure
+endpoints with the corresponding CoolProp heat uptake instead.
+
+The operational screening guards are 273.15 to 500 K and 100 Pa to 2 MPa.
+These guards are **not a claim of physical accuracy throughout that range**.
+The ideal-gas vapor approximation becomes less reliable as pressure rises.
+Liquid density uses additive pure-component volumes. Selected pure-component
+correlations and package versions are recorded in the manifest; `HEOS_FIT`
+correlation names do not imply a multicomponent HEOS flash.
+
+Mixture viscosity and conductivity are unavailable and reported as null.
+Two-phase Cp is also null: a phase-weighted Cp is not the equilibrium derivative
+through boiling. No transport values are invented. Porous flow, tank mass,
+chemistry, decomposition and coolant/trajectory mass coupling are not added here.
 
 ## Run
 
-From experiments/entry-evaluator:
+From `experiments/entry-evaluator`, with Python 3.12:
 
-    python -m pip install -r requirements-v5a.txt
+```bash
+python -m pip install -r requirements-v5a.txt
+python -m unittest discover -s tests -v
+python run_mixture_sweep.py --workers 16 --output-dir mixture-v5a-nrtl
+```
 
-    python -m unittest discover -s tests -v
+Use a new output directory for each run. The old `--stability-algorithm` option
+has been removed. No CoolProp development build is required.
 
-    python run_mixture_sweep.py \
-      --stability-algorithm 1 \
-      --workers 16 \
-      --output-dir mixture-v5a-results
+The default study uses 11 water mole fractions, storage at 293.15 K / 101325 Pa,
+an outlet ceiling of 500 K, and the nominal V2 physical-study entry with the
+Brandis-Johnston heating model. Chemistry is explicitly disabled.
 
-The default benchmark executes 11 entry trajectories after property validation.
+## Outputs and failure handling
 
-Algorithm 1 is the CoolProp Michelsen path and is the V5a default. Algorithm 0
-is retained only as an explicit diagnostic comparison; a result that succeeds
-only under the legacy path is solver-sensitive and is not promoted as robust.
+- `manifest.json`: input configs, source/config hashes, package versions,
+  per-candidate model/parameter provenance and validation limitations.
+- `property_validation.csv` and `property_state_grid.csv`: storage, saturation
+  and the 220 requested T/P/composition states, including explicit failures.
+- `continuity_report.json`: adjacent available points only; unsupported
+  intervals remain gaps, and absolute cross-backend enthalpy is not compared.
+- `endpoint_model_comparison.json`: near-pure delta_h versus CoolProp.
+- `entry_results.csv`: consumed mass, separate `score_coolant_kg`, reference
+  ratio, termination status and failure reason.
+- `summary.json`: numerical completion and provisional model ranking,
+  separately from physical validation.
 
-## Outputs
+A failed property preflight excludes the affected candidate from entry scoring
+with `property_validation_failure`; supported candidates continue. The full
+sweep remains incomplete. A failed reference leaves all reference ratios null.
+A failed trajectory, non-finite/nonpositive mass, or explicit failure reason
+cannot receive a score. Reference ratios require a successful positive-mass
+reference and the same terminal condition. Skip trajectories are not eligible.
+`coolant_used_kg` remains a diagnostic even on failure; use `score_coolant_kg`
+for ranking. No missing composition is interpolated.
 
-    mixture-v5a-results/
-      manifest.json
-      property_validation.csv
-      property_state_grid.csv
-      continuity_report.json
-      entry_results.csv
-      summary.json
+`study_complete` is retained as an alias for numerical sweep completion, not
+physical validation. Exit code 0 means all requested candidates completed with
+comparable numerical scores; 1 means an incomplete sweep (including excluded property candidates); 2 means
+a configuration or pure-endpoint identity rejection. Numerical completion is not a flight PASS.
+The existing "beats reference" count uses a 1% improvement threshold, which is
+not an uncertainty estimate.
 
-The summary reports:
+## Verification and next decision
 
-- pure-endpoint validation;
-- liquid-storage coverage;
-- property-grid coverage;
-- transport-property coverage;
-- coolant mass for every composition;
-- mass ratio to the configured reference;
-- failed candidates with explicit reasons;
-- best evaluated composition.
+Tests cover the documented NRTL values, excess-enthalpy inclusion, modified
+Raoult-law bubble equilibrium, full two-phase balances, J/mol-to-J/kg conversion,
+component ordering, mass fractions, the failed 0.4/0.5 compositions, invalid-domain
+rejection, unchanged pure endpoints, coolant energy balance and failure scoring.
+Single-phase Cp is checked against finite-difference enthalpy to 1e-4 relative
+(the selected liquid correlations show about 6.4e-5 discrepancy at storage).
 
-"Best" means best among the discrete evaluated grid points under V5a
-assumptions. It is not a continuous global optimum.
-
-## V5b
-
-V5b should introduce the first property model that is not simply a direct
-CoolProp lookup.
-
-Recommended sequence:
-
-    known pure fluids / mixtures
-        -> hold out selected compositions
-        -> predict properties
-        -> compare against trusted data/backend
-        -> attach uncertainty
-        -> allow optimizer-driven candidate proposals
-
-The same PropertyProvider interface is intended to accept that surrogate
-without modifying the entry evaluator.
+See [V5a-NRTL-results.md](V5a-NRTL-results.md) for the measured sweep results.
+The next decision is whether uncertainty in delta_h can change the candidate
+selection. First compare the leading candidates with an independent caloric
+reference at storage and representative outlet conditions. Keep using the
+current evaluator for provisional comparisons; add another mixture model or
+new physical phenomena only to resolve a specific ranking ambiguity.
