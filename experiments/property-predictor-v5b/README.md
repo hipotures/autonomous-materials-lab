@@ -132,3 +132,164 @@ The error distribution from the holdouts is empirical validation evidence.
 V5b-2 should broaden the holdout set, define an applicability domain and turn
 validation error into calibrated candidate-specific uncertainty before inverse
 design begins.
+
+
+# V5b-2: applicability domain and calibrated uncertainty
+
+V5b-2 keeps the V5b-1 blind-prediction contract and adds a larger structural
+holdout set plus a reusable uncertainty calibration model.
+
+The benchmark is:
+
+    benchmark-v5b2.yaml
+
+It currently contains 29 cases:
+
+- 25 intended in-model holdouts spanning alcohol, ketone, linear/branched
+  hydrocarbons, aromatics, cyclic hydrocarbons, ether and alkenes;
+- 4 deliberate model-domain probes: methanol, water, ammonia and cyclopropane.
+
+The domain probes are not favorable or unfavorable coolant examples. Their
+purpose is to verify that the predictor can refuse structures that cannot be
+decomposed by the pinned Sauer/Rehner/Joback group set.
+
+## Structural applicability domain
+
+V5b-2 uses RDKit Morgan fingerprints:
+
+    radius = 2
+    fpSize = 2048
+
+with Tanimoto similarity.
+
+For every candidate, structural support is measured only against the
+calibration split. The default screening thresholds are:
+
+    in-domain: nearest similarity >= 0.45
+               and at least 2 neighbors >= 0.25
+
+    edge:      nearest similarity >= 0.25
+               but insufficient calibrated neighborhood
+
+    out-of-domain:
+               nearest similarity < 0.25
+               or the GC parameterization cannot represent the structure
+
+Only in-domain candidates receive a certified screening uncertainty flag.
+Numerical uncertainty values for edge/out-of-domain cases are diagnostics only.
+
+## Calibration split
+
+Candidate IDs are deterministically hashed with a fixed seed and split into:
+
+    70% calibration
+    30% evaluation
+
+The reference backend is still not evaluated until all prediction artifacts
+have been written.
+
+The calibration set supplies observed errors for:
+
+    required coolant mass
+    storage density
+    median delta_h error over the property grid
+    median Cp error over the property grid
+    saturation-temperature error
+
+## Local uncertainty scale
+
+For a target structure, V5b-2 selects the k most similar calibrated molecules
+(default k=5) and forms a similarity-weighted local absolute-error scale.
+
+For every calibration molecule, this scale is calculated leave-one-out. The
+ratio:
+
+    observed absolute relative error / local structural error scale
+
+is the nonconformity score.
+
+A finite-sample split-conformal order statistic at the configured target
+coverage (default 90%) becomes a multiplicative calibration factor.
+
+For a new in-domain candidate:
+
+    relative uncertainty
+      = conformal factor
+        * local structural error scale
+
+This gives candidate-specific uncertainty that grows when nearby known
+structures were difficult for the predictor.
+
+This is intentionally simpler than a learned graph model. V5b-2 first
+establishes whether empirical structural neighborhoods can support useful
+uncertainty calibration before adding a trainable model.
+
+## Run
+
+From experiments/entry-evaluator:
+
+    uv pip install -r requirements-v5b.txt
+    python -m unittest discover -s tests -v
+
+Then:
+
+    cd ../property-predictor-v5b
+
+    python run_calibration.py \
+      --workers 16 \
+      --output-dir property-v5b2-results
+
+Outputs include:
+
+    predictions_before_reference.json
+    property_comparison.csv
+    entry_comparison.csv
+    candidate_uncertainty.csv
+    uncertainty_model.json
+    summary.json
+    manifest.json
+
+The key summary fields are:
+
+    study_complete
+    entry_comparable_count
+    in_domain_evaluation_count
+
+    applicability_domain:
+      in_domain_count
+      edge_count
+      out_of_domain_count
+
+    uncertainty:
+      metric_calibrations
+      evaluation_in_domain_observed_coverage
+
+## V5b-2 acceptance gate
+
+The default run succeeds only if:
+
+- at least 12 candidates produce comparable entry results;
+- an entry-mass uncertainty calibration factor can be constructed;
+- at least 3 candidates remain in the independent evaluation split;
+- at least 2 evaluation candidates are structurally in-domain.
+
+study_complete does not mean 90% coverage has been scientifically established.
+The evaluation coverage is reported explicitly and must be inspected.
+
+The calibration set is still small and chemically nonuniform. V5b-2 therefore
+provides a screening uncertainty model, not a metrological guarantee.
+
+## What comes after V5b-2
+
+If the observed evaluation coverage is useful and the error bounds separate
+promising from non-promising candidates, the next step is V5c inverse search.
+
+If coverage is poor, V5b should be expanded first with either:
+
+- more reference liquids in sparse structural regions;
+- a learned residual model;
+- a better descriptor / distance metric;
+- chemistry-family-specific uncertainty calibration.
+
+A molecular generator should not be allowed to exploit regions marked
+out-of-domain.
