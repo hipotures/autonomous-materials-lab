@@ -224,3 +224,246 @@ V5c-1 answers a narrow question:
 If the answer is yes, the next stage should validate the top candidates against
 independent property data and add chemistry/system penalties before expanding
 the molecular search space.
+
+
+# V5c-2: property-targeted expansion of the solution space
+
+V5c-2 keeps the V5c-1 uncertainty and Water-ranking contracts but changes the
+search strategy in two ways:
+
+1. it expands the molecular templates into additional groups that are present
+   in the pinned Sauer/Rehner/Joback parameterization;
+2. it evaluates a cheap thermodynamic property grid before the full entry
+   trajectory.
+
+The objective is not to generate more molecules indiscriminately. The objective
+is to spend full trajectory evaluations only on structures with physically
+useful heat-uptake behavior.
+
+## Expanded molecular space
+
+V5c-2 includes the V5c-1 templates plus:
+
+    linear aldehydes
+    terminal alkynes
+    esters (formates / alkanoates with varied alkoxy partition)
+    branched primary alcohols
+    primary amines
+
+These directions come directly from the pinned group files:
+
+    CH=O
+    C=O
+    HCOO
+    COO
+    C#CH
+    OH
+    NH2
+
+Ring generation is restricted to 5- and 6-member saturated carbon rings because
+the pinned residual model contains dedicated CH/CH2 parameters for r5 and r6,
+not a generic arbitrary-ring parameterization.
+
+## Two search lanes
+
+V5c-2 explicitly separates:
+
+    rankable
+    exploratory_domain_expansion
+
+A candidate is rankable only when all of the following hold:
+
+    its elements are already represented in successful V5b calibration liquids
+    its chemical family is in the configured calibrated-family list
+    its structural applicability status is in_domain
+    its entry-error uncertainty has a finite conservative upper bound
+    it passes the property target gate
+
+With the current V5b calibration, the successful calibrated elements are C/O.
+The configured rankable families are:
+
+    alkanes
+    alkenes
+    aromatics
+    cyclic_hydrocarbons
+    oxygenated
+
+The newly introduced families:
+
+    aldehydes
+    alkynes
+    esters
+    amines
+
+are exploratory by default.
+
+This is deliberate. A new functional family does not become statistically
+rankable merely because a Morgan fingerprint is close to an existing molecule.
+
+Primary amines are an even stronger expansion case: NH2 exists in the pinned
+GC-PC-SAFT/Joback model, but nitrogen is not represented by a successful V5b
+reference liquid. Their predictions are therefore diagnostic only.
+
+## Thermodynamic pre-screen
+
+Every model-representable room-temperature liquid is evaluated on:
+
+    T = [350, 400, 450, 500] K
+
+and:
+
+    P = [0.025, 0.101325, 0.3, 1, 3, 10] MPa
+
+relative to the common storage state:
+
+    293.15 K
+    101325 Pa
+
+For each grid point:
+
+    delta_h(T,P)
+      = h(T,P) - h(storage)
+
+V5c-2 reports:
+
+    positive-delta-h fraction
+    minimum delta_h
+    q25 delta_h
+    median delta_h
+    maximum delta_h
+    median Cp
+    storage density
+    normal boiling temperature
+    latent-enthalpy proxy around the boiling point
+
+The same property grid is calculated for Water with CoolProp.
+
+The primary pre-entry priority metric is:
+
+    candidate q25(delta_h) / Water q25(delta_h)
+
+The lower quartile is used instead of a single favorable state so that a
+candidate with weak heat uptake over a material fraction of the T/P envelope is
+penalized before trajectory evaluation.
+
+The default hard property gate requires:
+
+    >= 90% of requested grid states with positive cross-pressure delta_h
+    q25/median enthalpy merit >= 0.25 of Water
+
+This threshold is intentionally permissive. It removes clearly uncompetitive
+or pathological structures without assuming the cheap property metric is an
+entry-mass surrogate accurate enough to replace the trajectory.
+
+## Avoiding repeated V5c-1 work
+
+If this artifact exists:
+
+    search-v5c1-results/generated_candidates.json
+
+V5c-2 automatically removes every canonical structure already generated in
+V5c-1.
+
+The file is optional. A clean checkout without prior local search results still
+runs correctly, but may revisit part of the V5c-1 space.
+
+## Full-entry budget
+
+After the property pre-screen, V5c-2 sends only the best candidates to the full
+entry evaluator:
+
+    up to 60 rankable candidates
+    up to 12 exploratory candidates
+
+Both limits are configurable.
+
+Rankable candidates retain the V5c-1 conservative score:
+
+    reference upper bound
+      = predicted / (1 - u)
+
+for effective u < 1.
+
+Exploratory candidates receive a nominal predicted entry mass only. They never
+increment conservative_water_winner_count and never receive a conservative
+rank.
+
+## What an exploratory result means
+
+An exploratory candidate below Water is not a discovery claim.
+
+It means:
+
+> this functional family is sufficiently promising under the current
+> structure-derived property model that adding independent reference compounds
+> for that family should be considered.
+
+The output includes exploratory_family_summary with, for every exploratory
+family:
+
+    prescreen pass count
+    best property-priority score
+    number sent to entry
+    best nominal coolant mass
+    best nominal ratio to Water
+
+This directly identifies which chemistry should be added to the next V5b
+calibration expansion.
+
+## Run
+
+After updating main:
+
+    cd experiments/entry-evaluator
+    source .venv/bin/activate
+    python -m unittest discover -s tests -v
+
+Then:
+
+    cd ../molecular-search-v5c
+
+    python run_search_v5c2.py \
+      --workers 16 \
+      --output-dir search-v5c2-results
+
+Default inputs reuse:
+
+    ../property-predictor-v5b/property-v5b2-results/summary.json
+    ../property-predictor-v5b/property-v5b21-results/summary.json
+
+and, when present:
+
+    search-v5c1-results/generated_candidates.json
+
+## V5c-2 outputs
+
+    search-v5c2-results/
+      generated_candidates.json
+      water_property_reference.json
+      water_reference.json
+      prescreen_results.json
+      prescreen.csv
+      ranking.csv
+      exploratory.csv
+      rejections.csv
+      production_uncertainty_model.json
+      summary.json
+      manifest.json
+
+The main stdout fields are:
+
+    water_reference_kg
+    generation
+    prescreen
+    rejection_counts
+    ranked_candidate_count
+    conservative_water_winner_count
+    exploratory_evaluated_count
+    exploratory_predicted_below_water_count
+    exploratory_family_summary
+    best_rankable_candidate
+    best_exploratory_candidate
+
+A conservative rankable Water winner remains the strongest screening result.
+A strong exploratory result instead tells us where the validation domain should
+be expanded next.
