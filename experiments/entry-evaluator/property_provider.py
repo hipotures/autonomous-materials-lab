@@ -192,22 +192,44 @@ def build_property_provider(coolant_config: dict[str, Any]) -> PropertyProvider:
         if not fluid:
             raise ValueError("coolant requires coolprop_name or property_provider")
         return CoolPropPureProvider(components=[str(fluid)], fractions=[1.0])
+
+    kind = str(provider.get("type", "coolprop")).lower()
+    if kind == "feos":
+        model = str(provider.get("model", "gc_pcsaft_joback")).lower()
+        if model != "gc_pcsaft_joback":
+            raise ValueError("only gc_pcsaft_joback is implemented for FeOS")
+        smiles = provider.get("smiles")
+        if not smiles:
+            raise ValueError("FeOS property provider requires SMILES")
+        # Keep FeOS/RDKit optional for V1-V5a environments.
+        from feos_gc_provider import FeosGcPcSaftProvider
+        return FeosGcPcSaftProvider(
+            smiles=str(smiles),
+            name=provider.get("name"),
+        )
+
     components, fractions = _validate_components(
         list(provider.get("components", [])), list(provider.get("fractions", [])))
     basis = str(provider.get("composition_basis", "mole")).lower()
-    kind = str(provider.get("type", "coolprop")).lower()
     if kind not in {"coolprop", "thermo"}:
         raise ValueError(f"unsupported property_provider.type: {kind}")
     if kind == "thermo" and provider.get("model", "NRTL") != "NRTL":
         raise ValueError("only NRTL is implemented for thermo mixtures")
     if len(components) == 1 or kind == "coolprop":
-        return CoolPropPureProvider(components=components, fractions=fractions,
-                                   composition_basis=basis, backend=provider.get("backend", "HEOS"))
+        return CoolPropPureProvider(
+            components=components,
+            fractions=fractions,
+            composition_basis=basis,
+            backend=provider.get("backend", "HEOS"),
+        )
     # Keep the pure-fluid runtime independent of optional thermo dependencies.
     from thermo_provider import ThermoMixtureProvider
-    return ThermoMixtureProvider(components=components, fractions=fractions,
-                                composition_basis=basis,
-                                parameter_set=provider.get("parameter_set", "ddbst_p05_01b"))
+    return ThermoMixtureProvider(
+        components=components,
+        fractions=fractions,
+        composition_basis=basis,
+        parameter_set=provider.get("parameter_set", "ddbst_p05_01b"),
+    )
 
 
 def state_to_dict(state: ThermoState) -> dict[str, Any]:
