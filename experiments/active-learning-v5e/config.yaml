@@ -1,0 +1,44 @@
+version: v5e-1
+name: active-learning-calibration-expansion
+
+acquisition:
+  target_count: 50
+  minimum_per_family: 4
+  maximum_family_fraction: 0.30
+
+  # Static terms are combined first. selected_diversity is added dynamically
+  # during greedy selection.
+  weights:
+    property_merit: 0.38
+    calibration_novelty: 0.32
+    entry_merit: 0.10
+    selected_diversity: 0.20
+
+  novelty_bands:
+    near_domain_min_similarity: 0.45
+    bridge_min_similarity: 0.25
+
+  # Only candidates that survived the full V5d thermodynamic prescreen are
+  # considered. Rankable candidates are excluded by default because V5e is
+  # intended to expand the empirical calibration domain.
+  require_exploratory_lane: true
+  minimum_property_priority_score: 0.20
+
+uncertainty:
+  in_domain_similarity: 0.45
+  edge_similarity: 0.25
+
+reference_resolution:
+  # V5e-1 selects calibration targets but does not silently claim that a
+  # trusted reference property source exists. Resolution is explicit.
+  default_status: unresolved
+  preferred_sources:
+    - CoolProp
+    - NIST
+    - peer_reviewed_EOS
+  require_independent_reference_before_v5b_ingest: true
+
+inputs:
+  v5d_full_prescreen: ../molecular-search-v5d/search-v5d1-results/full_prescreen_results.json
+  v5d_entry_results: ../molecular-search-v5d/search-v5d1-results/entry_results.json
+  v5b_summary: ../property-predictor-v5b/property-v5b2-results/summary.json
