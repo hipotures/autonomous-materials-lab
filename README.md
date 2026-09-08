@@ -183,6 +183,7 @@ Start here:
 - [Reactive fluid + air equilibrium check](experiments/reactive-fluid-air/README.md)
 - [Hydrogen / air ignition-delay sweep](experiments/hydrogen-ignition-delay/README.md)
 - [Low-fidelity end-to-end Earth entry evaluator](experiments/entry-evaluator/README.md)
+- [Structure-derived property predictor V5b](experiments/property-predictor-v5b/README.md)
 
 The first experiments isolate thermodynamics and chemical kinetics. The entry evaluator is the first system-level calculation: it propagates a configurable Earth-entry trajectory, evaluates atmosphere, stagnation-point convective and radiative heating, wall thermal response, coolant enthalpy and required coolant mass flow. Independent cases can be distributed across CPU processes. It remains intentionally below CFD / DSMC fidelity and does not yet model detailed boundary-layer blowing, porous flow or nozzle geometry.
 
@@ -190,4 +191,4 @@ The first experiments isolate thermodynamics and chemical kinetics. The entry ev
 
 **Phase 1 — reduced-order end-to-end entry evaluator and working-fluid comparison.**
 
-The repository now contains local property / chemistry screens and a trajectory-level evaluator. The staged entry work includes [V1 numerical verification](experiments/entry-evaluator/V1.md), [V2 physical-sensitivity screening](experiments/entry-evaluator/V2.md), [V3 cross-model Earth aeroheating comparison](experiments/entry-evaluator/V3.md), [V4 ignition-delay constrained hydrogen cooling](experiments/entry-evaluator/V4.md), and [V5a known binary liquid-mixture modeling](experiments/entry-evaluator/V5a.md). V5a is the first stage that varies liquid composition through a common property-provider interface rather than only comparing a fixed list of pure fluids. None of these reduced-order stages establishes flight-level physical validity.
+The repository now contains local property / chemistry screens, a trajectory-level evaluator, and a structure-derived property-prediction track. The staged entry work includes [V1 numerical verification](experiments/entry-evaluator/V1.md), [V2 physical-sensitivity screening](experiments/entry-evaluator/V2.md), [V3 cross-model Earth aeroheating comparison](experiments/entry-evaluator/V3.md), [V4 ignition-delay constrained hydrogen cooling](experiments/entry-evaluator/V4.md), and [V5a known binary liquid-mixture modeling](experiments/entry-evaluator/V5a.md). V5b adds SMILES -> GC-PC-SAFT/Joback -> PropertyProvider -> entry evaluator; V5b-2 adds a broad blind holdout, structural applicability-domain classification, and calibrated screening uncertainty. None of these reduced-order stages establishes flight-level physical validity.
