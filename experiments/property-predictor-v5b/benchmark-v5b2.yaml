@@ -1,0 +1,72 @@
+version: v5b-2
+name: structure-applicability-uncertainty
+
+model:
+  type: feos
+  model: gc_pcsaft_joback
+  residual: Rehner2023 heterosegmented GC-PC-SAFT
+  ideal_gas: Joback1987
+  smarts: Sauer2014
+
+entry:
+  heating_backend: brandis_johnston_2014
+  wall_to_fluid_approach_k: 25.0
+  cooled_area_m2: 12.0
+
+validation:
+  temperatures_k: [293.15, 350.0, 400.0, 450.0, 500.0]
+  pressures_pa: [25000.0, 101325.0, 300000.0]
+  saturation_pressures_pa: [101325.0]
+
+uncertainty:
+  split_seed: v5b2-20260908
+  calibration_fraction: 0.70
+  coverage_target: 0.90
+  k_neighbors: 5
+  similarity_floor: 0.05
+  in_domain_similarity: 0.45
+  edge_similarity: 0.25
+  minimum_neighbors: 2
+  minimum_comparable_candidates: 12
+
+# Reference identities are not passed into the predictor. They are read only
+# after predictions_before_reference.json has been written.
+#
+# expected_model_support=false entries are deliberate domain probes. Failure
+# to decompose them is evidence for the applicability-domain boundary and is
+# not counted as an unexpected predictor failure.
+holdouts:
+  - {id: ethanol, smiles: CCO, reference_coolprop_name: Ethanol, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: acetone, smiles: "CC(=O)C", reference_coolprop_name: Acetone, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: n-pentane, smiles: CCCCC, reference_coolprop_name: n-Pentane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: n-hexane, smiles: CCCCCC, reference_coolprop_name: n-Hexane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: n-heptane, smiles: CCCCCCC, reference_coolprop_name: n-Heptane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: n-octane, smiles: CCCCCCCC, reference_coolprop_name: n-Octane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: isopentane, smiles: "CC(C)CC", reference_coolprop_name: Isopentane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: isohexane, smiles: "CC(C)CCC", reference_coolprop_name: Isohexane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: benzene, smiles: "c1ccccc1", reference_coolprop_name: Benzene, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: toluene, smiles: "Cc1ccccc1", reference_coolprop_name: Toluene, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: ethylbenzene, smiles: "CCc1ccccc1", reference_coolprop_name: EthylBenzene, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: m-xylene, smiles: "Cc1cccc(C)c1", reference_coolprop_name: m-Xylene, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: o-xylene, smiles: "Cc1ccccc1C", reference_coolprop_name: o-Xylene, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: p-xylene, smiles: "Cc1ccc(C)cc1", reference_coolprop_name: p-Xylene, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: cyclohexane, smiles: "C1CCCCC1", reference_coolprop_name: CycloHexane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: cyclopentane, smiles: "C1CCCC1", reference_coolprop_name: Cyclopentane, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: diethyl-ether, smiles: CCOCC, reference_coolprop_name: DiethylEther, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+
+  # Pressurized liquids broaden the structural calibration set.
+  - {id: propane, smiles: CCC, reference_coolprop_name: n-Propane, storage_temperature_k: 293.15, storage_pressure_pa: 2000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: n-butane, smiles: CCCC, reference_coolprop_name: n-Butane, storage_temperature_k: 293.15, storage_pressure_pa: 1000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: isobutane, smiles: "CC(C)C", reference_coolprop_name: IsoButane, storage_temperature_k: 293.15, storage_pressure_pa: 1000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: propylene, smiles: "CC=C", reference_coolprop_name: Propylene, storage_temperature_k: 293.15, storage_pressure_pa: 2000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: 1-butene, smiles: "CCC=C", reference_coolprop_name: 1-Butene, storage_temperature_k: 293.15, storage_pressure_pa: 1000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: cis-2-butene, smiles: "C/C=C\\C", reference_coolprop_name: cis-2-Butene, storage_temperature_k: 293.15, storage_pressure_pa: 1000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: trans-2-butene, smiles: "C/C=C/C", reference_coolprop_name: trans-2-Butene, storage_temperature_k: 293.15, storage_pressure_pa: 1000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+  - {id: isobutene, smiles: "CC(=C)C", reference_coolprop_name: IsoButene, storage_temperature_k: 293.15, storage_pressure_pa: 1000000.0, max_exit_temperature_k: 500.0, expected_model_support: true}
+
+  # Deliberate model-domain probes: these structures are not decomposable by
+  # the pinned Sauer/Rehner/Joback group set used in V5b-1/2.
+  - {id: methanol-domain-probe, smiles: CO, reference_coolprop_name: Methanol, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: false}
+  - {id: water-domain-probe, smiles: O, reference_coolprop_name: Water, storage_temperature_k: 293.15, storage_pressure_pa: 101325.0, max_exit_temperature_k: 500.0, expected_model_support: false}
+  - {id: ammonia-domain-probe, smiles: N, reference_coolprop_name: Ammonia, storage_temperature_k: 293.15, storage_pressure_pa: 1200000.0, max_exit_temperature_k: 500.0, expected_model_support: false}
+  - {id: cyclopropane-domain-probe, smiles: "C1CC1", reference_coolprop_name: CycloPropane, storage_temperature_k: 293.15, storage_pressure_pa: 2000000.0, max_exit_temperature_k: 500.0, expected_model_support: false}
