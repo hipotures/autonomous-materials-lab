@@ -1,0 +1,96 @@
+version: v5d-1
+name: high-throughput-evolutionary-molecular-search
+
+search:
+  workers: 16
+  require_v5c_ready: true
+  conservative_score_multiplier: 1.0
+  random_seed: v5d1-20260909
+
+high_throughput:
+  generations: 6
+  children_per_parent: 24
+  initial_parent_limit: 1200
+  beam_width: 1800
+  generation_unique_target: 22000
+  total_unique_target: 120000
+  coarse_eos_budget_per_generation: 9000
+  full_prescreen_budget: 3500
+  entry_rankable_budget: 300
+  entry_exploratory_budget: 60
+  diversity_fraction: 0.35
+
+mutation:
+  allowed_atomic_numbers: [6, 7, 8]
+  operators:
+    - add_terminal
+    - delete_terminal
+    - change_atom
+    - change_bond
+    - insert_atom
+    - close_ring_5_6
+    - remove_ring_bond
+
+domain_expansion:
+  rankable_families:
+    - alkanes
+    - alkenes
+    - aromatics
+    - cyclic_hydrocarbons
+    - oxygenated
+  exploratory_families:
+    - aldehydes
+    - alkynes
+    - esters
+    - amines
+    - mixed_functional
+
+candidate_constraints:
+  allowed_atomic_numbers: [6, 7, 8]
+  require_neutral: true
+  min_molecular_weight_g_mol: 30.0
+  max_molecular_weight_g_mol: 220.0
+  min_heavy_atoms: 2
+  max_heavy_atoms: 14
+  max_rings: 1
+
+storage:
+  temperature_k: 293.15
+  pressure_pa: 101325.0
+  require_liquid: true
+  require_saturation_at_storage_pressure: true
+
+cooling:
+  max_exit_temperature_k: 500.0
+  wall_to_fluid_approach_k: 25.0
+  cooled_area_m2: 12.0
+
+entry:
+  heating_backend: brandis_johnston_2014
+
+uncertainty:
+  coverage_target: 0.90
+  k_neighbors: 5
+  similarity_floor: 0.05
+  in_domain_similarity: 0.45
+  edge_similarity: 0.25
+  minimum_neighbors: 2
+
+coarse_prescreen:
+  temperature_grid_k: [400.0, 500.0]
+  pressure_grid_pa: [101325.0, 1000000.0, 10000000.0]
+  latent_proxy_offset_k: 2.0
+  minimum_positive_delta_h_fraction: 0.66
+  minimum_enthalpy_ratio_vs_water: 0.15
+
+prescreen:
+  temperature_grid_k: [350.0, 400.0, 450.0, 500.0]
+  pressure_grid_pa: [25000.0, 101325.0, 300000.0, 1000000.0, 3000000.0, 10000000.0]
+  latent_proxy_offset_k: 2.0
+  minimum_positive_delta_h_fraction: 0.90
+  minimum_enthalpy_ratio_vs_water: 0.25
+
+seed_sources:
+  include_v5b_calibration: true
+  include_v5c2_prescreen: true
+  v5c2_prescreen_seed_limit: 600
