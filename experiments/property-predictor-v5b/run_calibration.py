@@ -26,6 +26,7 @@ from run_holdout import (
     _reference_candidate,
     _sha256,
     _write_csv,
+    write_summary,
     ENTRY,
 )
 
@@ -124,6 +125,7 @@ def _metric_records(
                     [row.get("cp_relative_error") for row in rows]
                 ),
                 "saturation_error": _median_abs(saturation_errors),
+                "entry_comparable": bool(comparison.get("entry_comparable")),
                 "predicted_coolant_kg": comparison.get("predicted_coolant_kg"),
                 "reference_coolant_kg": comparison.get("reference_coolant_kg"),
                 "predicted_storage_density_kg_m3": comparison.get(
@@ -292,11 +294,10 @@ def main() -> int:
         "failures": prediction_failures,
         "domain_probe_results": domain_probe_results,
     }
-    with (args.output_dir / "predictions_before_reference.json").open(
-        "w",
-        encoding="utf-8",
-    ) as handle:
-        json.dump(prediction_artifact, handle, indent=2, allow_nan=False)
+    write_summary(
+        args.output_dir / "predictions_before_reference.json",
+        prediction_artifact,
+    )
 
     candidate_by_id = {
         str(candidate["id"]): candidate
@@ -352,8 +353,21 @@ def main() -> int:
     )
 
     metric_records = _metric_records(comparisons, property_rows)
+    for record in metric_records:
+        candidate = candidate_by_id[str(record["candidate_id"])]
+        record["expected_model_support"] = bool(
+            candidate.get("expected_model_support", True)
+        )
+
+    eligible_metric_records = [
+        row
+        for row in metric_records
+        if row["entry_comparable"]
+        and row["expected_model_support"]
+    ]
+
     calibration_ids, evaluation_ids = deterministic_split(
-        [row["candidate_id"] for row in metric_records],
+        [row["candidate_id"] for row in eligible_metric_records],
         calibration_fraction=float(
             uncertainty_cfg["calibration_fraction"]
         ),
@@ -363,7 +377,7 @@ def main() -> int:
     evaluation_id_set = set(evaluation_ids)
     calibration_records = [
         row
-        for row in metric_records
+        for row in eligible_metric_records
         if row["candidate_id"] in calibration_id_set
     ]
 
@@ -386,7 +400,7 @@ def main() -> int:
     }
 
     candidate_uncertainty: list[dict[str, Any]] = []
-    for record in metric_records:
+    for record in eligible_metric_records:
         candidate_id = str(record["candidate_id"])
         exclude_id = (
             candidate_id
@@ -462,7 +476,7 @@ def main() -> int:
         for row in prediction_failures
         if row["expected_model_support"]
     ]
-    comparable_count = len(metric_records)
+    comparable_count = len(eligible_metric_records)
     minimum_comparable = int(
         uncertainty_cfg["minimum_comparable_candidates"]
     )
@@ -509,11 +523,10 @@ def main() -> int:
             ),
         },
     }
-    with (args.output_dir / "uncertainty_model.json").open(
-        "w",
-        encoding="utf-8",
-    ) as handle:
-        json.dump(calibration_model, handle, indent=2, allow_nan=False)
+    write_summary(
+        args.output_dir / "uncertainty_model.json",
+        calibration_model,
+    )
 
     uncertainty_rows_flat = []
     for row in candidate_uncertainty:
@@ -604,11 +617,10 @@ def main() -> int:
         "unexpected_prediction_failures": unexpected_prediction_failures,
         "reference_failures": reference_failures,
     }
-    with (args.output_dir / "summary.json").open(
-        "w",
-        encoding="utf-8",
-    ) as handle:
-        json.dump(report, handle, indent=2, allow_nan=False)
+    write_summary(
+        args.output_dir / "summary.json",
+        report,
+    )
 
     manifest = {
         "study_version": "v5b-2",
@@ -627,11 +639,10 @@ def main() -> int:
             "Transport, decomposition chemistry, mixtures and system mass remain outside V5b-2.",
         ],
     }
-    with (args.output_dir / "manifest.json").open(
-        "w",
-        encoding="utf-8",
-    ) as handle:
-        json.dump(manifest, handle, indent=2, allow_nan=False)
+    write_summary(
+        args.output_dir / "manifest.json",
+        manifest,
+    )
 
     print(json.dumps(
         {
