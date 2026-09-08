@@ -13,6 +13,7 @@ sys.path.insert(0, str(V5B))
 
 HAS_RDKIT = importlib.util.find_spec("rdkit") is not None
 
+from failure_taxonomy import SUCCESS, expected_prediction_outcome  # noqa: E402
 from applicability import (  # noqa: E402
     assess_domain,
     calibrate_metric,
@@ -66,12 +67,12 @@ class V5b2CalibrationMathTests(unittest.TestCase):
         supported = [
             row
             for row in holdouts
-            if row.get("expected_model_support", True)
+            if expected_prediction_outcome(row) == SUCCESS
         ]
         probes = [
             row
             for row in holdouts
-            if not row.get("expected_model_support", True)
+            if expected_prediction_outcome(row) != SUCCESS
         ]
         self.assertGreaterEqual(len(supported), 15)
         self.assertGreaterEqual(len(probes), 3)
@@ -120,7 +121,7 @@ class V5b2ApplicabilityTests(unittest.TestCase):
         self.assertTrue(domain.uncertainty_valid)
         self.assertGreaterEqual(domain.neighbor_count, 2)
 
-    def test_unrelated_structure_is_not_certified(self):
+    def test_unrelated_structure_has_no_supported_uncertainty(self):
         domain = assess_domain(
             "N",
             self.records,

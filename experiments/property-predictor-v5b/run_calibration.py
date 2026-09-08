@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V5b-2: broad blind holdout, applicability domain and calibrated uncertainty."""
+"""V5b-2.1: blind holdout with failure taxonomy and screening uncertainty."""
 from __future__ import annotations
 
 import argparse
@@ -19,6 +19,12 @@ from applicability import (
     deterministic_split,
     domain_to_dict,
     predict_relative_uncertainty,
+)
+from failure_taxonomy import (
+    SUCCESS,
+    classify_prediction,
+    expected_prediction_outcome,
+    prediction_outcome_matches,
 )
 from run_holdout import (
     _compare_candidate,
@@ -242,11 +248,29 @@ def main() -> int:
 
     predictions: dict[str, dict[str, Any]] = {}
     prediction_failures: list[dict[str, Any]] = []
+    prediction_outcomes: list[dict[str, Any]] = []
     domain_probe_results: list[dict[str, Any]] = []
     for row in prediction_results:
         candidate = row["candidate"]
         candidate_id = str(candidate["id"])
-        expected_support = bool(candidate.get("expected_model_support", True))
+        expected_outcome = expected_prediction_outcome(candidate)
+        observed_outcome = classify_prediction(
+            result=row["result"],
+            failure_reason=row["failure_reason"],
+        )
+        outcome_matches = prediction_outcome_matches(
+            candidate,
+            observed_outcome,
+        )
+        prediction_outcomes.append(
+            {
+                "candidate_id": candidate_id,
+                "expected_prediction_outcome": expected_outcome,
+                "observed_prediction_outcome": observed_outcome,
+                "outcome_matches_expectation": outcome_matches,
+                "failure_reason": row["failure_reason"],
+            }
+        )
         if row["result"] is not None:
             predictions[candidate_id] = row["result"]
             print(
@@ -255,12 +279,13 @@ def main() -> int:
                 f"coolant={row['result']['entry'].get('coolant_used_kg')}",
                 flush=True,
             )
-            if not expected_support:
+            if expected_outcome != SUCCESS:
                 domain_probe_results.append(
                     {
                         "candidate_id": candidate_id,
-                        "expected_model_support": False,
-                        "observed_model_support": True,
+                        "expected_prediction_outcome": expected_outcome,
+                        "observed_prediction_outcome": observed_outcome,
+                        "outcome_matches_expectation": outcome_matches,
                         "failure_reason": None,
                     }
                 )
@@ -268,7 +293,9 @@ def main() -> int:
             failure = {
                 "candidate_id": candidate_id,
                 "smiles": candidate["smiles"],
-                "expected_model_support": expected_support,
+                "expected_prediction_outcome": expected_outcome,
+                "observed_prediction_outcome": observed_outcome,
+                "outcome_matches_expectation": outcome_matches,
                 "failure_reason": row["failure_reason"],
             }
             prediction_failures.append(failure)
@@ -276,22 +303,24 @@ def main() -> int:
                 f"prediction failed {candidate_id}: {row['failure_reason']}",
                 flush=True,
             )
-            if not expected_support:
+            if expected_outcome != SUCCESS:
                 domain_probe_results.append(
                     {
                         "candidate_id": candidate_id,
-                        "expected_model_support": False,
-                        "observed_model_support": False,
+                        "expected_prediction_outcome": expected_outcome,
+                        "observed_prediction_outcome": observed_outcome,
+                        "outcome_matches_expectation": outcome_matches,
                         "failure_reason": row["failure_reason"],
                     }
                 )
 
     # Blind protocol boundary: reference backend has not been opened yet.
     prediction_artifact = {
-        "study_version": "v5b-2",
+        "study_version": "v5b-2.1",
         "reference_properties_used_during_prediction": False,
         "predictions": list(predictions.values()),
         "failures": prediction_failures,
+        "prediction_outcomes": prediction_outcomes,
         "domain_probe_results": domain_probe_results,
     }
     write_summary(
@@ -355,15 +384,15 @@ def main() -> int:
     metric_records = _metric_records(comparisons, property_rows)
     for record in metric_records:
         candidate = candidate_by_id[str(record["candidate_id"])]
-        record["expected_model_support"] = bool(
-            candidate.get("expected_model_support", True)
+        record["expected_prediction_outcome"] = (
+            expected_prediction_outcome(candidate)
         )
 
     eligible_metric_records = [
         row
         for row in metric_records
         if row["entry_comparable"]
-        and row["expected_model_support"]
+        and row["expected_prediction_outcome"] == SUCCESS
     ]
 
     calibration_ids, evaluation_ids = deterministic_split(
@@ -443,9 +472,9 @@ def main() -> int:
                 exclude_id=exclude_id,
             )
             # A numerical bound outside the calibrated domain is retained as a
-            # diagnostic, but is explicitly not certified.
+            # diagnostic, but is explicitly not screening-supported.
             row[f"{key}_relative_uncertainty"] = uncertainty
-            row[f"{key}_uncertainty_certified"] = bool(
+            row[f"{key}_uncertainty_supported"] = bool(
                 domain.uncertainty_valid
                 and domain.status == "in_domain"
                 and uncertainty is not None
@@ -471,10 +500,22 @@ def main() -> int:
         for key in metric_keys
     }
 
+    prediction_outcome_counts: dict[str, int] = {}
+    for outcome in prediction_outcomes:
+        key = str(outcome["observed_prediction_outcome"])
+        prediction_outcome_counts[key] = (
+            prediction_outcome_counts.get(key, 0) + 1
+        )
+
     unexpected_prediction_failures = [
         row
         for row in prediction_failures
-        if row["expected_model_support"]
+        if not row["outcome_matches_expectation"]
+    ]
+    unexpected_prediction_outcomes = [
+        row
+        for row in prediction_outcomes
+        if not row["outcome_matches_expectation"]
     ]
     comparable_count = len(eligible_metric_records)
     minimum_comparable = int(
@@ -498,10 +539,12 @@ def main() -> int:
         and len(evaluation_ids) >= 3
         and in_domain_evaluation_count >= minimum_in_domain_evaluation
         and entry_calibration_ready
+        and len(unexpected_prediction_failures) == 0
+        and len(unexpected_prediction_outcomes) == 0
     )
 
     calibration_model = {
-        "study_version": "v5b-2",
+        "study_version": "v5b-2.1",
         "method": (
             "Morgan radius-2 2048-bit Tanimoto neighborhood + "
             "split-conformal factor on local leave-one-out error scale"
@@ -513,7 +556,8 @@ def main() -> int:
         "metric_calibrations": metric_calibrations,
         "usage_contract": {
             "in_domain": (
-                "relative uncertainty may be used as calibrated screening bound"
+                "relative uncertainty is supported for screening use within "
+                "the current empirical calibration"
             ),
             "edge": (
                 "bound is diagnostic only; escalate validation before ranking"
@@ -571,8 +615,12 @@ def main() -> int:
         "candidate_count": len(candidates),
         "prediction_success_count": len(predictions),
         "prediction_failure_count": len(prediction_failures),
+        "prediction_outcome_counts": prediction_outcome_counts,
         "unexpected_prediction_failure_count": len(
             unexpected_prediction_failures
+        ),
+        "unexpected_prediction_outcome_count": len(
+            unexpected_prediction_outcomes
         ),
         "reference_failure_count": len(reference_failures),
         "entry_comparable_count": comparable_count,
@@ -610,11 +658,12 @@ def main() -> int:
             "evaluation_in_domain_observed_coverage": coverage,
             "status": (
                 "split-conformal factor calibrated on local structural "
-                "error scale; certified only for in-domain candidates"
+                "error scale; screening-supported only for in-domain candidates"
             ),
         },
         "candidates": candidate_uncertainty,
         "unexpected_prediction_failures": unexpected_prediction_failures,
+        "unexpected_prediction_outcomes": unexpected_prediction_outcomes,
         "reference_failures": reference_failures,
     }
     write_summary(
@@ -623,7 +672,7 @@ def main() -> int:
     )
 
     manifest = {
-        "study_version": "v5b-2",
+        "study_version": "v5b-2.1",
         "study_sha256": _sha256(args.study),
         "v5b1_prediction_contract_preserved": True,
         "reference_properties_used_during_prediction": False,
@@ -652,7 +701,11 @@ def main() -> int:
             "unexpected_prediction_failure_count": report[
                 "unexpected_prediction_failure_count"
             ],
+            "unexpected_prediction_outcome_count": len(
+                unexpected_prediction_outcomes
+            ),
             "entry_comparable_count": report["entry_comparable_count"],
+            "prediction_outcome_counts": prediction_outcome_counts,
             "applicability_domain": report["applicability_domain"],
             "evaluation_in_domain_observed_coverage": coverage,
         },

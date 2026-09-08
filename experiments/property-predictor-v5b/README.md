@@ -175,7 +175,7 @@ calibration split. The default screening thresholds are:
                nearest similarity < 0.25
                or the GC parameterization cannot represent the structure
 
-Only in-domain candidates receive a certified screening uncertainty flag.
+Only in-domain candidates receive a screening-supported uncertainty flag.
 Numerical uncertainty values for edge/out-of-domain cases are diagnostics only.
 
 ## Calibration split
@@ -293,3 +293,105 @@ If coverage is poor, V5b should be expanded first with either:
 
 A molecular generator should not be allowed to exploit regions marked
 out-of-domain.
+
+
+# V5b-2.1: robustness before inverse search
+
+V5b-2.1 strengthens the V5b-2 uncertainty result without rerunning the expensive
+property and trajectory calculations.
+
+It adds three checks:
+
+    failure taxonomy
+    32 deterministic calibration/evaluation splits
+    leave-one-family-out structural challenges
+
+## Failure taxonomy
+
+Prediction outcomes are classified separately as:
+
+    success
+    structure_out_of_domain
+    storage_state_infeasible
+    property_model_failure
+    entry_evaluator_failure
+    prediction_pipeline_failure
+
+This distinction matters for probes such as methanol. A structure can be
+representable by GC-PC-SAFT while still violating the configured liquid-storage
+contract. That is an application-state failure, not structural OOD.
+
+The benchmark now declares an expected prediction outcome for every deliberate
+probe. A mismatch blocks study_complete.
+
+## Repeated split robustness
+
+The original V5b-2 split is only one deterministic 70/30 partition. V5b-2.1
+recomputes the domain and uncertainty model over 32 deterministic seeds using
+the same revealed holdout errors.
+
+For every metric it reports:
+
+    per-split coverage min / median / max
+    pooled eligible count
+    pooled covered count
+    pooled coverage
+    distribution of in-domain evaluation counts
+    valid split fraction
+
+This is a split-sensitivity test, not 32 new independent experiments. The same
+finite holdout population is reused.
+
+## Family challenge
+
+The benchmark assigns successful holdouts to broad challenge families:
+
+    alkanes
+    alkenes
+    aromatics
+    cyclic_hydrocarbons
+    oxygenated
+
+Each family is removed entirely from calibration and evaluated against the
+remaining families.
+
+If the applicability-domain model marks a held-out family as edge or
+out-of-domain, that is acceptable behavior. If it marks members in-domain, the
+reported uncertainty is checked against their observed entry error.
+
+## V5c readiness
+
+V5b-2.1 reports v5c_ready separately from study_complete.
+
+Default readiness gates require:
+
+    >= 75% repeated splits with enough in-domain evaluation cases
+    pooled entry-error coverage >= 80%
+    median per-split entry coverage >= 80%
+    family challenges with >=2 in-domain cases to meet the same entry coverage
+    zero failure-taxonomy mismatches
+
+These thresholds are screening gates, not proof of 90% statistical coverage.
+
+## Run without recomputing trajectories
+
+If property-v5b2-results already exists:
+
+    python run_robustness.py \
+      --input-dir property-v5b2-results \
+      --output-dir property-v5b21-results
+
+This reads the already revealed V5b-2 errors and produces:
+
+    property-v5b21-results/
+      summary.json
+      repeated_splits.json
+      family_challenge.json
+
+To regenerate the blind benchmark with the new failure taxonomy first, run:
+
+    python run_calibration.py \
+      --workers 16 \
+      --output-dir property-v5b2-results-new
+
+then point run_robustness.py at that directory.
