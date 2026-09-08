@@ -3,20 +3,17 @@
 # Component A mole fraction is swept from 0 to 1. Endpoints are collapsed to
 # true pure-fluid CoolProp states before evaluation.
 #
-# Water/Ethanol is the first pair because CoolProp documents this binary pair
-# with the HEOS low-level mixture interface. This is a property-pipeline
-# benchmark, not a claim that ethanol is a promising TPS coolant.
-
+# NRTL example-based benchmark. Caloric validation remains a separate gate.
 name: water-ethanol
 components:
   - Water
   - Ethanol
 composition_basis: mole
 
-# CoolProp 8 mixture PT stability solver:
-# 1 = Michelsen (default/recommended)
-# 0 = legacy Gernert. V5a can run both explicitly for solver sensitivity.
-stability_algorithm: 1
+property_provider:
+  type: thermo
+  model: NRTL
+  parameter_set: ddbst_p05_01b
 
 fraction_component_a:
   - 0.0
@@ -52,6 +49,7 @@ validation:
     - 450.0
     - 500.0
   pressures_pa:
+    - 25000.0
     - 101325.0
     - 500000.0
     - 2000000.0

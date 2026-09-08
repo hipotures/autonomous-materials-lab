@@ -1,10 +1,6 @@
-# V5a mixture-property environment.
-#
-# V1-V4 remain reproducible against requirements.txt / CoolProp 8.0.0.
-# Water/Ethanol HEOS mixture handling has known failures in 8.0.0 (CoolProp
-# issue #1900).  The maintainer reports the fix in dev.  Pin the exact upstream
-# revision used by V5a so the benchmark is reproducible.
-CoolProp @ git+https://github.com/CoolProp/CoolProp.git@d5b0cfb51cd9a9343284cc5af8ebd6a8bd0eecc0
-pymsis==0.12.0
-numpy>=1.26,<3
-PyYAML>=6.0,<7
+# Stable pure-fluid backend; no HEOS mixture development builds.
+-r requirements.txt
+thermo==0.6.1
+chemicals==1.5.2
+fluids==1.3.1
+scipy==1.18.1

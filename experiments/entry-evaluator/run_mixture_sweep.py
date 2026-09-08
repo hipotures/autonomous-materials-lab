@@ -20,8 +20,6 @@ from evaluator import evaluate, write_summary
 from property_provider import (
     build_property_provider,
     coolprop_runtime_info,
-    require_v5a_coolprop,
-    saturation_to_dict,
     state_to_dict,
 )
 from run_physical_sensitivity import apply_values
@@ -43,19 +41,10 @@ def validate_fraction(value: float) -> float:
 
 def provider_block(study: dict[str, Any], fraction_a: float) -> dict[str, Any]:
     return {
-        "type": "coolprop",
-        "backend": "HEOS",
+        **study.get("property_provider", {"type": "thermo", "model": "NRTL"}),
         "components": list(study["components"]),
-        "composition_basis": str(
-            study.get("composition_basis", "mole")
-        ),
-        "fractions": [
-            fraction_a,
-            1.0 - fraction_a,
-        ],
-        "stability_algorithm": int(
-            study.get("stability_algorithm", 1)
-        ),
+        "composition_basis": str(study.get("composition_basis", "mole")),
+        "fractions": [fraction_a, 1.0 - fraction_a],
     }
 
 
@@ -249,66 +238,27 @@ def continuity_report(
         "bubble_temperature_k",
         "dew_temperature_k",
     ):
-        values = [
-            (row["fraction_component_a"], row.get(key))
-            for row in ordered
-            if isinstance(row.get(key), (int, float))
-            and math.isfinite(float(row[key]))
-        ]
-        changes = []
-        for (x0, y0), (x1, y1) in zip(values, values[1:]):
-            scale = max(
-                abs(float(y0)),
-                abs(float(y1)),
-                1e-30,
-            )
-            changes.append(
-                {
-                    "x0": x0,
-                    "x1": x1,
-                    "relative_change": (
-                        abs(float(y1) - float(y0)) / scale
-                    ),
-                }
-            )
-        metrics[key] = {
-            "supported_compositions": len(values),
-            "max_adjacent_relative_change": (
-                max(
-                    (
-                        item["relative_change"]
-                        for item in changes
-                    ),
-                    default=None,
-                )
-            ),
-        }
+        def finite(value):
+            return isinstance(value, (int, float)) and math.isfinite(value)
 
-    enthalpy_values = [
-        (
-            row["fraction_component_a"],
-            row.get("storage_enthalpy_j_kg"),
-        )
-        for row in ordered
-        if isinstance(
-            row.get("storage_enthalpy_j_kg"),
-            (int, float),
-        )
-    ]
-    enthalpy_changes = [
-        abs(float(b[1]) - float(a[1]))
-        for a, b in zip(
-            enthalpy_values,
-            enthalpy_values[1:],
-        )
-    ]
+        changes = []
+        missing = []
+        for left, right in zip(ordered, ordered[1:]):
+            x0, x1 = left["fraction_component_a"], right["fraction_component_a"]
+            y0, y1 = left.get(key), right.get(key)
+            if not (finite(y0) and finite(y1)):
+                missing.append({"x0": x0, "x1": x1})
+                continue
+            changes.append({"x0": x0, "x1": x1,
+                            "relative_change": abs(y1 - y0) / max(abs(y0), abs(y1), 1e-30)})
+        metrics[key] = {
+            "supported_compositions": sum(finite(row.get(key)) for row in ordered),
+            "max_adjacent_relative_change": max((x["relative_change"] for x in changes), default=None),
+            "adjacent_changes": changes,
+            "unsupported_intervals": missing,
+        }
     metrics["storage_enthalpy_j_kg"] = {
-        "supported_compositions": len(enthalpy_values),
-        "max_adjacent_absolute_change_j_kg": (
-            max(enthalpy_changes)
-            if enthalpy_changes
-            else None
-        ),
+        "comparison": "not compared: absolute enthalpy references differ between thermo and CoolProp; compare delta_h"
     }
 
     return {
@@ -335,6 +285,15 @@ def continuity_report(
             "be physically non-monotonic; V5a does not hard-reject on shape."
         ),
     }
+
+
+def preflight_failure_reason(validation: dict[str, Any]) -> str | None:
+    reasons = []
+    if not validation["storage_liquid"]:
+        reasons.append("unsupported or non-liquid storage state")
+    if validation["state_points_requested"] != validation["state_points_supported"]:
+        reasons.append("unsupported required property grid points")
+    return "; ".join(reasons) or None
 
 
 def run_entry_task(task: dict[str, Any]) -> dict[str, Any]:
@@ -368,101 +327,70 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writerows(rows)
 
 
-def entry_summary(
-    rows: list[dict[str, Any]],
-    reference_fraction: float,
-) -> dict[str, Any]:
-    reference = next(
-        (
-            row
-            for row in rows
-            if math.isclose(
-                float(row["fraction_component_a"]),
-                reference_fraction,
-                rel_tol=0.0,
-                abs_tol=1e-12,
-            )
-        ),
-        None,
-    )
-    reference_mass = (
-        float(reference["coolant_used_kg"])
-        if reference is not None
-        and reference.get("status") in SUCCESS_STATUSES
-        and isinstance(reference.get("coolant_used_kg"), (int, float))
-        and float(reference["coolant_used_kg"]) > 0.0
-        else None
-    )
+def valid_score(row: dict[str, Any]) -> bool:
+    mass = row.get("coolant_used_kg")
+    return (row.get("status") in SUCCESS_STATUSES
+            and not row.get("failure_reason")
+            and isinstance(mass, (int, float)) and math.isfinite(mass) and mass > 0)
 
-    comparable: list[dict[str, Any]] = []
+
+def entry_summary(rows: list[dict[str, Any]], reference_fraction: float) -> dict[str, Any]:
+    reference = next((row for row in rows if math.isclose(
+        float(row["fraction_component_a"]), reference_fraction, rel_tol=0, abs_tol=1e-12)), None)
+    reference_mass = float(reference["coolant_used_kg"]) if reference and valid_score(reference) else None
+    comparable = []
     for row in rows:
-        mass = row.get("coolant_used_kg")
-        ratio = None
-        if (
-            reference_mass is not None
-            and row.get("status") == reference.get("status")
-            and row.get("status") in SUCCESS_STATUSES
-            and isinstance(mass, (int, float))
-            and float(mass) > 0.0
-        ):
-            ratio = float(mass) / reference_mass
+        row["score_coolant_kg"] = float(row["coolant_used_kg"]) if valid_score(row) else None
+        row["coolant_mass_ratio_vs_reference"] = None
+        if (reference_mass is not None and valid_score(row)
+                and row["status"] == reference["status"]):
+            row["coolant_mass_ratio_vs_reference"] = row["score_coolant_kg"] / reference_mass
             comparable.append(row)
-        row["coolant_mass_ratio_vs_reference"] = ratio
-
-    best = (
-        min(
-            comparable,
-            key=lambda row: float(row["coolant_used_kg"]),
-        )
-        if comparable
-        else None
-    )
-
-    failed = [
-        {
-            "candidate_id": row["candidate_id"],
-            "fraction_component_a": row["fraction_component_a"],
-            "status": row.get("status"),
-            "coolant_used_kg": row.get("coolant_used_kg"),
-            "failure_reason": row.get("failure_reason"),
-        }
-        for row in rows
-        if row.get("status") not in SUCCESS_STATUSES
-    ]
-
+    best = min(comparable, key=lambda row: row["score_coolant_kg"], default=None)
+    failed = [{"candidate_id": row["candidate_id"],
+               "fraction_component_a": row["fraction_component_a"], "status": row.get("status"),
+               "consumed_mass_diagnostic_kg": row.get("coolant_used_kg"),
+               "failure_reason": row.get("failure_reason") or "missing valid completed-run score"}
+              for row in rows if not valid_score(row)]
     return {
         "reference_fraction_component_a": reference_fraction,
-        "reference_candidate_id": (
-            None if reference is None else reference["candidate_id"]
-        ),
+        "reference_candidate_id": reference["candidate_id"] if reference else None,
         "reference_coolant_kg": reference_mass,
         "comparable_candidate_count": len(comparable),
-        "beats_reference_count": sum(
-            1
-            for row in rows
-            if isinstance(
-                row.get("coolant_mass_ratio_vs_reference"),
-                (int, float),
-            )
-            and float(row["coolant_mass_ratio_vs_reference"]) < 0.99
-        ),
-        "failed_candidate_count": len(failed),
-        "failed_candidates": failed,
-        "best_candidate": (
-            None
-            if best is None
-            else {
-                "candidate_id": best["candidate_id"],
-                "fraction_component_a": best[
-                    "fraction_component_a"
-                ],
-                "coolant_used_kg": best["coolant_used_kg"],
-                "coolant_mass_ratio_vs_reference": best[
-                    "coolant_mass_ratio_vs_reference"
-                ],
-            }
-        ),
+        "beats_reference_count": sum(row["coolant_mass_ratio_vs_reference"] < 0.99 for row in comparable),
+        "beat_threshold_ratio": 0.99,
+        "failed_candidate_count": len(failed), "failed_candidates": failed,
+        "best_candidate": None if best is None else {key: best[key] for key in (
+            "candidate_id", "fraction_component_a", "score_coolant_kg", "coolant_mass_ratio_vs_reference")},
+        "interpretation": "provisional model ranking; caloric validation pending; consumed mass on failure is not a score",
     }
+
+
+def endpoint_model_comparison(study: dict[str, Any]) -> dict[str, Any]:
+    """Compare heat uptake, never absolute enthalpy, across the backend boundary."""
+    rows = []
+    epsilon = 1e-6
+    for pure_fraction, near_fraction in ((0.0, epsilon), (1.0, 1.0 - epsilon)):
+        pure = build_property_provider(coolant_block(study, pure_fraction))
+        near = build_property_provider(coolant_block(study, near_fraction))
+        for pressure in study.get("validation", {}).get("pressures_pa", [101325.0]):
+            row = {"pure_fraction_component_a": pure_fraction,
+                   "near_fraction_component_a": near_fraction,
+                   "outlet_temperature_k": float(study["max_exit_temperature_k"]),
+                   "outlet_pressure_pa": float(pressure), "supported": False}
+            try:
+                deltas = [p.enthalpy_j_kg(row["outlet_temperature_k"], float(pressure))
+                          - p.enthalpy_j_kg(float(study["storage_temperature_k"]), float(study["storage_pressure_pa"]))
+                          for p in (pure, near)]
+                if any(not math.isfinite(h) or h <= 0 for h in deltas):
+                    raise ValueError("invalid endpoint heat uptake")
+                row.update(supported=True, coolprop_delta_h_j_kg=deltas[0],
+                           thermo_near_pure_delta_h_j_kg=deltas[1],
+                           relative_difference=(deltas[1] - deltas[0]) / deltas[0])
+            except Exception as exc:
+                row["failure_reason"] = str(exc)
+            rows.append(row)
+    return {"rows": rows, "interpretation": "backend-limit diagnostic, not calorimetric validation; no offset correction applied"}
 
 
 def main() -> int:
@@ -484,16 +412,6 @@ def main() -> int:
     )
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument(
-        "--stability-algorithm",
-        type=int,
-        choices=[0, 1],
-        default=None,
-        help=(
-            "Override CoolProp mixture PT stability solver: "
-            "1=Michelsen (v8 default), 0=legacy Gernert."
-        ),
-    )
-    parser.add_argument(
         "--output-dir",
         type=Path,
         default=Path("mixture-v5a-results"),
@@ -503,10 +421,6 @@ def main() -> int:
     if args.workers <= 0:
         parser.error("--workers must be positive")
 
-    try:
-        require_v5a_coolprop()
-    except RuntimeError as exc:
-        parser.error(str(exc))
     if (
         args.output_dir.exists()
         and any(args.output_dir.iterdir())
@@ -525,9 +439,6 @@ def main() -> int:
     study = yaml.safe_load(
         args.study.read_text(encoding="utf-8")
     )
-
-    if args.stability_algorithm is not None:
-        study["stability_algorithm"] = args.stability_algorithm
 
     components = [
         str(value)
@@ -558,6 +469,28 @@ def main() -> int:
             "reference_fraction_component_a must be in the sweep"
         )
 
+    try:
+        commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=HERE, text=True).strip()
+        dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=HERE, text=True).strip())
+    except (OSError, subprocess.CalledProcessError):
+        commit, dirty = None, None
+    manifest = {
+        "study_version": "v5a-nrtl", "git_commit": commit, "git_dirty": dirty,
+        "python": platform.python_version(),
+        "packages": {p: version(p) for p in ("CoolProp", "thermo", "chemicals", "fluids", "scipy", "pymsis", "numpy", "PyYAML")},
+        "coolprop_runtime": coolprop_runtime_info(),
+        "input_configs": {"base": base, "physical": physical, "study": study},
+        "source_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob("*.py"))},
+        "config_sha256": {str(p.resolve()): hashlib.sha256(p.read_bytes()).hexdigest()
+                          for p in (args.base_config, args.physical_study, args.study)},
+        "providers": [build_property_provider(coolant_block(study, x)).metadata() for x in fractions],
+        "physical_validation_complete": False,
+        "important_limitation": "NRTL reproduces a documented VLE example; caloric fit validity is unestablished. Ideal gas vapor, additive liquid volumes, no mixture transport or chemistry. Ranking is provisional.",
+    }
+    write_summary(args.output_dir / "manifest.json", manifest)
+    endpoint_comparison = endpoint_model_comparison(study)
+    write_summary(args.output_dir / "endpoint_model_comparison.json", endpoint_comparison)
+
     validations: list[dict[str, Any]] = []
     grid_rows: list[dict[str, Any]] = []
     for fraction_a in fractions:
@@ -586,35 +519,26 @@ def main() -> int:
     )
 
     if not continuity["endpoint_pure_state_pass"]:
-        print(
-            "V5a stopped: pure endpoint collapse validation failed",
-            flush=True,
-        )
+        write_summary(args.output_dir / "summary.json", {
+            "study_complete": False, "numerical_sweep_complete": False,
+            "physical_validation_complete": False, "property_validation": continuity,
+            "failure_reason": "pure endpoint identity check failed", "entry_scoring": None,
+        })
         return 2
-    if not continuity["all_storage_states_liquid"]:
-        non_liquid = [
-            {
-                "candidate_id": row["candidate_id"],
-                "fraction_component_a": row["fraction_component_a"],
-                "storage_phase": row["storage_phase"],
-                "failure_reason": row["failure_reason"],
-            }
-            for row in validations
-            if not row["storage_liquid"]
-        ]
-        print(
-            "V5a stopped: at least one composition is not liquid at "
-            "the configured storage state",
-            flush=True,
-        )
-        print(
-            json.dumps(
-                {"non_liquid_storage_candidates": non_liquid},
-                indent=2,
-            ),
-            flush=True,
-        )
-        return 2
+
+    eligible_fractions = set()
+    entry_rows: list[dict[str, Any]] = []
+    for validation in validations:
+        reason = preflight_failure_reason(validation)
+        if reason is None:
+            eligible_fractions.add(validation["fraction_component_a"])
+        else:
+            entry_rows.append({"candidate_id": validation["candidate_id"],
+                               "fraction_component_a": validation["fraction_component_a"],
+                               "fraction_component_b": validation["fraction_component_b"],
+                               "status": "property_validation_failure", "coolant_used_kg": None,
+                               "failure_reason": reason})
+            print(f"{validation['candidate_id']}: property_validation_failure; score=n/a; {reason}", flush=True)
 
     tasks = [
         {
@@ -629,31 +553,31 @@ def main() -> int:
                 fraction_a,
             ),
         }
-        for fraction_a in fractions
+        for fraction_a in fractions if fraction_a in eligible_fractions
     ]
 
-    entry_rows: list[dict[str, Any]] = []
-    with ProcessPoolExecutor(
-        max_workers=min(args.workers, len(tasks))
-    ) as pool:
-        futures = [
-            pool.submit(run_entry_task, task)
-            for task in tasks
-        ]
-        for future in as_completed(futures):
-            row = future.result()
-            entry_rows.append(row)
-            mass = row.get("coolant_used_kg")
-            mass_text = (
-                f"{mass:.3f} kg"
-                if isinstance(mass, (int, float))
-                else "n/a"
-            )
-            print(
-                f"{row['candidate_id']}: "
-                f"{row.get('status')} coolant={mass_text}",
-                flush=True,
-            )
+    if tasks:
+        with ProcessPoolExecutor(
+            max_workers=min(args.workers, len(tasks))
+        ) as pool:
+            futures = [
+                pool.submit(run_entry_task, task)
+                for task in tasks
+            ]
+            for future in as_completed(futures):
+                row = future.result()
+                entry_rows.append(row)
+                mass = row.get("coolant_used_kg")
+                mass_text = (
+                    f"{mass:.3f} kg"
+                    if isinstance(mass, (int, float))
+                    else "n/a"
+                )
+                print(
+                    f"{row['candidate_id']}: "
+                    f"{row.get('status')} {'score' if valid_score(row) else 'consumed_before_failure'}={mass_text}",
+                    flush=True,
+                )
 
     entry_rows.sort(
         key=lambda row: float(
@@ -669,73 +593,14 @@ def main() -> int:
         entry_rows,
     )
 
-    try:
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"],
-            cwd=HERE,
-            text=True,
-        ).strip()
-    except (
-        OSError,
-        subprocess.CalledProcessError,
-    ):
-        commit = None
-
-    manifest = {
-        "study_version": "v5a",
-        "git_commit": commit,
-        "python": platform.python_version(),
-        "packages": {
-            package: version(package)
-            for package in (
-                "CoolProp",
-                "pymsis",
-                "numpy",
-                "PyYAML",
-            )
-        },
-        "coolprop_runtime": coolprop_runtime_info(),
-        "study_file": str(args.study.resolve()),
-        "study_sha256": hashlib.sha256(
-            args.study.read_bytes()
-        ).hexdigest(),
-        "components": components,
-        "composition_basis": study.get(
-            "composition_basis",
-            "mole",
-        ),
-        "fractions_component_a": fractions,
-        "reference_fraction_component_a": reference_fraction,
-        "heating_backend": study.get(
-            "heating_backend",
-            "brandis_johnston_2014",
-        ),
-        "chemistry_mode": "disabled",
-        "mixture_stability_algorithm": int(
-            study.get("stability_algorithm", 1)
-        ),
-        "mixture_stability_algorithm_name": (
-            "Michelsen"
-            if int(study.get("stability_algorithm", 1)) == 1
-            else "legacy_Gernert"
-        ),
-        "important_limitation": (
-            "V5a entry scoring uses mixture enthalpy in the coolant energy "
-            "balance. Density/cp/viscosity/conductivity/phase-envelope data "
-            "are recorded for validation but are not yet coupled to porous "
-            "flow, film cooling, tank mass or decomposition chemistry."
-        ),
-    }
-    write_summary(
-        args.output_dir / "manifest.json",
-        manifest,
-    )
-
     report = {
-        "study_complete": all(
-            row.get("status") in SUCCESS_STATUSES
-            for row in entry_rows
-        ),
+        "study_complete": all(valid_score(row) for row in entry_rows)
+            and score["comparable_candidate_count"] == len(fractions),
+        "numerical_sweep_complete": all(valid_score(row) for row in entry_rows)
+            and score["comparable_candidate_count"] == len(fractions),
+        "physical_validation_complete": False,
+        "caloric_validation": "pending experimental delta_h / excess-enthalpy validation",
+        "endpoint_model_comparison": endpoint_comparison,
         "property_validation": continuity,
         "entry_scoring": score,
         "candidate_count": len(entry_rows),
