@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
+from functools import lru_cache
 import hashlib
 import math
 from typing import Any, Iterable
@@ -16,6 +17,7 @@ class DomainAssessment:
     reason: str
 
 
+@lru_cache(maxsize=4096)
 def canonical_smiles(smiles: str) -> str:
     from rdkit import Chem
 
@@ -25,6 +27,7 @@ def canonical_smiles(smiles: str) -> str:
     return Chem.MolToSmiles(molecule, canonical=True)
 
 
+@lru_cache(maxsize=4096)
 def fingerprint(smiles: str):
     from rdkit import Chem
     from rdkit.Chem import rdFingerprintGenerator
