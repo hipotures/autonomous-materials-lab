@@ -28,6 +28,7 @@ uncertainty:
   edge_similarity: 0.25
   minimum_neighbors: 2
   minimum_comparable_candidates: 12
+  minimum_in_domain_evaluation_candidates: 2
 
 # Reference identities are not passed into the predictor. They are read only
 # after predictions_before_reference.json has been written.
