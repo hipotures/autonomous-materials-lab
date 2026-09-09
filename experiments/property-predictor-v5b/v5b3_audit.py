@@ -114,7 +114,9 @@ class LocalReferenceBackend:
 
     def identity(self, cas: str) -> dict[str, Any]:
         item = self.metadata.search_CAS(cas, autoload=True)
-        if item is None:
+        # chemicals uses False for a missing lookup; some backends use None.
+        # Convert only missing-record sentinels into a per-target rejection.
+        if item is False or item is None:
             raise ValueError("cas_not_in_local_metadata")
         return {"cas": item.CASs, "inchi_key": item.InChI_key, "smiles": item.smiles,
                 "formula": item.formula, "mw": float(item.MW)}
