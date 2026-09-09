@@ -1,0 +1,42 @@
+# Local environments and Python build/runtime artifacts.
+.venv/
+venv/
+ENV/
+.tox/
+.nox/
+__pypackages__/
+__pycache__/
+*.py[cod]
+*.egg-info/
+/build/
+/dist/
+
+# Test, type-checker and linter caches.
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Local environment variables. Templates must contain placeholders only.
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Runtime logs, locks and temporary/editor files, not scientific results.
+*.log
+*.tmp
+*.temp
+.run.lock
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Result publication is controlled by each experiment's local .gitignore.
+# Do not blanket-ignore JSON or CSV: they are versioned research artifacts.
