@@ -1,0 +1,136 @@
+version: v5e-2.1
+name: multi-source-empirical-reference-resolution
+
+properties:
+  # Keep the V5b validation grid so the empirical packet can be consumed by the
+  # next calibration stage without inventing a separate temperature protocol.
+  temperatures_k: [293.15, 350.0, 400.0, 450.0, 500.0]
+
+source_policy:
+  # Constants: accept only reviewed/compiled/processed experimental sources or
+  # HEOS/REFPROP-class reference data. Explicitly exclude mixed predicted
+  # compilations and group-contribution estimators.
+  critical_temperature_methods:
+    - HEOS
+    - IUPAC
+    - MATTHEWS
+    - CRC
+    - PD
+    - WEBBOOK
+  critical_pressure_methods:
+    - HEOS
+    - IUPAC
+    - MATTHEWS
+    - CRC
+    - PD
+    - WEBBOOK
+  normal_boiling_temperature_methods:
+    - HEOS
+    - CRC_INORG
+    - CRC_ORG
+    - COMMON_CHEMISTRY
+    - WEBBOOK
+
+  # T-dependent property methods: these are tabulations, critically evaluated
+  # data, or correlations fitted to reference data. Generic CSP/EOS/structure
+  # estimators remain visible in source-method-audit.csv but cannot be selected.
+  vapor_pressure_methods:
+    - HEOS_FIT
+    - WAGNER_MCGARRY
+    - WAGNER_POLING
+    - ANTOINE_EXTENDED_POLING
+    - DIPPR_PERRY_8E
+    - VDI_PPDS
+    - COOLPROP
+    - ANTOINE_POLING
+    - VDI_TABULAR
+    - ANTOINE_WEBBOOK
+    - LANDOLT
+    - ALCOCK_ELEMENTS
+  liquid_volume_methods:
+    - HEOS_FIT
+    - DIPPR_PERRY_8E
+    - VDI_PPDS
+    - COOLPROP
+    - VDI_TABULAR
+    - CRC_INORG_L
+    - CRC_INORG_L_CONST
+    - COMMON_CHEMISTRY
+  liquid_heat_capacity_methods:
+    - HEOS_FIT
+    - ZABRANSKY_SPLINE_C*
+    - ZABRANSKY_QUASIPOLYNOMIAL_C*
+    - ZABRANSKY_SPLINE*
+    - ZABRANSKY_QUASIPOLYNOMIAL*
+    - WEBBOOK_SHOMATE*
+    - VDI_TABULAR
+    - COOLPROP
+    - POLING_CONST
+    - CRCSTD
+  enthalpy_vaporization_methods:
+    - HEOS_FIT
+    - DIPPR_PERRY_8E
+    - VDI_PPDS
+    - COOLPROP
+    - VDI_TABULAR
+    - CRC_HVAP_TB
+    - CRC_HVAP_298
+
+calibration_gate:
+  # Tc and Pc are required anchors for the GC-PC-SAFT calibration extension.
+  required_properties:
+    - critical_temperature_k
+    - critical_pressure_pa
+
+  dynamic_properties:
+    - vapor_pressure_pa
+    - liquid_density_kg_m3
+    - liquid_cp_j_kg_k
+    - latent_heat_vaporization_j_kg
+
+  minimum_dynamic_properties: 2
+  minimum_total_properties: 4
+  minimum_source_families: 2
+
+  # This is a second hard stop on top of the allowlists. Any accidental future
+  # method matching one of these selectors invalidates the packet.
+  forbidden_method_selectors:
+    - JOBACK
+    - WILSON_JASPERSON
+    - DADGOSTAR_SHAW
+    - ROWLINSON_*
+    - LASTOVKA_*
+    - GHARAGHEIZI_HVAP_298
+    - MORGAN_KOBAYASHI
+    - SIVARAMAN_MAGEE_KOBAYASHI
+    - VELASCO
+    - PITZER
+    - CLAPEYRON
+    - RIEDEL
+    - CHEN
+    - VETERE
+    - LIU
+    - COSTALD*
+    - RACKETT*
+    - YEN_WOODS*
+    - YAMADA_GUNN*
+    - BHIRUD*
+    - TOWNSEND_HALES*
+    - CAMPBELL_THODOS*
+    - EOS
+    - BOILING_CRITICAL
+    - LEE_KESLER*
+    - AMBROSE_WALTON
+    - SANJARI
+    - EDALAT
+
+  high_quality:
+    minimum_dynamic_properties: 3
+    minimum_total_properties: 6
+    minimum_source_families: 3
+
+handoff:
+  minimum_ready_targets: 5
+
+inputs:
+  v5e2_reference_properties: reference-v5e2-results/reference-properties.json

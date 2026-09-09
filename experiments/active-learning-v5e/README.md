@@ -382,3 +382,169 @@ The next stage is V5b-3:
       -> applicability-domain update
 
 Only after that loop is rerun may V5d exploratory candidates become rankable.
+
+
+# V5e-2.1: Multi-source empirical reference resolution
+
+V5e-2 showed that the active-learning targets are mostly identifiable molecules
+but are outside CoolProp's compact fluid catalog. V5e-2.1 broadens the
+thermophysical reference path without relaxing the independence contract.
+
+It consumes:
+
+    reference-v5e2-results/reference-properties.json
+
+and reuses the exact PubChem identity/CAS work already completed by V5e-2. It
+does not repeat the slow network crawl.
+
+The local resolution path is:
+
+    exact V5e-2 identity
+      -> verified CAS candidates
+      -> chemicals 1.5.2 constant-source inventory
+      -> thermo 0.6.1 T-dependent source inventory
+      -> explicit empirical allowlist
+      -> explicit predicted-method deny gate
+      -> property coverage / source-family scoring
+      -> V5b-3 property-calibration handoff
+
+## Reference policy
+
+V5e-2.1 never trusts the default method chosen by `chemicals` or `thermo`.
+It enumerates all available methods and selects only methods explicitly listed
+in `config-v5e21.yaml`.
+
+Accepted constant sources include reviewed or compiled reference data such as:
+
+    HEOS / REFPROP-class data
+    IUPAC
+    Matthews
+    CRC
+    NIST WebBook
+    CAS Common Chemistry
+
+Accepted T-dependent sources include selected tabulations and correlations
+fitted to reference data, for example:
+
+    HEOS_FIT
+    Zabransky liquid Cp
+    NIST WebBook Shomate
+    VDI tabular / PPDS
+    DIPPR / Perry
+    Antoine / Wagner reference correlations
+    CRC / Poling reference constants
+
+Structure-only and generalized estimators are not accepted as calibration
+evidence. The hard deny gate includes Joback, Wilson-Jasperson, Dadgostar-Shaw,
+Rowlinson, Lastovka, corresponding-state vaporization estimators, COSTALD,
+Rackett-family methods, generic EOS, Lee-Kesler, Ambrose-Walton and related
+prediction methods.
+
+Every available-but-rejected method remains visible in:
+
+    source-method-audit.csv
+
+so the gate is auditable rather than implicit.
+
+## Property packet
+
+For each CAS candidate V5e-2.1 attempts to build:
+
+    critical_temperature_k
+    critical_pressure_pa
+    normal_boiling_temperature_k
+    vapor_pressure_pa(T)
+    liquid_density_kg_m3(T)
+    liquid_cp_j_kg_k(T)
+    latent_heat_vaporization_j_kg(T)
+
+The temperature grid is shared with V5b:
+
+    293.15, 350, 400, 450, 500 K
+
+No extrapolation is requested from the thermo property objects. A method only
+contributes grid points where the library reports it as valid and evaluation
+succeeds.
+
+For molecules carrying multiple valid CAS aliases, all CAS candidates are
+evaluated and the strongest independently supported packet is selected
+deterministically.
+
+## Calibration gate
+
+The default property-calibration gate requires:
+
+    Tc present
+    Pc present
+    at least 2 dynamic properties
+    at least 4 total properties
+    at least 2 independent source families
+    no forbidden selected method
+
+A higher-quality packet requires:
+
+    at least 3 dynamic properties
+    at least 6 total properties
+    at least 3 source families
+
+This is a property-calibration gate, not an entry-trajectory reference gate.
+
+A molecule can therefore be:
+
+    ready_for_v5b3_property_calibration = true
+    entry_reference_ready = false
+
+That distinction is intentional. V5b-3 can use these empirical anchors to
+expand the property/applicability model while retaining the original
+CoolProp-backed holdouts for entry-level error calibration.
+
+## Outputs
+
+    reference-v5e21-results/
+      calibration-ready.csv
+      partial-or-unresolved.csv
+      reference-audit.csv
+      source-method-audit.csv
+      empirical-reference-properties.json
+      v5b3-property-calibration-input.yaml
+      summary.json
+      manifest.json
+
+`empirical-reference-properties.json` is the complete machine-readable
+reference packet.
+
+`source-method-audit.csv` records both accepted and rejected methods.
+
+`v5b3-property-calibration-input.yaml` contains only candidates that pass the
+property-reference gate. It is executable once the configured minimum number of
+anchors is reached.
+
+## Run
+
+V5e-2 must already have completed successfully enough to create
+`reference-properties.json`.
+
+Then:
+
+    cd experiments/entry-evaluator
+    source .venv/bin/activate
+    python -m unittest discover -s tests -v
+
+    cd ../active-learning-v5e
+
+    python run_reference_resolution_v5e21.py \
+      --output-dir reference-v5e21-results
+
+This stage is local data lookup and correlation evaluation. It should not have
+the long HTTP wait profile of V5e-2.
+
+## Interpretation
+
+V5e-2.1 answers:
+
+> How many identity-resolved active-learning targets have enough independent,
+> non-predictive thermophysical evidence to become empirical property anchors
+> for the next calibration-domain expansion?
+
+The next stage is V5b-3. It must consume the property packets without pretending
+that a property-only anchor is a complete entry-level reference fluid.
