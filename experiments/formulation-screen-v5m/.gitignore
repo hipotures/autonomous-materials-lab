@@ -37,3 +37,34 @@ __pycache__/
 
 # Ignored files stay on disk. Avoid git clean -fdx: it deletes local run caches.
 # Ignore rules never untrack an already tracked file; review staged paths.
+
+# V5m-2.1: verified archives plus bounded UTF-8 reports for text-only connectors.
+# Earlier published V5m-2 outputs stay immutable; no files are untracked here.
+/.v5m21-building-*/
+/review-v5m21*-results/*
+!/review-v5m21*-results/README.md
+!/review-v5m21*-results/summary.json
+!/review-v5m21*-results/summary.json.gz
+!/review-v5m21*-results/manifest.json
+!/review-v5m21*-results/manifest.json.gz
+!/review-v5m21*-results/publication-index.json
+!/review-v5m21*-results/artifact-hashes.json
+!/review-v5m21*-results/report-*.csv
+!/review-v5m21*-results/table-*.csv.gz
+!/review-v5m21*-results/archive-artifact-hashes.json.gz
+!/review-v5m21*-results/archive-catalog-rejections.csv.gz
+!/review-v5m21*-results/archive-catalog.csv.gz
+!/review-v5m21*-results/archive-catalog.json.gz
+!/review-v5m21*-results/archive-coarse-tradeoffs.csv.gz
+!/review-v5m21*-results/archive-grid-plan.json.gz
+!/review-v5m21*-results/archive-manifest.json.gz
+!/review-v5m21*-results/archive-pareto-thermodynamic.csv.gz
+!/review-v5m21*-results/archive-pareto-with-flow-proxy.csv.gz
+!/review-v5m21*-results/archive-prediction-grid.csv.gz
+!/review-v5m21*-results/archive-predictions.json.gz
+!/review-v5m21*-results/archive-refinement-diagnostics.csv.gz
+!/review-v5m21*-results/archive-refinement-plan.json.gz
+!/review-v5m21*-results/archive-summary.json.gz
+!/review-v5m21*-results/archive-tradeoffs.csv.gz
+!/review-v5m21*-results/archive-validation-shortlist.csv.gz
+/review-v5m21*-results/*/
