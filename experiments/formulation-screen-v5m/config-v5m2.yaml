@@ -1,0 +1,38 @@
+version: v5m-2
+name: parameter-backed-water-mixture-predictive-grid
+models: [chemsep_nrtl, unifac_dortmund]
+
+catalog:
+  source: ChemSep NRTL
+  # Scope: molecular nonreacting binary liquids, not electrolytes or particles.
+  # These are model-domain guards, NOT a handling-safety approval.
+  allowed_atomic_numbers: [1, 6, 8]
+  maximum_molecular_weight_g_mol: 250.0
+  maximum_pairs: null
+  excluded_smarts:
+    - '[O;X2]-[O;X2]'
+    - '[C;X3](=O)[O;H1]'
+    - '[C;X3](=O)[O;X2][C;X3](=O)'
+    - '[O;r3]'
+
+grid:
+  # One additive coordinate; the water mass fraction is exactly 1-w.
+  minimum_mass_fraction: 0.0001
+  transition_mass_fraction: 0.01
+  maximum_mass_fraction: 0.30
+  log_points: 9
+  linear_points: 16
+  inlet_temperature_k: 293.15
+  outlet_temperatures_k: [350.0, 400.0, 450.0]
+  # Limited-pressure, ideal-vapor screening. Not high-pressure validation.
+  pressures_pa: [101325.0, 200000.0]
+
+workers: 4
+pair_timeout_s: 300
+refinement_pairs: 12
+refinement_intervals_per_pair: 6
+shortlist_size: 20
+phase_fraction_tolerance: 0.00000001
+balance_tolerance: 0.0000001
+# A numerical comparator gate, not an experimental error bound.
+endpoint_relative_tolerance: 0.05
