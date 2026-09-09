@@ -1,0 +1,23 @@
+version: v5b-3
+input: ../active-learning-v5e/reference-v5e21-results/empirical-reference-properties.json
+
+# This is an audit and fixed-predictor benchmark, not an automatic refit.
+audit:
+  identity_mw_relative_tolerance: 0.002
+  reproduction_relative_tolerance: 0.0001
+  constant_conflict_relative_tolerance: 0.10
+
+# A timed-out molecule is recorded, not allowed to stall the entire experiment.
+worker_timeout_s: 90.0
+
+statistics:
+  # Split by the connectivity block of the full InChIKey. Aliases, stereoisomers
+  # and temperatures of a molecule never straddle calibration and evaluation.
+  split_seed: v5b3-audited-properties-20260909
+  evaluation_fraction: 0.30
+  coverage_target: 0.90
+  minimum_calibration_groups: 9
+  minimum_evaluation_groups: 3
+  neighbor_similarity: 0.25
+  in_domain_similarity: 0.45
+  minimum_neighbors: 2
