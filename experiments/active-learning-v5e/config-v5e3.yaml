@@ -1,0 +1,68 @@
+version: v5e-3
+name: property-gap-active-acquisition
+
+priority_properties:
+  - critical_temperature_k
+  - critical_pressure_pa
+  - vapor_pressure_pa
+  - latent_heat_vaporization_j_kg
+
+# V5b-3 only needs 9/3 to construct its current finite-sample diagnostic, but
+# V5e-3 deliberately targets a margin above that minimum rather than stopping
+# exactly on the boundary.
+gap_targets:
+  calibration_groups: 12
+  evaluation_groups: 5
+
+property_weights:
+  critical_temperature_k: 1.00
+  critical_pressure_pa: 1.00
+  vapor_pressure_pa: 1.20
+  latent_heat_vaporization_j_kg: 1.20
+
+candidate_gate:
+  require_exploratory_lane: true
+  minimum_property_priority_score: 0.20
+
+# Offline score used only to decide which candidates receive the relatively
+# expensive identity/source probe. Reference values are not used here.
+preprobe_weights:
+  property_merit: 0.25
+  gap_pressure: 0.30
+  property_structural_novelty: 0.30
+  global_novelty: 0.15
+
+probe:
+  candidate_count: 120
+  maximum_family_fraction: 0.30
+  selected_diversity_weight: 0.15
+
+identity:
+  mw_relative_tolerance: 0.002
+
+network:
+  user_agent: autonomous-materials-lab-v5e3/1.0 (property-gap acquisition research client)
+  timeout_s: 8.0
+  retries: 1
+  minimum_interval_s: 0.20
+
+property_probe:
+  temperatures_k: [293.15, 350.0, 400.0, 450.0, 500.0]
+
+acquisition:
+  target_count: 20
+  maximum_family_fraction: 0.30
+  weights:
+    gap_closure: 0.50
+    property_structural_leverage: 0.20
+    property_merit: 0.20
+    selected_diversity: 0.10
+
+inputs:
+  # This is the completed post-CAS-fix V5b-3 run from the current workflow.
+  # Override on the CLI when using a differently named result directory.
+  v5b3_summary: ../property-predictor-v5b/property-v5b3-casfix-results/summary.json
+  v5b3_audited_reference: ../property-predictor-v5b/property-v5b3-casfix-results/audited-reference.json
+  v5b3_config: ../property-predictor-v5b/benchmark-v5b3.yaml
+  v5d_full_prescreen: ../molecular-search-v5d/search-v5d1-results/full_prescreen_results.json
+  v5e1_acquisition_set: active-learning-v5e1-results/acquisition-set.json
