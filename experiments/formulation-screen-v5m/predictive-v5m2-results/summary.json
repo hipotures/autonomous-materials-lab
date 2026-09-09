@@ -1,0 +1,29 @@
+{
+  "catalog_budget_limited": false,
+  "catalog_pair_count": 26,
+  "coarse_compositions_per_pair": 24,
+  "complete_two_model_formulation_count": 372,
+  "empirical_uncertainty_calibrated": false,
+  "experimental_winners": 0,
+  "grid_convergence_claimed": false,
+  "interpretation": "Parameter-backed NRTL/Dortmund grid hypotheses, not validated coolant gains. Missing models and failed states are not imputed; model spread is not calibrated uncertainty.",
+  "ml_model_trained": false,
+  "paired_model_gain_hypothesis_count": 0,
+  "pareto_thermodynamic_count": 33,
+  "pareto_with_flow_proxy_count": 121,
+  "predicted_state_count": 8088,
+  "rankable_promotions": 0,
+  "reference_dataset_used": null,
+  "refined_pair_count": 12,
+  "run_status": "completed_with_recorded_statuses",
+  "screened_pair_count": 26,
+  "state_status_counts": {
+    "inlet_not_single_liquid": 2826,
+    "ok": 5250,
+    "outlet_liquid_liquid_split": 12
+  },
+  "study_complete": true,
+  "study_version": "v5m-2",
+  "surface_enhancement_predicted": false,
+  "validation_shortlist_count": 14
+}

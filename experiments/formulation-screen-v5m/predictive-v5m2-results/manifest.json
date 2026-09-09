@@ -1,0 +1,81 @@
+{
+  "contract": {
+    "catalog_only": false,
+    "code_sha256": {
+      "run_predictive_grid.py": "db47bf9480fc0e9ff18f326600c0d6b9e2a5b5eca9a6dc20ba86f7498acded18",
+      "v5m2_backend.py": "2fa3a4118b52b65cdfc33373e439db1545ab1e173ddfe5fcd71fcc2b407b3460",
+      "v5m2_core.py": "53b07bf5a332e7a68070770c5a464cbb7b22332cea8a232171f61f6979361584"
+    },
+    "config": {
+      "balance_tolerance": 1e-07,
+      "catalog": {
+        "allowed_atomic_numbers": [
+          1,
+          6,
+          8
+        ],
+        "excluded_smarts": [
+          "[O;X2]-[O;X2]",
+          "[C;X3](=O)[O;H1]",
+          "[C;X3](=O)[O;X2][C;X3](=O)",
+          "[O;r3]"
+        ],
+        "maximum_molecular_weight_g_mol": 250.0,
+        "maximum_pairs": null,
+        "source": "ChemSep NRTL"
+      },
+      "endpoint_relative_tolerance": 0.05,
+      "grid": {
+        "inlet_temperature_k": 293.15,
+        "linear_points": 16,
+        "log_points": 9,
+        "maximum_mass_fraction": 0.3,
+        "minimum_mass_fraction": 0.0001,
+        "outlet_temperatures_k": [
+          350.0,
+          400.0,
+          450.0
+        ],
+        "pressures_pa": [
+          101325.0,
+          200000.0
+        ],
+        "transition_mass_fraction": 0.01
+      },
+      "models": [
+        "chemsep_nrtl",
+        "unifac_dortmund"
+      ],
+      "name": "parameter-backed-water-mixture-predictive-grid",
+      "pair_timeout_s": 300,
+      "phase_fraction_tolerance": 1e-08,
+      "refinement_intervals_per_pair": 6,
+      "refinement_pairs": 12,
+      "shortlist_size": 20,
+      "version": "v5m-2",
+      "workers": 4
+    },
+    "library_tree_sha256": {
+      "chemicals": "9f4d6ecffbe8d01e630d82709471eeea5ee2e1b5df14b885dc57152165f5b9ee",
+      "thermo": "b457d27687914062b0d7ddfb1fcf6534c81255de42c6df2c562d22db529ed1ad"
+    },
+    "limit_pairs": null,
+    "packages": {
+      "CoolProp": "8.0.0",
+      "PyYAML": "6.0.3",
+      "chemicals": "1.5.2",
+      "fluids": "1.3.1",
+      "numpy": "2.5.3",
+      "pandas": "3.0.5",
+      "rdkit": "2026.3.6",
+      "scipy": "1.18.1",
+      "thermo": "0.6.1"
+    },
+    "python": "3.12.14"
+  },
+  "git_commit": "28430ead092ad595aed8d5267c3390e77ec633c3",
+  "ml_model_trained": false,
+  "network_used": false,
+  "signature": "293edeb8f2add019564f46f82cce55e8751bda6fe1f06956663130450b412f31",
+  "version": "v5m-2"
+}

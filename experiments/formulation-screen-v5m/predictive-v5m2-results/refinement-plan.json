@@ -1,0 +1,1733 @@
+{
+  "grid_convergence_claimed": false,
+  "tasks": [
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.271,
+        0.290333333333
+      ],
+      "pair": {
+        "cas_number": "67-56-1",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "CH4O",
+        "inchi_key": "OKKJLVBELUTLKV-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.2999
+              ],
+              [
+                0.2999,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "67-56-1"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                398.95345259688855
+              ],
+              [
+                -95.13209282738782,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "15": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "e263dd0bca125dbeb2d30984e445bd238f8fa8d4634ca7e104c9e58b1aced8a9",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "d6f6c047e8c851b31c29f0758f0258cbf77f11c1a3417376854ce1d8a88c1ae4"
+          }
+        },
+        "molecular_weight_g_mol": 32.042,
+        "molecule_group": "OKKJLVBELUTLKV",
+        "name": "methanol",
+        "pair_id": "water-OKKJLVBELUTLKV-UHFFFAOYSA-N",
+        "parameter_sha256": "46f2d652f877a265e33981328299bccf60f381532d691ffabec42cacdf57c55c",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 337.632383296,
+        "pure_melting_temperature_k": 175.15,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CO"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.271,
+        0.290333333333
+      ],
+      "pair": {
+        "cas_number": "64-17-5",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C2H6O",
+        "inchi_key": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.2937
+              ],
+              [
+                0.2937,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "64-17-5"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                624.8676222389441
+              ],
+              [
+                -29.166654483541816,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 1,
+                "2": 1,
+                "14": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "0eb3af752334868ca0ff7672967b68b4fc280af869645c0394682607d588eb24",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "e977465023f2afe74362158870186331c98db91c98c5ba8de151e7730c6ef1d0"
+          }
+        },
+        "molecular_weight_g_mol": 46.069,
+        "molecule_group": "LFQSCWFLJHTTHZ",
+        "name": "ethanol",
+        "pair_id": "water-LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+        "parameter_sha256": "d00a1e2cbb0e9258918a4b4af9635a53ee6478e4cb279b16a7dca3e26d677887",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 351.570441659,
+        "pure_melting_temperature_k": 159.05,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CCO"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.000237137370566,
+        0.000421696503429,
+        0.000749894209332,
+        0.00133352143216,
+        0.00237137370566
+      ],
+      "pair": {
+        "cas_number": "111-46-6",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C4H10O3",
+        "inchi_key": "MTHSVFCYNBDYFN-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.2974
+              ],
+              [
+                0.2974,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "111-46-6"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                597.1859182768037
+              ],
+              [
+                -50.27163139652671,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "2": 3,
+                "14": 2,
+                "25": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "ca654edee9b09e4683b4dde15e9f94b2608139ec5b1f15cb7e50e754af3d7779",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "df4bda3b074c18264c3ba8aa11c8476db2eccce1054a53d9ef7010eca6ba9b2b"
+          }
+        },
+        "molecular_weight_g_mol": 106.12099999999998,
+        "molecule_group": "MTHSVFCYNBDYFN",
+        "name": "diethylene glycol",
+        "pair_id": "water-MTHSVFCYNBDYFN-UHFFFAOYSA-N",
+        "parameter_sha256": "adb91494599a6e57a43c1b3dfa37cc300541e556b29d6732f004c40e7b81876b",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 518.65,
+        "pure_melting_temperature_k": 262.95,
+        "safety_review_status": "not_reviewed",
+        "smiles": "OCCOCCO"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.00421696503429,
+        0.00749894209332,
+        0.0196666666666
+      ],
+      "pair": {
+        "cas_number": "71-36-3",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C4H10O",
+        "inchi_key": "LRHPLDYGYMQRHN-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.4447
+              ],
+              [
+                0.4447,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "71-36-3"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                1325.3268195999854
+              ],
+              [
+                253.64181754760426,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 1,
+                "2": 3,
+                "14": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "0eb3af752334868ca0ff7672967b68b4fc280af869645c0394682607d588eb24",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "e977465023f2afe74362158870186331c98db91c98c5ba8de151e7730c6ef1d0"
+          }
+        },
+        "molecular_weight_g_mol": 74.12299999999999,
+        "molecule_group": "LRHPLDYGYMQRHN",
+        "name": "1-butanol",
+        "pair_id": "water-LRHPLDYGYMQRHN-UHFFFAOYSA-N",
+        "parameter_sha256": "8bb8c0479ffce6f05918f8f2085545a7fd8585df6ff448cc9e701eec0f62b32d",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 390.75,
+        "pure_melting_temperature_k": 183.35,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CCCCO"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.00421696503429,
+        0.00749894209332,
+        0.0196666666666
+      ],
+      "pair": {
+        "cas_number": "78-83-1",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C4H10O",
+        "inchi_key": "ZXEKIIBDNHEJCQ-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.4385
+              ],
+              [
+                0.4385,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "78-83-1"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                1253.5280604238214
+              ],
+              [
+                321.96856323043994,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 2,
+                "2": 1,
+                "3": 1,
+                "14": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "0eb3af752334868ca0ff7672967b68b4fc280af869645c0394682607d588eb24",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "13155e71d22967c4e604fd5d5550b99add3b22d07dd903524d71b8586d17cdd3"
+          }
+        },
+        "molecular_weight_g_mol": 74.12299999999999,
+        "molecule_group": "ZXEKIIBDNHEJCQ",
+        "name": "2-methyl-1-propanol",
+        "pair_id": "water-ZXEKIIBDNHEJCQ-UHFFFAOYSA-N",
+        "parameter_sha256": "5fb30eefbe5c94528fbf5025a6e34c98f9a03f5ed8ac03af8e7d42175a1e79e8",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 380.99,
+        "pure_melting_temperature_k": 165.15,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CC(C)CO"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.00421696503429,
+        0.00749894209332,
+        0.0196666666666
+      ],
+      "pair": {
+        "cas_number": "111-27-3",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C6H14O",
+        "inchi_key": "ZSIAUFGUXNUGDI-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.1563
+              ],
+              [
+                0.1563,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "111-27-3"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                1505.222468698739
+              ],
+              [
+                -233.89915655570724,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 1,
+                "2": 5,
+                "14": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "0eb3af752334868ca0ff7672967b68b4fc280af869645c0394682607d588eb24",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "e977465023f2afe74362158870186331c98db91c98c5ba8de151e7730c6ef1d0"
+          }
+        },
+        "molecular_weight_g_mol": 102.17699999999999,
+        "molecule_group": "ZSIAUFGUXNUGDI",
+        "name": "1-hexanol",
+        "pair_id": "water-ZSIAUFGUXNUGDI-UHFFFAOYSA-N",
+        "parameter_sha256": "43440bde550f897dcdfef4ab0247848da0af7558e0b027646eb579ac71af3826",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 430.05,
+        "pure_melting_temperature_k": 226.0,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CCCCCCO"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.135666666667,
+        0.155,
+        0.174333333333
+      ],
+      "pair": {
+        "cas_number": "109-87-5",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C3H8O2",
+        "inchi_key": "NKDDWNXOKDWJAK-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.4898
+              ],
+              [
+                0.4898,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "109-87-5"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                915.0014106972783
+              ],
+              [
+                809.2122352333603,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "2": 1,
+                "24": 2
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "9da85716c15d4f39b8d8989924ead37cd1a5700dc5b4288158054f1e1ea30bac",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "24b0efd5264908bfa1529ef1747730b000f73d5bed641876285de20cb2628d32"
+          }
+        },
+        "molecular_weight_g_mol": 76.095,
+        "molecule_group": "NKDDWNXOKDWJAK",
+        "name": "dimethoxymethane",
+        "pair_id": "water-NKDDWNXOKDWJAK-UHFFFAOYSA-N",
+        "parameter_sha256": "8356c52d09f9360624d8ca3877f538f095104bc36410bae47080aa1d7c1078df",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 315.45,
+        "pure_melting_temperature_k": 168.15,
+        "safety_review_status": "not_reviewed",
+        "smiles": "COCOC"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.0776666666667,
+        0.0970000000001,
+        0.116333333334
+      ],
+      "pair": {
+        "cas_number": "78-84-2",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C4H8O",
+        "inchi_key": "AMIMRNSIRUDHCM-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.2862
+              ],
+              [
+                0.2862,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "78-84-2"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                548.5224758654324
+              ],
+              [
+                587.1733088968255,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 2,
+                "3": 1,
+                "20": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "7541de8648bb204a2a184087b6fdbcd7df5acada47829704561185c8fc770d73",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "afaa5322207060c5fe468dab340a150071a68ed5131ce31b1854910ebab8e5d2"
+          }
+        },
+        "molecular_weight_g_mol": 72.107,
+        "molecule_group": "AMIMRNSIRUDHCM",
+        "name": "isobutyraldehyde",
+        "pair_id": "water-AMIMRNSIRUDHCM-UHFFFAOYSA-N",
+        "parameter_sha256": "7ceaf2158c88f7ae2c30e7895f4e3c1d434538abf29491743695d6a706386322",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 337.25,
+        "pure_melting_temperature_k": 208.15,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CC(C)C=O"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.116333333334,
+        0.135666666667,
+        0.155
+      ],
+      "pair": {
+        "cas_number": "109-99-9",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C4H8O",
+        "inchi_key": "WYURNTSHIVDZCO-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.4522
+              ],
+              [
+                0.4522,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "109-99-9"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                868.1028598337939
+              ],
+              [
+                460.8207717038273,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "27": 1,
+                "78": 2
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "a54f51c505694d8f76f6c3ff69e8115266ebf951cf434ee34115c51eb4845ae7",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "3372582f7f68fb46be82cb1851cf7bb390170aa5129d66f42ccf406900e32b84"
+          }
+        },
+        "molecular_weight_g_mol": 72.107,
+        "molecule_group": "WYURNTSHIVDZCO",
+        "name": "tetrahydrofuran",
+        "pair_id": "water-WYURNTSHIVDZCO-UHFFFAOYSA-N",
+        "parameter_sha256": "2b3ea90b8f91d4eb3c9cd034ee78df9d9058a1e87953ff2f2791c49ca3f16d74",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 339.15,
+        "pure_melting_temperature_k": 165.15,
+        "safety_review_status": "not_reviewed",
+        "smiles": "C1CCOC1"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.135666666667,
+        0.155,
+        0.174333333333
+      ],
+      "pair": {
+        "cas_number": "67-64-1",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C3H6O",
+        "inchi_key": "CSCPPACGZOOCGX-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.5663
+              ],
+              [
+                0.5663,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "67-64-1"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                666.7541568707342
+              ],
+              [
+                409.6929122710524,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 1,
+                "18": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "2343100affea425dc9863f94555d58faecc3825c422390307d7ca8a96313890f",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "a19a50e36242e7045fe92d6d4622ea2e52bf1a59491e53610e8e3840dec7993c"
+          }
+        },
+        "molecular_weight_g_mol": 58.08,
+        "molecule_group": "CSCPPACGZOOCGX",
+        "name": "acetone",
+        "pair_id": "water-CSCPPACGZOOCGX-UHFFFAOYSA-N",
+        "parameter_sha256": "123280bdfd6ba9074714726aa0c01f339b400a2e47cf303d79163ee491da8fec",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 329.224922705,
+        "pure_melting_temperature_k": 178.35,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CC(C)=O"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.0776666666667,
+        0.0970000000001,
+        0.116333333334
+      ],
+      "pair": {
+        "cas_number": "78-93-3",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C4H8O",
+        "inchi_key": "ZWEHNKRNPOVVGH-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.3536
+              ],
+              [
+                0.3536,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "78-93-3"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                910.770391181574
+              ],
+              [
+                339.4021510709245,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 1,
+                "2": 1,
+                "18": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "2343100affea425dc9863f94555d58faecc3825c422390307d7ca8a96313890f",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "58c23f2690e6574913e4256293800fd4ee4a1653d8daff85e8468680b16ffc89"
+          }
+        },
+        "molecular_weight_g_mol": 72.107,
+        "molecule_group": "ZWEHNKRNPOVVGH",
+        "name": "2-butanone",
+        "pair_id": "water-ZWEHNKRNPOVVGH-UHFFFAOYSA-N",
+        "parameter_sha256": "999b10144bed99d850ad051d1940646ddc572d48b230df510922d266a987e8aa",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 352.75,
+        "pure_melting_temperature_k": 186.35,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CCC(C)=O"
+      },
+      "stage": "refined"
+    },
+    {
+      "config": {
+        "balance_tolerance": 1e-07,
+        "catalog": {
+          "allowed_atomic_numbers": [
+            1,
+            6,
+            8
+          ],
+          "excluded_smarts": [
+            "[O;X2]-[O;X2]",
+            "[C;X3](=O)[O;H1]",
+            "[C;X3](=O)[O;X2][C;X3](=O)",
+            "[O;r3]"
+          ],
+          "maximum_molecular_weight_g_mol": 250.0,
+          "maximum_pairs": null,
+          "source": "ChemSep NRTL"
+        },
+        "endpoint_relative_tolerance": 0.05,
+        "grid": {
+          "inlet_temperature_k": 293.15,
+          "linear_points": 16,
+          "log_points": 9,
+          "maximum_mass_fraction": 0.3,
+          "minimum_mass_fraction": 0.0001,
+          "outlet_temperatures_k": [
+            350.0,
+            400.0,
+            450.0
+          ],
+          "pressures_pa": [
+            101325.0,
+            200000.0
+          ],
+          "transition_mass_fraction": 0.01
+        },
+        "models": [
+          "chemsep_nrtl",
+          "unifac_dortmund"
+        ],
+        "name": "parameter-backed-water-mixture-predictive-grid",
+        "pair_timeout_s": 300,
+        "phase_fraction_tolerance": 1e-08,
+        "refinement_intervals_per_pair": 6,
+        "refinement_pairs": 12,
+        "shortlist_size": 20,
+        "version": "v5m-2",
+        "workers": 4
+      },
+      "mass_fractions": [
+        0.000133352143216,
+        0.000237137370566,
+        0.000421696503429,
+        0.000749894209332,
+        0.00133352143216,
+        0.00237137370566
+      ],
+      "pair": {
+        "cas_number": "123-42-2",
+        "catalog_sources": [
+          "ChemSep NRTL"
+        ],
+        "commercial_availability_verified": false,
+        "formula": "C6H12O2",
+        "inchi_key": "SWXVUIWOUIDPGS-UHFFFAOYSA-N",
+        "model_rejections": {},
+        "models": {
+          "chemsep_nrtl": {
+            "alpha_cs": [
+              [
+                0.0,
+                0.678
+              ],
+              [
+                0.678,
+                0.0
+              ]
+            ],
+            "component_order": [
+              "7732-18-5",
+              "123-42-2"
+            ],
+            "fit_temperature_range_k": null,
+            "independent_validation": false,
+            "source": "thermo.IPDB:ChemSep NRTL",
+            "table_metadata": {
+              "P dependent": false,
+              "T dependent": true,
+              "components": 2,
+              "missing": {
+                "alphaij": 0.3,
+                "bij": 0
+              },
+              "necessary keys": [
+                "bij",
+                "alphaij"
+              ],
+              "source": "ChemSep",
+              "symmetric": false,
+              "type": "NRTL original T"
+            },
+            "tau_bs_k": [
+              [
+                0.0,
+                665.8968720734657
+              ],
+              [
+                425.714969320073,
+                0.0
+              ]
+            ],
+            "temperature_expression": "tau_ij = bij / T"
+          },
+          "unifac_dortmund": {
+            "fit_temperature_range_k": null,
+            "groups": [
+              {
+                "16": 1
+              },
+              {
+                "1": 2,
+                "2": 1,
+                "4": 1,
+                "18": 1,
+                "82": 1
+              }
+            ],
+            "independent_validation": false,
+            "interaction_sha256": "4093b5571326859849d246f52237652a1410c8e91791c18f0c51801f9a36048e",
+            "missing_interactions": [],
+            "parameter_set": "DOUFIP2016",
+            "subgroups_sha256": "f3bea8a51891e232714aeda1c6e03f81cc073b286cf489aa3d5ae5eb3da51631"
+          }
+        },
+        "molecular_weight_g_mol": 116.15999999999998,
+        "molecule_group": "SWXVUIWOUIDPGS",
+        "name": "diacetone alcohol",
+        "pair_id": "water-SWXVUIWOUIDPGS-UHFFFAOYSA-N",
+        "parameter_sha256": "0cef39879597892b73e107ae11b18e6d0e00fe7928ca7e036eda4c80f7c2cdd0",
+        "preparable_without_new_synthesis": "known_identity_not_procurement_verified",
+        "pure_boiling_temperature_k": 441.05,
+        "pure_melting_temperature_k": 226.15,
+        "safety_review_status": "not_reviewed",
+        "smiles": "CC(=O)CC(C)(C)O"
+      },
+      "stage": "refined"
+    }
+  ]
+}
