@@ -1,0 +1,30 @@
+# Cache blobs, numerical workers, failed partial runs and locks stay local.
+/.campaign-cache/
+/.campaign-work/
+__pycache__/
+
+# Immutable published snapshots; exact artifacts plus bounded report families.
+/campaign-v5m3*-results/*
+!/campaign-v5m3*-results/latest.json
+!/campaign-v5m3*-results/run-*/
+/campaign-v5m3*-results/run-*/*
+!/campaign-v5m3*-results/run-*/summary.json
+!/campaign-v5m3*-results/run-*/summary.json.gz
+!/campaign-v5m3*-results/run-*/manifest.json
+!/campaign-v5m3*-results/run-*/manifest.json.gz
+!/campaign-v5m3*-results/run-*/registry.json
+!/campaign-v5m3*-results/run-*/registry.json.gz
+!/campaign-v5m3*-results/run-*/changes.json
+!/campaign-v5m3*-results/run-*/changes.json.gz
+!/campaign-v5m3*-results/run-*/scientific-results.json.gz
+!/campaign-v5m3*-results/run-*/task-graph.json.gz
+!/campaign-v5m3*-results/run-*/catalog.json.gz
+!/campaign-v5m3*-results/run-*/execution-events.json.gz
+!/campaign-v5m3*-results/run-*/pair-*.json.gz
+!/campaign-v5m3*-results/run-*/report-*.csv
+!/campaign-v5m3*-results/run-*/table-*.csv.gz
+!/campaign-v5m3*-results/run-*/publication-index.json
+/campaign-v5m3*-results/run-*/*/
+
+# Alternate --cache-dir/results-dir paths need an explicit publication policy.
+# Ignore rules do not untrack files. Never use git clean -fdx on a research tree.

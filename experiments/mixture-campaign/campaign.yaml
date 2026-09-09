@@ -1,0 +1,54 @@
+schema: mixture-campaign-v1
+name: water-binary-standard-suite
+# Exploratory numerical scenario; not a hardware operating requirement.
+scenario: fixed-overall-composition-enthalpy-screen
+models: [chemsep_nrtl, unifac_dortmund]
+catalog:
+  source: ChemSep NRTL
+  allowed_atomic_numbers: [1, 6, 8]
+  maximum_molecular_weight_g_mol: 250.0
+  maximum_pairs: null
+  excluded_smarts: ['[O;X2]-[O;X2]', '[C;X3](=O)[O;H1]', '[C;X3](=O)[O;X2][C;X3](=O)', '[O;r3]']
+additional_cas: []
+scope:
+  mass_fraction: [0.0001, 0.30]
+  temperature_k: [350.0, 450.0]
+  pressure_pa: [101325.0, 200000.0]
+model:
+  inlet_temperature_k: 293.15
+  # This choice is independent of subsequent adaptive points.
+  correlation_temperatures_k: [350.0, 400.0, 450.0]
+  phase_fraction_tolerance: 0.00000001
+  balance_tolerance: 0.0000001
+  endpoint_relative_tolerance: 0.05
+coarse:
+  log_transition: 0.01
+  log_points: 9
+  linear_points: 16
+  temperatures_k: [350.0, 400.0, 450.0]
+  pressures_pa: [101325.0, 200000.0]
+adaptive:
+  max_rounds: 5
+  max_new_points_per_pair: 180
+  points_per_round: 36
+  gain_margin: 0.001
+  model_spread_trigger: 0.05
+  gain_change_trigger: 0.01
+  log_composition_transition: 0.01
+  tolerances:
+    mass_fraction: 0.0005
+    temperature_k: 1.0
+    # Pressure tolerance is ln(P_right/P_left), not pascals.
+    pressure_pa: 0.02
+# Every required study runs for every catalog-eligible pair, not only finalists.
+studies: [regimes, phase_boundaries, model_disagreement, reference_audit]
+# Trusted local Python modules exposing register_studies(registry).
+plugins: []
+# Optional normalized, source-linked independent measurements. Never model labels.
+references: null
+execution:
+  workers: 4
+  batch_points: 72
+  worker_timeout_s: 180.0
+publication:
+  shard_bytes: 32768
