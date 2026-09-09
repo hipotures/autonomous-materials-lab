@@ -1,0 +1,7 @@
+error,evidence_status,execution_status,study
+,evidence_incomplete,complete,evidence_needs
+,,complete,model_disagreement
+,,complete,phase_boundaries
+,missing_external_references,complete,reference_audit
+,,complete,regimes
+,reference_blocks_present,complete,water_reference_audit

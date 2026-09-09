@@ -1,0 +1,17 @@
+action,count,kind,status
+executed,26,adaptive.assessment,complete
+executed,130,adaptive.plan,complete
+executed,1,catalog.discover,complete
+cache_hit,52,model.freeze,complete
+cache_hit,16408,model.state,complete
+executed,440,model.state,complete
+executed,182,observations.bundle,complete
+executed,65,reference.water_bundle,complete
+executed,132,reference.water_state,complete
+executed,26,references.freeze,complete
+executed,26,study.evidence_needs,complete
+executed,26,study.model_disagreement,complete
+executed,26,study.phase_boundaries,complete
+executed,26,study.reference_audit,complete
+executed,26,study.regimes,complete
+executed,26,study.water_reference_audit,complete

@@ -1,0 +1,5 @@
+chemsep_nrtl_endpoint_error,chemsep_nrtl_liquid_phase_count,chemsep_nrtl_ratio,chemsep_nrtl_status,chemsep_nrtl_vapor_mole_fraction,heat_reduction_required_for_mass_parity,mass_fraction,mass_ratio_equal_net_heat,minimum_ratio,model_spread,pair_id,paired_eligible,pressure_pa,reference_blockers,temperature_k,unifac_dortmund_endpoint_error,unifac_dortmund_liquid_phase_count,unifac_dortmund_ratio,unifac_dortmund_status,unifac_dortmund_vapor_mole_fraction
+,0,,inlet_not_single_liquid,1.0,,0.3,,,,water-ZWEHNKRNPOVVGH-UHFFFAOYSA-N,False,101325.0,[],400.0,,0,,inlet_not_single_liquid,1.0
+,0,,inlet_not_single_liquid,1.0,,0.3,,,,water-ZWEHNKRNPOVVGH-UHFFFAOYSA-N,False,200000.0,[],400.0,,0,,inlet_not_single_liquid,1.0
+,0,,inlet_not_single_liquid,1.0,,0.3,,,,water-ZWEHNKRNPOVVGH-UHFFFAOYSA-N,False,101325.0,[],450.0,,0,,inlet_not_single_liquid,1.0
+,0,,inlet_not_single_liquid,1.0,,0.3,,,,water-ZWEHNKRNPOVVGH-UHFFFAOYSA-N,False,200000.0,[],450.0,,0,,inlet_not_single_liquid,1.0
