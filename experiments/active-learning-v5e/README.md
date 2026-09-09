@@ -105,7 +105,11 @@ The generated:
 
     reference-resolution.yaml
 
-must be filled only after:
+is the machine-readable handoff into V5e-2. V5e-2 now automates the normal
+resolution path. A human only needs to inspect records that remain unresolved,
+have incomplete thermophysical support or fail cross-source consistency checks.
+
+The same reference gate still applies:
 
     molecular identity is independently verified
     a trusted reference property source is identified
@@ -193,3 +197,188 @@ V5e-1 answers:
 
 The next stage after V5e-1 is not another search run. It is reference resolution
 and V5b calibration expansion using the resolved subset of these targets.
+
+
+# V5e-2: Automated reference resolution
+
+V5e-2 removes the manual dataset-building step from the active-learning loop.
+
+It consumes the V5e-1 `reference-resolution.yaml` acquisition handoff and
+attempts to resolve every target automatically:
+
+    V5e-1 calibration targets
+      -> PubChem exact identity lookup
+      -> CAS / InChIKey consistency
+      -> exact CoolProp identity match
+      -> NIST Chemistry WebBook corroboration
+      -> storage-state property extraction
+      -> source-consistency gate
+      -> V5b-3 calibration handoff
+
+The expected workflow is therefore not to search for 50 compounds by hand.
+Human review is restricted to the residual unresolved/review queue.
+
+## Identity contract
+
+The locally generated InChIKey remains the primary identity key.
+
+PubChem PUG REST is queried by exact InChIKey. The returned record must agree
+with the acquisition target on:
+
+    exact InChIKey
+    molecular formula
+    molecular weight within configured tolerance
+
+PubChem identity or computed metadata alone is never accepted as a
+thermophysical calibration reference.
+
+CAS Registry Numbers are extracted from PubChem synonyms only when the CAS
+checksum is valid.
+
+## Independent property reference
+
+The predictor being calibrated is:
+
+    FeOS GC-PC-SAFT + Joback
+
+V5e-2 explicitly forbids using that prediction path as its own reference.
+
+The current automatic calibration-grade backend is CoolProp. A CoolProp fluid
+is accepted only through an exact persistent-identifier match:
+
+    exact InChIKey
+    or
+    exact CAS Registry Number
+
+Name/fuzzy matching is intentionally not used.
+
+For an accepted fluid V5e-2 records:
+
+    critical temperature
+    critical pressure
+    acentric factor
+    normal boiling temperature
+    storage density
+    storage Cp
+    storage enthalpy
+    outlet enthalpy
+    enthalpy window
+    latent heat of vaporization
+
+For low-boiling fluids the resolver automatically raises storage pressure above
+the saturation pressure using the configured margin, subject to the configured
+maximum storage pressure. A target is not automatically ingested if the
+configured storage temperature is at/above the critical temperature, the
+required pressure exceeds the limit, the resolved phase is not liquid, or
+required reference properties are missing.
+
+## NIST Chemistry WebBook
+
+NIST Chemistry WebBook SRD 69 is queried by verified CAS number.
+
+V5e-2 records the phase-change page when available and also attempts the NIST
+fluid-system isobaric endpoint at the selected storage state. Comparable
+CoolProp/NIST values are checked against:
+
+    maximum_cross_source_relative_difference
+
+The default is 5%.
+
+A target exceeding that tolerance is routed to:
+
+    resolved_conflict_review
+
+instead of being silently accepted.
+
+NIST-only records are retained as useful reference evidence but are not yet
+automatically converted into V5b holdouts because the current V5b reference
+runner consumes CoolProp identities. A later property-provider abstraction may
+promote sufficiently complete NIST/literature-only targets without weakening
+the blind-reference contract.
+
+## Reproducible source cache
+
+Every HTTP response used by the run is cached under:
+
+    reference-v5e2-results/source-cache/
+
+The cache stores the exact response bytes plus URL/SHA-256 metadata. Re-running
+the same URL from the same output tree therefore does not silently substitute
+new remote content.
+
+The runner also records package versions, input hashes and the source contract
+in the manifest.
+
+## Outputs
+
+    reference-v5e2-results/
+      resolved-targets.csv
+      unresolved-targets.csv
+      reference-audit.csv
+      reference-properties.json
+      provenance.json
+      calibration-expansion.yaml
+      v5b3-calibration-input.yaml
+      summary.json
+      manifest.json
+      source-cache/
+
+`resolved-targets.csv` contains only candidates that pass the automatic
+calibration gate.
+
+`unresolved-targets.csv` is the human-review queue.
+
+`reference-audit.csv` is a compact audit table covering every attempted
+candidate.
+
+`reference-properties.json` preserves normalized identity, property,
+cross-source and failure evidence.
+
+`v5b3-calibration-input.yaml` contains only exact-identity, independent
+CoolProp-backed targets. It is marked executable only when at least the
+configured minimum number of targets were resolved.
+
+## Run
+
+First generate the V5e-1 acquisition set if it does not already exist:
+
+    cd experiments/active-learning-v5e
+
+    python run_acquisition.py \
+      --output-dir active-learning-v5e1-results
+
+Then run automated reference resolution:
+
+    python run_reference_resolution.py \
+      --output-dir reference-v5e2-results
+
+A small network smoke test can be run with:
+
+    python run_reference_resolution.py \
+      --limit 3 \
+      --output-dir reference-v5e2-smoke-results
+
+The normal full run should not use `--limit`.
+
+## Interpretation
+
+V5e-2 answers:
+
+> Which V5e-1 acquisition targets can be independently identified and supplied
+> with trustworthy reference-property support automatically, and which residual
+> cases actually require human review?
+
+A V5e-2 target marked `usable_for_v5b_calibration=true` is still not a
+rankable coolant candidate. It is only eligible to enter the next calibration
+experiment.
+
+The next stage is V5b-3:
+
+    original V5b calibration
+      + V5e-2 resolved reference subset
+      -> blind prediction
+      -> expanded-domain validation
+      -> uncertainty recalibration
+      -> applicability-domain update
+
+Only after that loop is rerun may V5d exploratory candidates become rankable.

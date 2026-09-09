@@ -1,0 +1,35 @@
+version: v5e-2
+name: automated-reference-resolution
+
+network:
+  user_agent: autonomous-materials-lab-v5e2/1.0 (reference-resolution research client)
+  timeout_s: 20.0
+  retries: 2
+  minimum_interval_s: 0.20
+
+identity:
+  # PubChem must return the exact RDKit-derived InChIKey. Formula and molecular
+  # weight are additional guards against accidental identifier mismatches.
+  max_molecular_weight_relative_error: 0.002
+
+properties:
+  storage_temperature_k: 293.15
+  default_storage_pressure_pa: 101325.0
+  # If a CoolProp reference is available, V5e-2 raises storage pressure above
+  # saturation pressure to keep low-boiling candidates in a liquid state.
+  saturation_pressure_margin: 1.10
+  max_storage_pressure_pa: 5000000.0
+  max_exit_temperature_k: 500.0
+
+quality:
+  # If NIST and CoolProp disagree by more than this on a comparable property,
+  # the target is routed to review instead of automatic V5b-3 ingestion.
+  maximum_cross_source_relative_difference: 0.05
+
+handoff:
+  # Do not call the generated V5b-3 input executable when only a trivial number
+  # of targets could be resolved automatically.
+  minimum_ready_targets: 5
+
+inputs:
+  v5e1_reference_resolution: active-learning-v5e1-results/reference-resolution.yaml
