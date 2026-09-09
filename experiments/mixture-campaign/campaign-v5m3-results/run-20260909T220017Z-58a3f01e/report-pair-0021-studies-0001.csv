@@ -1,0 +1,5 @@
+error,evidence_status,execution_status,study
+,,complete,model_disagreement
+,,complete,phase_boundaries
+,missing_external_references,complete,reference_audit
+,,complete,regimes

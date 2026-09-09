@@ -1,0 +1,11 @@
+action,count,kind,status
+executed,130,adaptive.plan,complete
+executed,1,catalog.discover,complete
+executed,52,model.freeze,complete
+executed,16848,model.state,complete
+executed,182,observations.bundle,complete
+executed,26,references.freeze,complete
+executed,26,study.model_disagreement,complete
+executed,26,study.phase_boundaries,complete
+executed,26,study.reference_audit,complete
+executed,26,study.regimes,complete
