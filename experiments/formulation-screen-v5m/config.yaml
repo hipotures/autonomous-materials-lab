@@ -1,0 +1,56 @@
+version: v5m-1
+name: known-component-water-formulations
+# Mass basis everywhere. Recipes assume pure additives, not commercial blends.
+batch_mass_g: 100.0
+cold_temperatures_k: [293.15, 303.15, 313.15]
+pressure_pa: 101325.0
+hot_outlet_temperatures_k: [350.0, 400.0, 450.0, 500.0]
+# Counterfactual retention stress, NOT a drying/solubility simulation.
+water_loss_fractions: [0.0, 0.5, 0.9, 0.99]
+replicates: 3
+block_size: 4
+random_seed: v5m1-formulations-20260909
+additives:
+  - id: ethanol
+    name: Ethanol
+    cas: 64-17-5
+    kind: miscible_liquid
+    enabled: true
+    mass_fractions: [0.001, 0.003, 0.01, 0.03, 0.10, 0.20]
+    review_topics: [flammable_vapor, ignition_sources, material_compatibility]
+  - id: propylene_glycol
+    name: Propylene glycol
+    cas: 57-55-6
+    kind: miscible_liquid
+    enabled: true
+    mass_fractions: [0.001, 0.003, 0.01, 0.03, 0.10, 0.20]
+    review_topics: [viscosity, thermal_degradation, retained_residue]
+  - id: glycerol
+    name: Glycerol
+    cas: 56-81-5
+    kind: miscible_liquid
+    enabled: true
+    mass_fractions: [0.001, 0.003, 0.01, 0.03, 0.10, 0.20]
+    review_topics: [viscosity, thermal_degradation, retained_residue]
+  - id: sodium_chloride
+    name: Sodium chloride
+    cas: 7647-14-5
+    kind: dissolved_solid
+    enabled: true
+    mass_fractions: [0.001, 0.003, 0.01, 0.03]
+    review_topics: [corrosion, precipitation, pore_blockage]
+  - id: sds
+    name: Sodium dodecyl sulfate
+    cas: 151-21-3
+    kind: surfactant
+    enabled: true
+    # Measurement-only controls. No CMC, wetting or boiling enhancement assumed.
+    mass_fractions: [0.0001, 0.0003, 0.001]
+    review_topics: [foaming, exposure, thermal_stability, residue]
+  - id: silica_suspension
+    name: Silica suspension - deferred
+    cas: 7631-86-9
+    kind: suspension
+    enabled: false
+    mass_fractions: []
+    review_topics: [particle_distribution, aggregation, settling, inhalation, clogging]
