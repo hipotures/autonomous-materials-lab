@@ -71,7 +71,7 @@ def point_report(pair_result, config):
                            phase_tolerance=config["model"]["phase_fraction_tolerance"]):
         row = {"pair_id": pair_result["pair"]["pair_id"], "mass_fraction": n["point"][0],
                "temperature_k": n["point"][1], "pressure_pa": n["point"][2],
-               "paired_eligible": n["eligible"], "minimum_ratio": n["minimum_ratio"], "model_spread": n["spread"],
+               "paired_eligible": n["eligible"], "reference_blockers": design.reference_blockers(n), "minimum_ratio": n["minimum_ratio"], "model_spread": n["spread"],
                "heat_reduction_required_for_mass_parity": max(0., 1-n["minimum_ratio"]) if n["eligible"] else None,
                "mass_ratio_equal_net_heat": 1/n["minimum_ratio"] if n["eligible"] else None}
         for model, value in n["models"].items():
@@ -84,19 +84,61 @@ def point_report(pair_result, config):
     return rows
 
 
+def quality_artifacts(results, shared_water, config):
+    """Deduplicate common needs without losing their affected-pair relationships."""
+    requests, consumers = {}, set()
+    for result in results:
+        study = result["studies"].get("evidence_needs", {})
+        for request in (study.get("data") or {}).get("requests", []):
+            key = request["id"]
+            if key in requests and requests[key] != request:
+                raise ValueError("conflicting evidence requests for one identity: " + key)
+            requests[key] = request
+            consumers.add((key, result["pair"]["pair_id"]))
+    items = sorted(requests.values(), key=lambda r: (r["priority"], r["id"]))
+    needs = {"schema": "mixture-campaign-evidence-needs-v1", "requests": items,
+             "consumers": [{"request_id": k, "pair_id": p} for k, p in sorted(consumers)],
+             "reference_values_fabricated": False, "automatic_online_acquisition_performed": False}
+    controls = []
+    tolerance = config["model"]["endpoint_relative_tolerance"]
+    for item in shared_water.get("controls", []):
+        data = item["outcome"].get("data") or {}
+        err = data.get("endpoint_relative_error")
+        controls.append({"context_id": item["context_id"], "temperature_k": item["coordinate"][0],
+            "pressure_pa": item["coordinate"][1], "status": data.get("status", "water_control_task_failed"),
+            "model_delta_h_j_kg": data.get("model_delta_h_j_kg"), "heos_delta_h_j_kg": data.get("heos_delta_h_j_kg"),
+            "endpoint_relative_error": err,
+            "comparison_allowed": data.get("status") == "ok" and isinstance(err, (int, float)) and 0 <= err <= tolerance,
+            "task_key": item["task"]["task_key"], "error": item["outcome"].get("error", data.get("error"))})
+    info = {"water_context_count": len(shared_water.get("contexts", {})),
+            "water_control_state_count": len(controls),
+            "water_control_task_failure_count": sum(r["status"] == "water_control_task_failed" for r in controls),
+            "water_control_blocked_count": sum(not r["comparison_allowed"] for r in controls),
+            "reference_blocked_mixture_point_count": sum(r["summary"].get("reference_blocked_point_count") or 0 for r in results),
+            "evidence_request_count": len(items), "evidence_consumer_count": len(consumers),
+            "evidence_status_counts": dict(sorted(Counter(r["status"] for r in items).items())),
+            "evidence_queue_budget_limited_pair_count": sum(bool((r["studies"].get("evidence_needs", {}).get("data") or {}).get("queue_budget_limited")) for r in results),
+            "adaptive_stop_cause_counts": dict(sorted(Counter(c for r in results for c in r["summary"].get("adaptive_stop_causes", [])).items())),
+            "continuum_convergence_claimed": False, "reference_values_fabricated": False}
+    return info, needs, controls
+
+
 def publish(output: Path, config: dict, results: list[dict], catalog: dict, graph: list[dict],
-            events: list[dict], manifest: dict, previous: dict | None) -> dict:
+            events: list[dict], manifest: dict, previous: dict | None, *, shared_water: dict | None = None) -> dict:
     output.mkdir(parents=True)
     index, pairs = [], [r["summary"] for r in results]
+    shared_water = shared_water or {"contexts": {}, "controls": []}
+    quality, needs, controls = quality_artifacts(results, shared_water, config)
     scientific = {"schema": "mixture-campaign-results-v1", "pairs": pairs,
-                  "rejections": catalog["rejections"], "required_suite": manifest["required_suite"]}
+                  "rejections": catalog["rejections"], "required_suite": manifest["required_suite"],
+                  "quality": quality, "water_controls_sha256": digest(shared_water), "evidence_needs_sha256": digest(needs)}
     scientific_hash = digest(scientific)
-    summary = {"schema": "mixture-campaign-summary-v1", "run_id": manifest["run_id"],
+    summary = {**quality, "study_version": "v5m-3.1", "schema": "mixture-campaign-summary-v1", "run_id": manifest["run_id"],
                "scenario": config["scenario"], "catalog_pair_count": len(catalog["candidates"]),
                "processed_pair_count": len(pairs), "limited_run": manifest["limit_pairs"] is not None,
                "suite_execution_complete": bool(pairs) and all(r["suite_execution_complete"] for r in pairs),
                "run_status": "completed_with_recorded_statuses" if pairs else "no_eligible_pairs",
-               "numerical_failure_count": sum(r["numerical_failure_count"] for r in pairs),
+               "numerical_failure_count": sum(r["numerical_failure_count"] for r in pairs) + quality["water_control_task_failure_count"],
                "scientific_result_sha256": scientific_hash,
                "state_task_count": sum(t["spec"]["kind"] == "model.state" for t in graph),
                "executed_state_count": sum(e["kind"] == "model.state" and e["action"] == "executed" for e in events),
@@ -119,7 +161,8 @@ def publish(output: Path, config: dict, results: list[dict], catalog: dict, grap
         index.append({"file": filename, "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()})
         index.append(compressed(output, filename+".gz", raw))
     for filename, data in (("scientific-results.json.gz", scientific), ("task-graph.json.gz", graph),
-                           ("catalog.json.gz", catalog), ("execution-events.json.gz", events)):
+                           ("catalog.json.gz", catalog), ("execution-events.json.gz", events),
+                           ("water-controls.json.gz", shared_water), ("evidence-needs.json.gz", needs)):
         index.append(compressed(output, filename, encoded(data)))
     limit = int(config["publication"]["shard_bytes"])
     # A small cross-pair table precedes full per-pair reports. No failed points are omitted.
@@ -130,6 +173,11 @@ def publish(output: Path, config: dict, results: list[dict], catalog: dict, grap
     counts = Counter((e["kind"], e["action"], e["status"]) for e in events)
     index += table(output, "task-audit", [{"kind": k, "action": a, "status": s, "count": n}
                                            for (k, a, s), n in sorted(counts.items())], limit)
+    index += table(output, "water-controls", controls, limit)
+    index += table(output, "evidence-needs", [{k: v for k, v in r.items() if k != "sources"} for r in needs["requests"]], limit)
+    index += table(output, "evidence-consumers", needs["consumers"], limit)
+    index += table(output, "evidence-sources", [{"request_id": r["id"], **source}
+                   for r in needs["requests"] for source in r["sources"]], limit)
     pair_index = []
     for i, result in enumerate(results, 1):
         label = f"pair-{i:04d}"

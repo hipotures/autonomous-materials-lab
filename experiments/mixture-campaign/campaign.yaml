@@ -35,13 +35,20 @@ adaptive:
   model_spread_trigger: 0.05
   gain_change_trigger: 0.01
   log_composition_transition: 0.01
+  # Persistent disagreement at this local resolution becomes an evidence need.
+  # Independent phase and paired-gain boundaries are still refined.
+  disagreement_resolution:
+    mass_fraction: 0.01
+    temperature_k: 5.0
+    pressure_pa: 0.08
+  disagreement_stability_tolerance: 0.01
   tolerances:
     mass_fraction: 0.0005
     temperature_k: 1.0
     # Pressure tolerance is ln(P_right/P_left), not pascals.
     pressure_pa: 0.02
 # Every required study runs for every catalog-eligible pair, not only finalists.
-studies: [regimes, phase_boundaries, model_disagreement, reference_audit]
+studies: [regimes, phase_boundaries, model_disagreement, reference_audit, water_reference_audit, evidence_needs]
 # Trusted local Python modules exposing register_studies(registry).
 plugins: []
 # Optional normalized, source-linked independent measurements. Never model labels.
@@ -52,3 +59,11 @@ execution:
   worker_timeout_s: 180.0
 publication:
   shard_bytes: 32768
+
+# Shared controls use the existing endpoint tolerance; it is not relaxed.
+water_audit:
+  temperature_points: 21
+  pressure_points: 5
+  consistency_relative_tolerance: 0.0000001
+evidence:
+  max_points_per_pair: 8

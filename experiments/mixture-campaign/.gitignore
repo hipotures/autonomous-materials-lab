@@ -17,6 +17,8 @@ __pycache__/
 !/campaign-v5m3*-results/run-*/changes.json
 !/campaign-v5m3*-results/run-*/changes.json.gz
 !/campaign-v5m3*-results/run-*/scientific-results.json.gz
+!/campaign-v5m3*-results/run-*/water-controls.json.gz
+!/campaign-v5m3*-results/run-*/evidence-needs.json.gz
 !/campaign-v5m3*-results/run-*/task-graph.json.gz
 !/campaign-v5m3*-results/run-*/catalog.json.gz
 !/campaign-v5m3*-results/run-*/execution-events.json.gz

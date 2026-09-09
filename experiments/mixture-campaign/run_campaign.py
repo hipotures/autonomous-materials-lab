@@ -20,6 +20,7 @@ import campaign_design as design
 import campaign_publication as publication
 import campaign_studies as studies
 import campaign_workflow as workflow
+import campaign_water as water
 from campaign_store import Store, digest, encoded, implementation, read_json, write_json, exclusive_lock
 
 HERE = Path(__file__).resolve().parent
@@ -64,18 +65,19 @@ def latest_snapshot(root: Path):
 
 
 def execute(config: dict, cache: Path, results: Path, *, retry_failures=False, recompute=False,
-            limit_pairs=None, driver_factory=backend.Driver, reference_records=None):
+            limit_pairs=None, driver_factory=water.AuditDriver, reference_records=None):
     cc.validate(config)
     registry = studies.registry(config["plugins"])
     ordered = studies.ordered_studies(config["studies"], registry)
-    if not {"regimes", "phase_boundaries", "model_disagreement", "reference_audit"}.issubset({s.name for s in ordered}):
-        raise ValueError("the initial standard suite cannot omit a required baseline study")
+    if not {"regimes", "phase_boundaries", "model_disagreement", "reference_audit", "water_reference_audit", "evidence_needs"}.issubset({s.name for s in ordered}):
+        raise ValueError("the standard suite requires the baseline, water audit and evidence needs studies")
     previous_id, previous, historical = latest_snapshot(results)
     run_id = "run-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
     work = cache / "work" / run_id
     work.mkdir(parents=True)
     driver = driver_factory(work / "workers", config["execution"]["worker_timeout_s"])
     store = Store(cache, work / "events.jsonl", retry_failures=retry_failures, recompute=recompute)
+    water_audit = water.SharedWaterAudit(store, driver, config)
     print("[catalog] discovering current and historical pairs", flush=True)
     catalog_task = store.run("catalog.discover", {"policy": config["catalog"], "additional_cas": config["additional_cas"],
                             "historical_cas": historical, "inlet": config["model"]["inlet_temperature_k"]},
@@ -91,7 +93,7 @@ def execute(config: dict, cache: Path, results: Path, *, retry_failures=False, r
     print(f"[design] pairs={len(selected)} coarse_points_per_pair={len(cc.basic_points(config))} models={len(config['models'])} max_new_points_per_pair={config['adaptive']['max_new_points_per_pair']}", flush=True)
     completed = {}
     def pair_job(pair):
-        return workflow.PairRun(pair, config, store, driver, reference_records or []).run(ordered)
+        return workflow.PairRun(pair, config, store, driver, reference_records or [], water_audit).run(ordered)
     with ThreadPoolExecutor(max_workers=config["execution"]["workers"]) as pool:
         futures = {pool.submit(pair_job, p): p for p in selected}
         for future in as_completed(futures):
@@ -112,11 +114,12 @@ def execute(config: dict, cache: Path, results: Path, *, retry_failures=False, r
                 "required_suite": suite, "environment": driver.environment, "backend_implementation": driver.code,
                 "driver_implementation": implementation(Path(__file__), Path(workflow.__file__), Path(cc.__file__)),
                 "publication_implementation": implementation(Path(publication.__file__)),
+                "water_control_implementation": water_audit.code, "study_version": "v5m-3.1",
                 "references_sha256": digest(reference_records or []), "historical_cas": historical,
                 "limit_pairs": limit_pairs, "retry_failures": retry_failures, "recompute": recompute,
                 "reference_training_overlap_known": False, "old_v5m2_results_imported_as_cache": False}
     stage = work / "publication"
-    summary = publication.publish(stage, config, ordered_results, catalog, store.graph(), store.events, manifest, previous)
+    summary = publication.publish(stage, config, ordered_results, catalog, store.graph(), store.events, manifest, previous, shared_water=water_audit.export())
     results.mkdir(parents=True, exist_ok=True)
     destination = results / run_id
     # Stage on the destination filesystem to retain atomic snapshot publication.

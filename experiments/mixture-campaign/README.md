@@ -1,4 +1,4 @@
-# V5m-3: Repeatable mixture campaigns
+# V5m-3.1: Repeatable mixture campaigns with shared quality controls
 
 One command now discovers pairs, freezes each numerical model, evaluates the
 common baseline, automatically refines composition/temperature/pressure edges,
@@ -10,6 +10,16 @@ an all-materials simulator or a newly trained ML model. The initial adapter uses
 the existing V5m-2 binary-water ChemSep NRTL and Dortmund UNIFAC implementations.
 All earlier experiments, their files and their restart contracts remain intact.
 
+## V5m-3.1 update
+
+The standard suite now includes shared pure-water controls and a machine-readable
+evidence-needs queue. The 5% endpoint guard is unchanged. Persistent, locally
+resolved model disagreement is separated from additional useful grid refinement.
+Read [V5m-3.1.md](V5m-3.1.md) for status semantics, migration and provenance.
+Existing V5m-3 mixture state cache entries remain compatible when their original
+backend, library and numerical-context signatures match. No historical snapshot
+is rewritten; the new controls are computed separately.
+
 ## Run
 
 From the repository root with the existing environment:
@@ -18,7 +28,7 @@ From the repository root with the existing environment:
 git pull --ff-only
 cd experiments/entry-evaluator
 source .venv/bin/activate
-python -m unittest discover -s tests -p 'test_campaign.py' -v
+python -m unittest discover -s tests -p 'test_campaign*.py' -v
 cd ../mixture-campaign
 python run_campaign.py
 ```
@@ -101,14 +111,16 @@ outlet temperature and pressure. Additional midpoints are requested for:
 - a sufficiently steep gradient in a model-supported gain region.
 
 Logarithmic midpoints are used for pressure and dilute composition, arithmetic
-midpoints elsewhere. Round-robin allocation across axes prevents the entire
-budget being spent on composition. Existing coordinates are never recomputed
+midpoints elsewhere. Scientific priority is respected first; round-robin allocation across axes
+within each priority prevents spending all equal-priority work on composition. Existing coordinates are never recomputed
 merely because they participate in another study. New points stay inside the
 predeclared campaign scope; a best point at its boundary is explicitly flagged.
 The engine does not silently extend the operating requirements to obtain a win.
 
-Stops are reported as `no_triggered_sampled_edges`, `point_budget`, `max_rounds`
-or a planner failure. The first means only that the defined rules do not request
+Stops distinguish `no_triggered_sampled_edges`, `sampled_boundaries_resolved`,
+`point_budget`, `max_rounds`, `reference_blocked`,
+`model_disagreement_requires_evidence` and a planner failure. Simultaneous
+constraints remain in `adaptive_stop_causes`. The first means only that the defined rules do not request
 more sampled-edge work. It is NOT a proof of global convergence, absence of
 unsampled phase islands, or identification of a thermodynamic binodal. A budget
 stop remains unresolved. Invalid phase states and failed numerical jobs remain
@@ -124,6 +136,8 @@ The standard suite currently contains:
 | `phase_boundaries` | Remaining triggered brackets and unresolved edge count, not certified phase boundaries |
 | `model_disagreement` | Comparisons at the SAME composition, including phase fractions and stored caloric evidence |
 | `reference_audit` | Independent source-declared enthalpy comparisons when supplied; explicit gaps otherwise |
+| `water_reference_audit` | Shared pure-water controls, exact cached-denominator checks and explicit blocked conditions |
+| `evidence_needs` | Deduplicated, source-linked requests with exact conditions and acquisition routes, not fabricated measurements |
 
 Phase balance and pure-water endpoint guards from V5m-2 run in the numerical
 adapter. No mixture is a physical winner or production-rankable as a result of
@@ -251,7 +265,8 @@ Each completed run goes to `campaign-v5m3-results/run-<UTC>-<id>/`.
 - summary, manifest, registry, changes and a complete publication index;
 - immutable scientific results, task graph and per-pair dossiers in gzip;
 - small UTF-8 CSV shards with all sampled coordinates and statuses;
-- common-baseline Pareto with explicit water, and task execution/cache counts.
+- common-baseline Pareto with explicit water, and task execution/cache counts;
+- shared water-control dossiers and evidence requests with their affected-pair relationships.
 
 Gzip is round-trip checked; text shards are at most 32 KiB by default. The GitHub
 text connector is not assumed to decode archives. Original/raw observations and
@@ -282,7 +297,7 @@ unresolved in their reports. Physical safety approval is never inferred.
 Architecture tests use synthetic fixtures and test clean versus incremental
 rebuilds, cache corruption, dependency invalidation, retry, extension backfill,
 immutable revisions, budget limits, compressed output and Git ignore behavior.
-Two optional integration tests exercise the actual installed thermodynamics
+Four optional integration tests exercise the actual installed thermodynamics
 stack. Missing libraries are reported as skips, never numerical verification.
 
 The first adapter preserves the model assumptions documented in

@@ -33,6 +33,7 @@ def compact():
     c["coarse"].update(log_points=2, linear_points=2, temperatures_k=[350., 450.], pressures_pa=[101325., 200000.])
     c["adaptive"].update(max_rounds=2, max_new_points_per_pair=4, points_per_round=2)
     c["execution"].update(workers=1, batch_points=9)
+    c["water_audit"].update(temperature_points=3, pressure_points=2)
     return c
 
 
@@ -55,7 +56,13 @@ class FakeDriver:
     def freeze(self, p, model, config):
         self.calls.append("freeze")
         return {"pair": b.model_pair(p, model), "model": model, "config": b.numerical_config(config),
-                "selected_correlations": {"synthetic": "fixed-envelope"}}
+                "selected_correlations": {"pure_methods": {k: [{"method": "synthetic-test-only", "temperature_bounds_k": [270., 500.], "extrapolation": None}]*2
+                    for k in ("VaporPressures", "HeatCapacityGases", "VolumeLiquids")}}}
+    def water_states(self, context, coordinates):
+        self.calls.append(("water_states", len(coordinates)))
+        return [{"coordinate": q, "status": "ok", "model_delta_h_j_kg": 100000.,
+                 "heos_delta_h_j_kg": 100000., "endpoint_relative_error": 0.,
+                 "evidence_kind": "synthetic_test_only"} for q in coordinates]
     def states(self, frozen, points):
         self.calls.append(("states", len(points)))
         if self.fail: raise RuntimeError("synthetic numerical failure")
@@ -69,6 +76,7 @@ class FakeDriver:
                 "model": model, "additive_mass_fraction": x, "outlet_temperature_k": t, "pressure_pa": pressure,
                 "inlet_temperature_k": frozen["config"]["grid"]["inlet_temperature_k"], "status": "ok", "model_comparison_eligible": True,
                 "same_model_water_delta_h_ratio": ratio, "delta_h_j_kg": ratio*100000.,
+                "same_model_water_delta_h_j_kg": 100000., "heos_water_delta_h_j_kg": 100000.,
                 "storage_bubble_pressure_ratio": 1+x, "viscosity_ratio_proxy": 1+x,
                 "outlet": {"vapor_mole_fraction": vapor, "liquid_phase_count": 1},
                 "evidence_kind": "synthetic_test_only", "endpoint_relative_error": 0.})
@@ -205,7 +213,7 @@ class SuiteTests(unittest.TestCase):
         with self.assertRaises(ValueError): s.ordered_studies(["unknown"],s.registry())
     def test_default_order_dependency_valid(self):
         order=s.ordered_studies(CONFIG["studies"],s.registry())
-        self.assertEqual(len(order),4)
+        self.assertEqual(len(order),6)
     def test_missing_references_are_not_validated(self):
         out=s.reference_audit({"references":{"records":[]},"reference_predictions":{"rows":[]}}, {"models":b.MODELS})
         self.assertEqual(out["status"],"missing_external_references")

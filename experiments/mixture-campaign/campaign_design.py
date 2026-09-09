@@ -45,15 +45,29 @@ def paired(rows: list[dict], models: list[str], *, phase_tolerance: float = 1e-8
     return result
 
 
-def triggered_edges(nodes: list[dict], policy: dict) -> list[dict]:
-    """Detect adjacent collinear sampled edges, including unresolved phase changes.
+def reference_blockers(node: dict) -> list[str]:
+    reasons = set()
+    for row in node["models"].values():
+        reasons.update(row.get("comparison_blockers", []))
+        if row.get("status") == "water_reference_unavailable":
+            reasons.add("water_control_unavailable")
+        if row.get("endpoint_within_configured_tolerance") is False:
+            reasons.add("water_reference_tolerance_exceeded")
+    return sorted(reasons)
 
-    This cannot prove absence of islands between untriggered samples. Reported
-    termination is only with respect to the configured sampled-edge rules.
+
+def edge_analysis(nodes: list[dict], policy: dict) -> dict:
+    """Separate geometric resolution, reference blocks and model disagreement.
+
+    A persistent discrepancy is evidence-limited only on a small, same-regime
+    edge with two discrepant endpoints. Independent phase/gain triggers remain
+    refinable. No classification establishes continuum convergence or accuracy.
     """
-    found = {}
-    margin = policy["gain_margin"]
-    tolerances = policy["tolerances"]
+    found, resolved, blocked, evidence = {}, [], [], []
+    margin, tolerances = policy["gain_margin"], policy["tolerances"]
+    local = policy.get("disagreement_resolution", {
+        "mass_fraction": .01, "temperature_k": 5.0, "pressure_pa": .08})
+    stable_change = policy.get("disagreement_stability_tolerance", .01)
     for axis in range(3):
         lines = defaultdict(list)
         for node in nodes:
@@ -61,55 +75,101 @@ def triggered_edges(nodes: list[dict], policy: dict) -> list[dict]:
             lines[tuple(q[i] for i in range(3) if i != axis)].append(node)
         for line in lines.values():
             line.sort(key=lambda n: n["point"][axis])
+            existing = {tuple(n["point"]) for n in line}
             for a, b in zip(line, line[1:]):
                 lo, hi = a["point"][axis], b["point"][axis]
                 span = math.log(hi/lo) if axis == 2 else hi-lo
-                tolerance = tolerances[AXES[axis]]
-                if span <= tolerance:
-                    continue
+                name = AXES[axis]
+                mid = list(a["point"])
+                mid[axis] = math.sqrt(lo*hi) if axis == 2 or (axis == 0 and hi <= policy["log_composition_transition"]) else (lo+hi)/2
+                key = point(*mid)
+                edge = {"axis": name, "left": a["point"], "right": b["point"],
+                        "point": list(key), "normalized_span": span/tolerances[name]}
                 reasons = []
-                if a["phase_signatures"] != b["phase_signatures"]:
+                phase_change = a["phase_signatures"] != b["phase_signatures"]
+                if phase_change:
                     reasons.append("phase_or_feasibility_change")
+                blocks = sorted(set(reference_blockers(a) + reference_blockers(b)))
+                if blocks:
+                    blocked.append({**edge, "reasons": blocks})
                 if a["eligible"] and b["eligible"]:
-                    gains = [a["minimum_ratio"] - 1-margin, b["minimum_ratio"] - 1-margin]
+                    gains = [a["minimum_ratio"]-1-margin, b["minimum_ratio"]-1-margin]
                     if min(gains) <= 0 < max(gains):
                         reasons.append("paired_gain_boundary")
-                    if max(a["spread"], b["spread"]) >= policy["model_spread_trigger"]:
+                    discrepant = max(a["spread"], b["spread"]) >= policy["model_spread_trigger"]
+                    persistent = (discrepant and not phase_change and
+                        min(a["spread"], b["spread"]) >= policy["model_spread_trigger"] and
+                        span <= local[name] and abs(a["spread"]-b["spread"]) <= stable_change)
+                    if persistent:
+                        evidence.append({**edge, "reasons": ["model_disagreement_requires_evidence"],
+                                         "endpoint_spreads": [a["spread"], b["spread"]]})
+                    elif discrepant:
                         reasons.append("model_disagreement")
                     if max(gains) > 0 and abs(a["minimum_ratio"]-b["minimum_ratio"]) >= policy["gain_change_trigger"]:
                         reasons.append("gain_region_gradient")
                 if not reasons:
                     continue
-                mid = list(a["point"])
-                mid[axis] = math.sqrt(lo*hi) if axis == 2 or (axis == 0 and hi <= policy["log_composition_transition"]) else (lo+hi)/2
-                key = point(*mid)
-                if key in {tuple(n["point"]) for n in line} or key in (tuple(a["point"]), tuple(b["point"])):
+                if span <= tolerances[name] or key in existing or key in (tuple(a["point"]), tuple(b["point"])):
+                    resolved.append({**edge, "reasons": reasons,
+                                     "resolution_basis": "configured_sampled_edge_tolerance" if span <= tolerances[name] else "coordinate_precision_limit"})
                     continue
-                priority = min([0 if r == "paired_gain_boundary" else 1 if r == "phase_or_feasibility_change" else 2 for r in reasons])
-                edge = {"axis": AXES[axis], "left": a["point"], "right": b["point"],
-                        "point": list(key), "reasons": reasons, "priority": priority,
-                        "normalized_span": span/tolerance}
-                if key not in found or (priority, -span/tolerance) < (found[key]["priority"], -found[key]["normalized_span"]):
-                    found[key] = edge
-    return sorted(found.values(), key=lambda e: (e["priority"], -e["normalized_span"], e["axis"], e["point"]))
+                priority = min(0 if r == "paired_gain_boundary" else 1 if r == "phase_or_feasibility_change" else 2 for r in reasons)
+                item = {**edge, "reasons": reasons, "priority": priority}
+                if key not in found or (priority, -edge["normalized_span"]) < (found[key]["priority"], -found[key]["normalized_span"]):
+                    found[key] = item
+    order = lambda e: (e.get("priority", 0), -e["normalized_span"], e["axis"], e["point"])
+    return {"refinable_edges": sorted(found.values(), key=order),
+            "resolved_edges": sorted(resolved, key=order),
+            "reference_blocked_edges": sorted(blocked, key=order),
+            "evidence_limited_edges": sorted(evidence, key=order),
+            "reference_blocked_point_count": sum(bool(reference_blockers(n)) for n in nodes),
+            "continuum_convergence_claimed": False}
+
+
+def triggered_edges(nodes: list[dict], policy: dict) -> list[dict]:
+    return edge_analysis(nodes, policy)["refinable_edges"]
 
 
 def refinement_plan(nodes: list[dict], policy: dict, remaining: int) -> dict:
-    existing = {tuple(n["point"]) for n in nodes}
-    edges = [e for e in triggered_edges(nodes, policy) if tuple(e["point"]) not in existing]
-    budget = min(policy["points_per_round"], remaining)
-    # Round-robin axes avoid spending the entire budget on composition alone.
-    by_axis = {axis: [e for e in edges if e["axis"] == axis] for axis in AXES}
+    analysis = edge_analysis(nodes, policy)
+    edges = analysis["refinable_edges"]
+    budget = max(0, min(policy["points_per_round"], remaining))
     chosen, used = [], set()
-    while len(chosen) < budget and any(by_axis.values()):
-        for axis in AXES:
-            if by_axis[axis] and len(chosen) < budget:
-                e = by_axis[axis].pop(0)
-                if tuple(e["point"]) not in used:
-                    chosen.append(e); used.add(tuple(e["point"]))
+    # Respect scientific priority first; balance axes within each priority.
+    for priority in sorted({e["priority"] for e in edges}):
+        by_axis = {axis: [e for e in edges if e["axis"] == axis and e["priority"] == priority] for axis in AXES}
+        while len(chosen) < budget and any(by_axis.values()):
+            for axis in AXES:
+                if by_axis[axis] and len(chosen) < budget:
+                    e = by_axis[axis].pop(0)
+                    if tuple(e["point"]) not in used:
+                        chosen.append(e); used.add(tuple(e["point"]))
     return {"points": [e["point"] for e in chosen], "triggers": chosen,
             "unresolved_edge_count": len(edges), "candidate_point_count": len(edges),
-            "budget_limited": len(edges) > budget}
+            "resolved_edge_count": len(analysis["resolved_edges"]),
+            "reference_blocked_edge_count": len(analysis["reference_blocked_edges"]),
+            "reference_blocked_point_count": analysis["reference_blocked_point_count"],
+            "evidence_limited_edge_count": len(analysis["evidence_limited_edges"]),
+            "budget_limited": len(edges) > budget, "continuum_convergence_claimed": False}
+
+
+def stop_assessment(plan: dict, remaining: int, rounds_exhausted: bool) -> dict:
+    """Retain simultaneous blockers rather than hiding them behind one status."""
+    causes = []
+    if plan["unresolved_edge_count"]:
+        causes.append("point_budget" if remaining <= 0 else "max_rounds" if rounds_exhausted else "refinement_pending")
+    if plan.get("reference_blocked_point_count", 0):
+        causes.append("reference_blocked")
+    if plan.get("evidence_limited_edge_count", 0):
+        causes.append("model_disagreement_requires_evidence")
+    if not causes:
+        causes = ["sampled_boundaries_resolved" if plan.get("resolved_edge_count", 0) else "no_triggered_sampled_edges"]
+    return {"primary_reason": causes[0], "causes": causes,
+            "refinable_edge_count": plan["unresolved_edge_count"],
+            "resolved_edge_count": plan.get("resolved_edge_count", 0),
+            "reference_blocked_point_count": plan.get("reference_blocked_point_count", 0),
+            "evidence_limited_edge_count": plan.get("evidence_limited_edge_count", 0),
+            "continuum_convergence_claimed": False}
 
 
 def comparisons(nodes: list[dict], policy: dict, scope: dict) -> dict:

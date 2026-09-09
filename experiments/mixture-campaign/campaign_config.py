@@ -60,6 +60,20 @@ def validate(c):
     if not isinstance(c["additional_cas"], list) or any(not isinstance(v, str) for v in c["additional_cas"]):
         raise ValueError("additional_cas must be a list of identifiers")
     if not isinstance(c["plugins"], list): raise ValueError("plugins must be an explicit list")
+    c.setdefault("water_audit", {})
+    c.setdefault("evidence", {})
+    for key, default in (("temperature_points", 21), ("pressure_points", 5)):
+        value = c["water_audit"].setdefault(key, default)
+        if isinstance(value, bool) or not isinstance(value, int) or not 2 <= value <= 101:
+            raise ValueError("water audit axis requires 2..101 points: " + key)
+    numeric(c["water_audit"].setdefault("consistency_relative_tolerance", 1e-7), "water consistency", 1e-12, 1e-3)
+    n = c["evidence"].setdefault("max_points_per_pair", 8)
+    if isinstance(n, bool) or not isinstance(n, int) or not 1 <= n <= 100:
+        raise ValueError("evidence max_points_per_pair requires 1..100")
+    local = c["adaptive"].setdefault("disagreement_resolution", {"mass_fraction": .01, "temperature_k": 5., "pressure_pa": .08})
+    for axis in AXES:
+        numeric(local[axis], "disagreement resolution " + axis, c["adaptive"]["tolerances"][axis])
+    numeric(c["adaptive"].setdefault("disagreement_stability_tolerance", .01), "disagreement stability", 0, 1)
     return c
 
 

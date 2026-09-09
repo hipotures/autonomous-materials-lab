@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Callable
 
 import campaign_design as design
+import campaign_quality as quality
+import campaign_water as water
 from campaign_store import implementation, digest, file_hash
 
 
@@ -55,8 +57,9 @@ def regimes(deps, settings):
 
 
 def phase_boundaries(deps, settings):
-    edges = design.triggered_edges(nodes(deps, settings), settings["adaptive"])
-    return {"unresolved_triggered_edge_count": len(edges), "brackets": edges,
+    analysis = design.edge_analysis(nodes(deps, settings), settings["adaptive"])
+    edges = analysis["refinable_edges"]
+    return {**analysis, "unresolved_triggered_edge_count": len(edges), "brackets": edges,
             "brackets_are_sampled_edges_not_certified_phase_boundaries": True,
             "parameter_validity_verified": False}
 
@@ -105,17 +108,21 @@ def reference_audit(deps, settings):
 
 
 def registry(plugins=()):
-    support = (Path(design.__file__),)
+    support = (Path(design.__file__), Path(quality.__file__), Path(water.__file__))
     reg = {
         "regimes": Study("regimes", "1", ("observations", "baseline"),
                          ("models", "model", "scope", "adaptive"), regimes, support),
-        "phase_boundaries": Study("phase_boundaries", "1", ("observations",),
+        "phase_boundaries": Study("phase_boundaries", "2", ("observations",),
                                   ("models", "model", "adaptive"), phase_boundaries, support),
         "model_disagreement": Study("model_disagreement", "1", ("observations",),
                                     ("models", "model"), model_disagreement, support),
         "reference_audit": Study("reference_audit", "1", ("references", "reference_predictions"),
                                  ("models",), reference_audit, support),
     }
+    reg["water_reference_audit"] = Study("water_reference_audit", "1", ("observations", "water_reference"),
+        ("models", "model"), quality.water_reference_audit, support)
+    reg["evidence_needs"] = Study("evidence_needs", "1", ("observations", "references", "phase_boundaries", "water_reference_audit"),
+        ("models", "model", "scope", "adaptive", "evidence"), quality.evidence_needs, support)
     for name in plugins:
         old = dict(reg)
         importlib.import_module(name).register_studies(reg)
@@ -125,7 +132,7 @@ def registry(plugins=()):
 
 
 def ordered_studies(required, reg):
-    external = {"observations", "baseline", "references", "reference_predictions"}
+    external = {"observations", "baseline", "references", "reference_predictions", "water_reference"}
     active, done, output = set(), set(), []
     def visit(name):
         if name in external or name in done: return
