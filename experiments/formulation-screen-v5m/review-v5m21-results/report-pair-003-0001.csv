@@ -1,0 +1,145 @@
+additive_mass_fraction,cas_number,comparison_eligible,failure_counts,maximum_model_spread_delta_h_ratio,maximum_storage_bubble_pressure_ratio,minimum_paired_delta_h_ratio,name,outlet_temperature_k,pair_id,pareto_with_water,pressure_pa,required_net_heat_reduction_for_mass_parity,water_dominated_thermodynamic
+0.0001,123-86-4,True,{},2.9760786005361695e-05,1.0134200757735674,0.9999527261284408,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,4.727387155922802e-05,True
+0.000177827941004,123-86-4,True,{},5.291473948310088e-05,1.0238399973278947,0.9999159428864521,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,8.405711354786405e-05,True
+0.000316227766017,123-86-4,True,{},9.407110102632732e-05,1.0423163579966246,0.999850551538453,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.00014944846154696378,True
+0.00056234132519,123-86-4,True,{},0.00016720224746891166,1.0750049125084058,0.9997343291728414,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0002656708271585595,True
+0.001,123-86-4,True,{},0.00029707185882177356,1.1326075332756114,0.9995278482379055,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.00047215176209447485,True
+0.00177827941004,123-86-4,True,{},0.0005274547626431536,1.2333929576104585,0.9991612822252718,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0008387177747282148,True
+0.00316227766017,123-86-4,True,{},0.0009353716517266353,1.4075034937698236,0.9985113607779075,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0014886392220925249,True
+0.0056234132519,123-86-4,False,"{""inlet_not_single_liquid"": 1}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.01,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0293333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0486666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.068,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0873333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.106666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.126,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.145333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.164666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.184,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.203333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.222666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.242,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.261333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.280666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.3,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0001,123-86-4,True,{},2.9760786005361695e-05,1.0134200757735674,0.9999527261284408,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,4.727387155922802e-05,True
+0.000177827941004,123-86-4,True,{},5.291473948310088e-05,1.0238399973278947,0.9999159428864521,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,8.405711354786405e-05,True
+0.000316227766017,123-86-4,True,{},9.407110102632732e-05,1.0423163579966246,0.999850551538453,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.00014944846154696378,True
+0.00056234132519,123-86-4,True,{},0.00016720224746891166,1.0750049125084058,0.9997343291728414,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0002656708271585595,True
+0.001,123-86-4,True,{},0.00029707185882177356,1.1326075332756114,0.9995278482379055,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.00047215176209447485,True
+0.00177827941004,123-86-4,True,{},0.0005274547626431536,1.2333929576104585,0.9991612822252718,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0008387177747282148,True
+0.00316227766017,123-86-4,True,{},0.0009353716517266353,1.4075034937698236,0.9985113607779075,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0014886392220925249,True
+0.0056234132519,123-86-4,False,"{""inlet_not_single_liquid"": 1}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.01,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0293333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0486666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.068,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0873333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.106666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.126,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.145333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.164666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.184,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.203333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.222666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.242,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.261333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.280666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.3,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,350.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0001,123-86-4,True,{},6.497987202314093e-06,1.0134200757735674,0.9999150826916532,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,8.491730834681022e-05,True
+0.000177827941004,123-86-4,True,{},1.1552623807364881e-05,1.0238399973278947,0.9998489955261166,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.00015100447388338711,True
+0.000316227766017,123-86-4,True,{},2.053553101588612e-05,1.0423163579966246,0.9997314788948283,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0002685211051717262,True
+0.00056234132519,123-86-4,True,{},3.649179148523807e-05,1.0750049125084058,0.9995225167083106,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.00047748329168939563,True
+0.001,123-86-4,True,{},6.481003686753528e-05,1.1326075332756114,0.9991509716516471,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.000849028348352876,True
+0.00177827941004,123-86-4,True,{},0.00011498946270172006,1.2333929576104585,0.9984904126531762,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0015095873468238263,True
+0.00316227766017,123-86-4,True,{},0.00020365951081813272,1.4075034937698236,0.9973162336588163,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0026837663411837243,True
+0.0056234132519,123-86-4,False,"{""inlet_not_single_liquid"": 1}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.01,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0293333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0486666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.068,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0873333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.106666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.126,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.145333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.164666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.184,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.203333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.222666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.242,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.261333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.280666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.3,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0001,123-86-4,True,{},6.497987202314093e-06,1.0134200757735674,0.9999150826916532,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,8.491730834681022e-05,True
+0.000177827941004,123-86-4,True,{},1.1552623807364881e-05,1.0238399973278947,0.9998489955261166,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.00015100447388338711,True
+0.000316227766017,123-86-4,True,{},2.053553101588612e-05,1.0423163579966246,0.9997314788948283,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0002685211051717262,True
+0.00056234132519,123-86-4,True,{},3.649179148523807e-05,1.0750049125084058,0.9995225167083106,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.00047748329168939563,True
+0.001,123-86-4,True,{},6.481003686753528e-05,1.1326075332756114,0.9991509716516471,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.000849028348352876,True
+0.00177827941004,123-86-4,True,{},0.00011498946270172006,1.2333929576104585,0.9984904126531762,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0015095873468238263,True
+0.00316227766017,123-86-4,True,{},0.00020365951081813272,1.4075034937698236,0.9973162336588163,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0026837663411837243,True
+0.0056234132519,123-86-4,False,"{""inlet_not_single_liquid"": 1}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.01,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0293333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0486666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.068,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0873333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.106666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.126,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.145333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.164666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.184,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.203333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.222666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.242,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.261333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.280666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.3,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,400.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0001,123-86-4,True,{},6.2721171815161014e-06,1.0134200757735674,0.9999177796637179,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,8.222033628213499e-05,True
+0.000177827941004,123-86-4,True,{},1.1151054629343626e-05,1.0238399973278947,0.9998537914185944,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.00014620858140557136,True
+0.000316227766017,123-86-4,True,{},1.982171600301008e-05,1.0423163579966246,0.9997400070869099,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0002599929130900902,True
+0.00056234132519,123-86-4,True,{},3.522333689376378e-05,1.0750049125084058,0.9995376814429089,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0004623185570911126,True
+0.001,123-86-4,True,{},6.255724012893538e-05,1.1326075332756114,0.9991779363413016,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0008220636586984131,True
+0.00177827941004,123-86-4,True,{},0.00011099242923195973,1.2333929576104585,0.9985383556790095,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.0014616443209904961,True
+0.00316227766017,123-86-4,True,{},0.0001965803066712457,1.4075034937698236,0.9974014653614973,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,0.002598534638502681,True
+0.0056234132519,123-86-4,False,"{""inlet_not_single_liquid"": 1}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.01,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0293333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0486666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.068,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0873333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.106666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.126,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.145333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.164666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.184,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.203333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.222666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.242,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.261333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.280666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.3,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,101325.0,,
+0.0001,123-86-4,True,{},6.2721171815161014e-06,1.0134200757735674,0.9999177796637179,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,8.222033628213499e-05,True
+0.000177827941004,123-86-4,True,{},1.1151054629343626e-05,1.0238399973278947,0.9998537914185944,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.00014620858140557136,True
+0.000316227766017,123-86-4,True,{},1.982171600301008e-05,1.0423163579966246,0.9997400070869099,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0002599929130900902,True
+0.00056234132519,123-86-4,True,{},3.522333689376378e-05,1.0750049125084058,0.9995376814429089,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0004623185570911126,True
+0.001,123-86-4,True,{},6.255724012893538e-05,1.1326075332756114,0.9991779363413016,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0008220636586984131,True
+0.00177827941004,123-86-4,True,{},0.00011099242923195973,1.2333929576104585,0.9985383556790095,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.0014616443209904961,True
+0.00316227766017,123-86-4,True,{},0.0001965803066712457,1.4075034937698236,0.9974014653614973,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,0.002598534638502681,True
+0.0056234132519,123-86-4,False,"{""inlet_not_single_liquid"": 1}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.01,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0293333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0486666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.068,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.0873333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.106666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.126,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.145333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.164666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.184,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.203333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.222666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.242,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.261333333333,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.280666666667,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,
+0.3,123-86-4,False,"{""inlet_not_single_liquid"": 2}",,,,butyl acetate,450.0,water-DKPFZGUDAPQIHT-UHFFFAOYSA-N,False,200000.0,,

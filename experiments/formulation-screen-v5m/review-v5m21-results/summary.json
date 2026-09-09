@@ -1,0 +1,93 @@
+{
+  "archive_compressed_bytes": 1702539,
+  "archived_original_bytes": 34166325,
+  "complete_two_model_formulation_count": 372,
+  "condition_results": [
+    {
+      "eligible_formulation_count": 373,
+      "outlet_temperature_k": 350.0,
+      "paired_gain_above_margin_count": 11,
+      "paired_gain_any_positive_count": 11,
+      "pareto_count_including_water": 43,
+      "pressure_pa": 101325.0,
+      "water_dominated_count": 310,
+      "water_on_pareto": true
+    },
+    {
+      "eligible_formulation_count": 372,
+      "outlet_temperature_k": 350.0,
+      "paired_gain_above_margin_count": 0,
+      "paired_gain_any_positive_count": 0,
+      "pareto_count_including_water": 33,
+      "pressure_pa": 200000.0,
+      "water_dominated_count": 320,
+      "water_on_pareto": true
+    },
+    {
+      "eligible_formulation_count": 378,
+      "outlet_temperature_k": 400.0,
+      "paired_gain_above_margin_count": 0,
+      "paired_gain_any_positive_count": 0,
+      "pareto_count_including_water": 31,
+      "pressure_pa": 101325.0,
+      "water_dominated_count": 323,
+      "water_on_pareto": true
+    },
+    {
+      "eligible_formulation_count": 378,
+      "outlet_temperature_k": 400.0,
+      "paired_gain_above_margin_count": 0,
+      "paired_gain_any_positive_count": 0,
+      "pareto_count_including_water": 32,
+      "pressure_pa": 200000.0,
+      "water_dominated_count": 323,
+      "water_on_pareto": true
+    },
+    {
+      "eligible_formulation_count": 378,
+      "outlet_temperature_k": 450.0,
+      "paired_gain_above_margin_count": 0,
+      "paired_gain_any_positive_count": 0,
+      "pareto_count_including_water": 31,
+      "pressure_pa": 101325.0,
+      "water_dominated_count": 323,
+      "water_on_pareto": true
+    },
+    {
+      "eligible_formulation_count": 378,
+      "outlet_temperature_k": 450.0,
+      "paired_gain_above_margin_count": 0,
+      "paired_gain_any_positive_count": 0,
+      "pareto_count_including_water": 31,
+      "pressure_pa": 200000.0,
+      "water_dominated_count": 323,
+      "water_on_pareto": true
+    }
+  ],
+  "empirical_uncertainty_calibrated": false,
+  "experimental_winners": 0,
+  "gain_reporting_margin_fraction": 0.001,
+  "global_paired_gain_above_margin_count": 0,
+  "global_paired_gain_any_positive_count": 0,
+  "global_pareto_additive_count": 31,
+  "global_pareto_count_including_water": 32,
+  "gzip_auto_decode_by_connector_assumed": false,
+  "interpretation": "Retrospective regime diagnostics, not a new validation set. Pressure remains a descriptive Pareto objective, not an apparatus constraint. Viscosity is the legacy proxy. Break-even heat reduction is required, not achieved.",
+  "margin_is_calibrated_uncertainty": false,
+  "maximum_utf8_report_bytes": 49152,
+  "new_thermodynamic_states_computed": 0,
+  "original_outputs_modified": false,
+  "rankable_promotions": 0,
+  "run_kind": "frozen_grid_reanalysis",
+  "source_files_archived": 16,
+  "source_state_count": 8088,
+  "source_summary_reproduced": {
+    "complete_two_model_formulation_count": 372,
+    "predicted_state_count": 8088
+  },
+  "study_complete": true,
+  "study_version": "v5m-2.1",
+  "utf8_report_shard_count": 31,
+  "water_dominated_global_thermodynamic_count": 320,
+  "water_on_global_pareto": true
+}

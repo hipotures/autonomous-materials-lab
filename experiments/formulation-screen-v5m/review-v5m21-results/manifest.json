@@ -1,0 +1,39 @@
+{
+  "gain_margin_fraction": 0.001,
+  "gzip": {
+    "byte_reproducibility_scope": "same implementation and zlib version",
+    "compresslevel": 6,
+    "filename": "",
+    "lossless": true,
+    "mtime": 0
+  },
+  "margin_is_uncertainty": false,
+  "physical_model_recomputed": false,
+  "python": "3.12.14",
+  "review_code_sha256": {
+    "review_predictive_grid.py": "1a64d5e8cbf2cfc6a2e14f355a0fc5b8e9d11040384233b806e131805f53ebf8",
+    "v5m21_review.py": "4fba1fdf51beb86d4b2494d9f522f9621d73be52ee425ca4e4fd30e990ad2ab0",
+    "v5m2_core.py": "53b07bf5a332e7a68070770c5a464cbb7b22332cea8a232171f61f6979361584"
+  },
+  "source_artifact_sha256": {
+    "artifact-hashes.json": "17a5f8d7a2ddc2fa2e8ab91a57cd0b2efb4cee48ac2a6ac0bf64653ddc993b8c",
+    "catalog-rejections.csv": "758ef5741332701de83c45418152647a9cf583f470ebe0782ad8140f34441701",
+    "catalog.csv": "9d522e23bb4e722a6cdb655c8204a0a832abc06968733867b98dd3e374309c74",
+    "catalog.json": "0673b2897db446c3dd66bc48ce2bd3dbb503b20916b5c6982d83fd52e501ced7",
+    "coarse-tradeoffs.csv": "3fedbdef62b76c3dd3db99e0bfa2449e3e17aacc6b1a84f9a3c47fe04c77959f",
+    "grid-plan.json": "ecfae660e6f31110b5fc228c51ca4ad939604875048c40076ec457ef74c576cf",
+    "manifest.json": "ae68af684c43aa49564b9dbbd65853ad6cb8f537ae145dda0b19a33e25bd99f1",
+    "pareto-thermodynamic.csv": "1b0f59be273e26ebf2857749c97e04163d667305e2efb2f33370ec26e4d09e9c",
+    "pareto-with-flow-proxy.csv": "4d9c4946de0d6344aeb61e06136a60803d9e2fec145a4d084a28b3036bcad7d4",
+    "prediction-grid.csv": "a53c1f2fccb80a183c6a95d5c3dcf5cd04d7ce8919bc29b90b93186c3c77c4fe",
+    "predictions.json": "634206bac738963b5b8e1955d209daebbffcef44094b71c281142b72c49e68f8",
+    "refinement-diagnostics.csv": "ca77a6cac388f6818ed5c1227b76a908b2fd9d9a8d80d0e6d0e3ba6397459906",
+    "refinement-plan.json": "cc5ea62137005a39c43433e43e3ba9e71e5049516bfaf34e42cb1f00f14c61be",
+    "summary.json": "1e6d4c8e49b6966bf4f0c69da664139d67a97d5f305327a88b47c38a0091c9ed",
+    "tradeoffs.csv": "3a1f387d9a6b12095c12a5b7ad159bb3b0f9a2cb5b550a07e3d1b56a5b08527c",
+    "validation-shortlist.csv": "5f3f23d7e8b9ec146a18572ac6bec9fb18d6475a624ef71c97a29919692cda65"
+  },
+  "source_path_recorded": "predictive-v5m2-results",
+  "study_version": "v5m-2.1",
+  "zlib": "1.3.2"
+}

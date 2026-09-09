@@ -1,0 +1,145 @@
+additive_mass_fraction,cas_number,comparison_eligible,failure_counts,maximum_model_spread_delta_h_ratio,maximum_storage_bubble_pressure_ratio,minimum_paired_delta_h_ratio,name,outlet_temperature_k,pair_id,pareto_with_water,pressure_pa,required_net_heat_reduction_for_mass_parity,water_dominated_thermodynamic
+0.0001,123-92-2,True,{},3.161437772170039e-05,1.0067320532052557,0.9999511333651273,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,4.886663487269072e-05,True
+0.000177827941004,123-92-2,True,{},5.6218869708302144e-05,1.0119660517236346,0.9999131023879402,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,8.689761205982194e-05,True
+0.000316227766017,123-92-2,True,{},9.997182222976075e-05,1.021261854328455,0.9998454746703832,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.00015452532961679477,True
+0.00056234132519,123-92-2,True,{},0.00017777454859801978,1.0377554075872006,0.9997252199728986,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0002747800271013512,True
+0.001,123-92-2,True,{},0.00031612239029543687,1.066968870879599,0.999511393377516,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0004886066224839558,True
+0.00177827941004,123-92-2,True,{},0.0005621207172765708,1.1185510551097517,0.9991312127248086,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0008687872751913517,True
+0.00316227766017,123-92-2,True,{},0.0009995012899507438,1.209124616818807,0.9984553437406742,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0015446562593257607,True
+0.0056234132519,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.01,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0293333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0486666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.068,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0873333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.106666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.126,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.145333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.164666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.184,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.203333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.222666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.242,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.261333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.280666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.3,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0001,123-92-2,True,{},3.161437772170039e-05,1.0067320532052557,0.9999511333651273,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,4.886663487269072e-05,True
+0.000177827941004,123-92-2,True,{},5.6218869708302144e-05,1.0119660517236346,0.9999131023879402,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,8.689761205982194e-05,True
+0.000316227766017,123-92-2,True,{},9.997182222976075e-05,1.021261854328455,0.9998454746703832,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.00015452532961679477,True
+0.00056234132519,123-92-2,True,{},0.00017777454859801978,1.0377554075872006,0.9997252199728986,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0002747800271013512,True
+0.001,123-92-2,True,{},0.00031612239029543687,1.066968870879599,0.999511393377516,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0004886066224839558,True
+0.00177827941004,123-92-2,True,{},0.0005621207172765708,1.1185510551097517,0.9991312127248086,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0008687872751913517,True
+0.00316227766017,123-92-2,True,{},0.0009995012899507438,1.209124616818807,0.9984553437406742,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0015446562593257607,True
+0.0056234132519,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.01,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0293333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0486666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.068,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0873333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.106666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.126,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.145333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.164666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.184,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.203333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.222666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.242,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.261333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.280666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.3,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,350.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0001,123-92-2,True,{},3.137593726276755e-06,1.0067320532052557,0.9999173773769464,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,8.262262305358536e-05,True
+0.000177827941004,123-92-2,True,{},5.578837209196941e-06,1.0119660517236346,0.9998530742079658,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.00014692579203423595,True
+0.000316227766017,123-92-2,True,{},9.918577383860594e-06,1.021261854328455,0.999738725892818,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.00026127410718201904,True
+0.00056234132519,123-92-2,True,{},1.763118999098534e-05,1.0377554075872006,0.9995353848088261,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0004646151911739116,True
+0.001,123-92-2,True,{},3.133163785562498e-05,1.066968870879599,0.9991737944110011,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0008262055889989295,True
+0.00177827941004,123-92-2,True,{},5.564826055493022e-05,1.1185510551097517,0.9985308073700295,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0014691926299704727,True
+0.00316227766017,123-92-2,True,{},9.874256441821938e-05,1.209124616818807,0.9973874654850257,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0026125345149743406,True
+0.0056234132519,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.01,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0293333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0486666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.068,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0873333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.106666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.126,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.145333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.164666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.184,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.203333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.222666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.242,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.261333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.280666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.3,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0001,123-92-2,True,{},3.137593726276755e-06,1.0067320532052557,0.9999173773769464,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,8.262262305358536e-05,True
+0.000177827941004,123-92-2,True,{},5.578837209196941e-06,1.0119660517236346,0.9998530742079658,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.00014692579203423595,True
+0.000316227766017,123-92-2,True,{},9.918577383860594e-06,1.021261854328455,0.999738725892818,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.00026127410718201904,True
+0.00056234132519,123-92-2,True,{},1.763118999098534e-05,1.0377554075872006,0.9995353848088261,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0004646151911739116,True
+0.001,123-92-2,True,{},3.133163785562498e-05,1.066968870879599,0.9991737944110011,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0008262055889989295,True
+0.00177827941004,123-92-2,True,{},5.564826055493022e-05,1.1185510551097517,0.9985308073700295,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0014691926299704727,True
+0.00316227766017,123-92-2,True,{},9.874256441821938e-05,1.209124616818807,0.9973874654850257,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0026125345149743406,True
+0.0056234132519,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.01,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0293333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0486666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.068,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0873333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.106666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.126,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.145333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.164666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.184,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.203333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.222666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.242,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.261333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.280666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.3,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,400.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0001,123-92-2,True,{},3.028530975224264e-06,1.0067320532052557,0.9999200765947055,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,7.992340529450193e-05,True
+0.000177827941004,123-92-2,True,{},5.384916840323051e-06,1.0119660517236346,0.9998578741602988,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.00014212583970119042,True
+0.000316227766017,123-92-2,True,{},9.573807655982591e-06,1.021261854328455,0.999747261514336,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0002527384856639836,True
+0.00056234132519,123-92-2,True,{},1.7018329865781112e-05,1.0377554075872006,0.9995505634184954,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0004494365815046475,True
+0.001,123-92-2,True,{},3.0242550193126938e-05,1.066968870879599,0.999200785871091,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0007992141289090426,True
+0.00177827941004,123-92-2,True,{},5.371392714081935e-05,1.1185510551097517,0.9985788046238674,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.0014211953761326113,True
+0.00316227766017,123-92-2,True,{},9.531027309683804e-05,1.209124616818807,0.9974728145202912,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,0.00252718547970876,True
+0.0056234132519,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.01,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0293333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0486666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.068,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0873333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.106666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.126,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.145333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.164666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.184,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.203333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.222666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.242,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.261333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.280666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.3,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,101325.0,,
+0.0001,123-92-2,True,{},3.028530975224264e-06,1.0067320532052557,0.9999200765947055,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,7.992340529450193e-05,True
+0.000177827941004,123-92-2,True,{},5.384916840323051e-06,1.0119660517236346,0.9998578741602988,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.00014212583970119042,True
+0.000316227766017,123-92-2,True,{},9.573807655982591e-06,1.021261854328455,0.999747261514336,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0002527384856639836,True
+0.00056234132519,123-92-2,True,{},1.7018329865781112e-05,1.0377554075872006,0.9995505634184954,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0004494365815046475,True
+0.001,123-92-2,True,{},3.0242550193126938e-05,1.066968870879599,0.999200785871091,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0007992141289090426,True
+0.00177827941004,123-92-2,True,{},5.371392714081935e-05,1.1185510551097517,0.9985788046238674,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.0014211953761326113,True
+0.00316227766017,123-92-2,True,{},9.531027309683804e-05,1.209124616818807,0.9974728145202912,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,0.00252718547970876,True
+0.0056234132519,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.01,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0293333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0486666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.068,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.0873333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.106666666667,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.126,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.145333333333,123-92-2,False,"{""inlet_not_single_liquid"": 1}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.164666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.184,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.203333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.222666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.242,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.261333333333,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.280666666667,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
+0.3,123-92-2,False,"{""inlet_not_single_liquid"": 2}",,,,isoamyl acetate,450.0,water-MLFHJEHSLIIPHL-UHFFFAOYSA-N,False,200000.0,,
