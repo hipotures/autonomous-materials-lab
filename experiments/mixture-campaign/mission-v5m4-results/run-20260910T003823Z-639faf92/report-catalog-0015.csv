@@ -1,0 +1,230 @@
+cas_number,inchi_key,models,name,pair_id,procurement_verified,smiles
+4486-29-7,ILMCRZOMKCLIFZ-UHFFFAOYSA-N,"[""unifac_dortmund""]",benzonorbornene,water-ILMCRZOMKCLIFZ-UHFFFAOYSA-N,False,c1ccc2c(c1)C1CCC2C1
+4489-84-3,XGADZHWYGCKKJF-UHFFFAOYSA-N,"[""unifac_dortmund""]","benzene, (3-methyl-2-butenyl)-",water-XGADZHWYGCKKJF-UHFFFAOYSA-N,False,CC(C)=CCc1ccccc1
+44914-03-6,NCTBYWFEJFTVEL-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-methylbutyl acrylate,water-NCTBYWFEJFTVEL-UHFFFAOYSA-N,False,C=CC(=O)OCC(C)CC
+4493-42-9,SFHSEXGIVSBRRK-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,4-decadienoic acid methyl ester",water-SFHSEXGIVSBRRK-UHFFFAOYSA-N,False,CCCCCC=CC=CC(=O)OC
+4497-92-1,IBVJWOMJGCHRRW-BDAKNGLRSA-N,"[""unifac_dortmund""]",(+)-2-carene,water-IBVJWOMJGCHRRW-BDAKNGLRSA-N,False,CC1=C[C@H]2[C@@H](CC1)C2(C)C
+4499-99-4,KIAMPLQEZAMORJ-UHFFFAOYSA-N,"[""unifac_dortmund""]","3,6,9,12-tetraoxatetradecane",water-KIAMPLQEZAMORJ-UHFFFAOYSA-N,False,CCOCCOCCOCCOCC
+4513-62-6,SUISJNPVANLQPB-UHFFFAOYSA-N,"[""unifac_dortmund""]","hexanedioic acid, 2-methyl-5-methylene-, dimethyl ester",water-SUISJNPVANLQPB-UHFFFAOYSA-N,False,C=C(CCC(C)C(=O)OC)C(=O)OC
+4516-69-2,OBKHYUIZSOIEPG-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,1,3-trimethylcyclopentane",water-OBKHYUIZSOIEPG-UHFFFAOYSA-N,False,CC1CCC(C)(C)C1
+4516-90-9,NVGOATMUHKIQQG-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-methyl-3-buten-1-ol,water-NVGOATMUHKIQQG-UHFFFAOYSA-N,False,C=CC(C)CO
+4525-25-1,DHVOJYDALVUWPZ-ARJAWSKDSA-N,"[""unifac_dortmund""]",(z)-3-hydroxy-2-butenoate,water-DHVOJYDALVUWPZ-ARJAWSKDSA-N,False,COC(=O)/C=C(/C)O
+453-20-3,XDPCNPCKDGQBAN-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-hydroxytetrahydrofuran,water-XDPCNPCKDGQBAN-UHFFFAOYSA-N,False,OC1CCOC1
+4536-86-1,NSQAXMRLBNXEHK-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-phenylundecane,water-NSQAXMRLBNXEHK-UHFFFAOYSA-N,False,CCCCCCCC(CCC)c1ccccc1
+4536-87-2,NVHBFHMWJJMQTG-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-phenylundecane,water-NVHBFHMWJJMQTG-UHFFFAOYSA-N,False,CCCCCCCCC(CC)c1ccccc1
+4536-88-3,YHJBCRBYDBNEIK-UHFFFAOYSA-N,"[""unifac_dortmund""]","benzene, (1-methyldecyl)-",water-YHJBCRBYDBNEIK-UHFFFAOYSA-N,False,CCCCCCCCCC(C)c1ccccc1
+4537-11-5,CDOBABYRHNVZQG-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-phenyldecane,water-CDOBABYRHNVZQG-UHFFFAOYSA-N,False,CCCCCC(CCCC)c1ccccc1
+4537-12-6,QTDBKYLPIZUTFN-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-phenyldecane,water-QTDBKYLPIZUTFN-UHFFFAOYSA-N,False,CCCCCCC(CCC)c1ccccc1
+4537-13-7,DDTJIQUCOLHYDL-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-phenyldecane,water-DDTJIQUCOLHYDL-UHFFFAOYSA-N,False,CCCCCCCCC(C)c1ccccc1
+4537-14-8,WCABIRIFXVXGQH-UHFFFAOYSA-N,"[""unifac_dortmund""]",6-phenylundecane,water-WCABIRIFXVXGQH-UHFFFAOYSA-N,False,CCCCCC(CCCCC)c1ccccc1
+4537-15-9,RRPCXIBGXYGQNC-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-phenylundecane,water-RRPCXIBGXYGQNC-UHFFFAOYSA-N,False,CCCCCCC(CCCC)c1ccccc1
+4541-32-6,FTGZMZBYOHMEPS-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,2-dimethylcyclopentanone",water-FTGZMZBYOHMEPS-UHFFFAOYSA-N,False,CC1(C)CCCC1=O
+4573-05-1,NRIKWVIMMDMYAX-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3-dimethyldihydrobenzene",water-NRIKWVIMMDMYAX-UHFFFAOYSA-N,False,CC1=CCCC(C)=C1
+4588-18-5,FBEDQPGLIKZGIN-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-methyl-1-octene,water-FBEDQPGLIKZGIN-UHFFFAOYSA-N,False,C=C(C)CCCCCC
+4602-84-0,CRDAMVZIKSXKFV-UHFFFAOYSA-N,"[""unifac_dortmund""]",4602-84-0,water-CRDAMVZIKSXKFV-UHFFFAOYSA-N,False,CC(C)=CCCC(C)=CCCC(C)=CCO
+4606-07-9,LDDOSDVZPSGLFZ-UHFFFAOYSA-N,"[""unifac_dortmund""]",ethyl cyclopropanecarboxylate,water-LDDOSDVZPSGLFZ-UHFFFAOYSA-N,False,CCOC(=O)C1CC1
+4606-15-9,GXXFZZLGPFNITM-UHFFFAOYSA-N,"[""unifac_dortmund""]",propyl phenylacetate,water-GXXFZZLGPFNITM-UHFFFAOYSA-N,False,CCCOC(=O)Cc1ccccc1
+462-95-3,KLKFAASOGCDTDT-UHFFFAOYSA-N,"[""unifac_dortmund""]",diethoxymethane,water-KLKFAASOGCDTDT-UHFFFAOYSA-N,False,CCOCOCC
+4621-04-9,DKKRDMLKVSKFMJ-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-isopropylcyclohexanol,water-DKKRDMLKVSKFMJ-UHFFFAOYSA-N,False,CC(C)C1CCC(O)CC1
+4621-36-7,PYVIFMPVFLOTLN-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-phenyldecane,water-PYVIFMPVFLOTLN-UHFFFAOYSA-N,False,CCCCCCCC(CC)c1ccccc1
+4625-24-5,GVMYEQUFGUYMTP-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-methylbicyclo[3.1.0]hexane,water-GVMYEQUFGUYMTP-UHFFFAOYSA-N,False,CC12CCCC1C2
+463-57-0,CKFGINPQOCXMAZ-UHFFFAOYSA-N,"[""unifac_dortmund""]",methanediol,water-CKFGINPQOCXMAZ-UHFFFAOYSA-N,False,OCO
+4630-82-4,ZQWPRMPSCMSAJU-UHFFFAOYSA-N,"[""unifac_dortmund""]",methyl cyclohexanecarboxylate,water-ZQWPRMPSCMSAJU-UHFFFAOYSA-N,False,COC(=O)C1CCCCC1
+4630-83-5,SUCGJXDLZCDFRV-UHFFFAOYSA-N,"[""unifac_dortmund""]","cyclopentanecarboxylic acid, 1-methyl-, methyl ester",water-SUCGJXDLZCDFRV-UHFFFAOYSA-N,False,COC(=O)C1(C)CCCC1
+464-06-2,ZISSAWUMDACLOM-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,2,3-trimethylbutane",water-ZISSAWUMDACLOM-UHFFFAOYSA-N,False,CC(C)C(C)(C)C
+464-07-3,DFOXKPDFWGNLJU-UHFFFAOYSA-N,"[""unifac_dortmund""]",pinacolyl alcohol,water-DFOXKPDFWGNLJU-UHFFFAOYSA-N,False,CC(O)C(C)(C)C
+4643-25-8,TXVAOITYBBWKMG-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-hepten-4-one,water-TXVAOITYBBWKMG-UHFFFAOYSA-N,False,CC=CC(=O)CCC
+4643-27-0,FMDLEUPBHMCPQV-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-octen-4-one,water-FMDLEUPBHMCPQV-UHFFFAOYSA-N,False,CC=CC(=O)CCCC
+4646-69-9,AMSMVCOBCOZLEE-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3,5-norcaratriene",water-AMSMVCOBCOZLEE-UHFFFAOYSA-N,False,c1ccc2c(c1)C2
+4652-27-1,VLLHEPHWWIDUSS-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-methoxy-3-buten-2-one,water-VLLHEPHWWIDUSS-UHFFFAOYSA-N,False,COC=CC(C)=O
+4655-34-9,BOQSSGDQNWEFSX-UHFFFAOYSA-N,"[""unifac_dortmund""]",isopropyl methacrylate,water-BOQSSGDQNWEFSX-UHFFFAOYSA-N,False,C=C(C)C(=O)OC(C)C
+4663-22-3,MKPHNILWOMCVTH-UHFFFAOYSA-N,"[""unifac_dortmund""]",isopropenylcyclopropane,water-MKPHNILWOMCVTH-UHFFFAOYSA-N,False,C=C(C)C1CC1
+4675-87-0,NEJDKFPXHQRVMV-UHFFFAOYSA-N,"[""unifac_dortmund""]",4675-87-0,water-NEJDKFPXHQRVMV-UHFFFAOYSA-N,False,CC=C(C)CO
+4676-51-1,XHLXMRJWRKQMCP-UHFFFAOYSA-N,"[""unifac_dortmund""]",diethyl methylsuccinate,water-XHLXMRJWRKQMCP-UHFFFAOYSA-N,False,CCOC(=O)CC(C)C(=O)OCC
+4685-47-6,LVUBSVWMOWKPDJ-UHFFFAOYSA-N,"[""unifac_dortmund""]","3,4-dimethylanisole",water-LVUBSVWMOWKPDJ-UHFFFAOYSA-N,False,COc1ccc(C)c(C)c1
+4685-74-9,MRXWAPISZASESC-UHFFFAOYSA-N,"[""unifac_dortmund""]","bicyclo(8.2.2)tetradeca-10,12,13-triene",water-MRXWAPISZASESC-UHFFFAOYSA-N,False,c1cc2ccc1CCCCCCCC2
+4687-77-8,RAGGPHXESKFCRO-UHFFFAOYSA-N,"[""unifac_dortmund""]",4687-77-8,water-RAGGPHXESKFCRO-UHFFFAOYSA-N,False,CC(=O)C=CC1CCC(C)=CC1C
+4694-12-6,OXTQEWUBDTVSFB-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,4,4-trimethylcyclopentanone",water-OXTQEWUBDTVSFB-UHFFFAOYSA-N,False,CC1CC(C)(C)CC1=O
+4694-17-1,CDDGRARTNILYAB-UHFFFAOYSA-N,"[""unifac_dortmund""]","5,5-dimethylcyclohex-2-en-1-one",water-CDDGRARTNILYAB-UHFFFAOYSA-N,False,CC1(C)CC=CC(=O)C1
+470-67-7,RFFOTVCVTJUTAD-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,4-cineole",water-RFFOTVCVTJUTAD-UHFFFAOYSA-N,False,CC(C)C12CCC(C)(CC1)O2
+470-82-6,WEEGYLXZBRQIMU-UHFFFAOYSA-N,"[""unifac_dortmund""]",eucalyptol,water-WEEGYLXZBRQIMU-UHFFFAOYSA-N,False,CC12CCC(CC1)C(C)(C)O2
+470-99-5,LDRWAWZXDDBHTG-UHFFFAOYSA-N,"[""unifac_dortmund""]",isophorol,water-LDRWAWZXDDBHTG-UHFFFAOYSA-N,False,CC1=CC(O)CC(C)(C)C1
+4701-36-4,WSZVSPSKVZOVQE-UHFFFAOYSA-N,"[""unifac_dortmund""]",ctk1d1840,water-WSZVSPSKVZOVQE-UHFFFAOYSA-N,False,CC=C(CC)c1ccccc1
+4704-31-8,CMDXMIHZUJPRHG-UHFFFAOYSA-N,"[""unifac_dortmund""]",vinyl decanoate,water-CMDXMIHZUJPRHG-UHFFFAOYSA-N,False,C=COC(=O)CCCCCCCCC
+4706-89-2,AADQFNAACHHRLT-UHFFFAOYSA-N,"[""unifac_dortmund""]","benzene, 2,4-dimethyl-1-(1-methylethyl)-",water-AADQFNAACHHRLT-UHFFFAOYSA-N,False,Cc1ccc(C(C)C)c(C)c1
+4706-90-5,RMKJTYPFCFNTGQ-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-isopropyl-m-xylene,water-RMKJTYPFCFNTGQ-UHFFFAOYSA-N,False,Cc1cc(C)cc(C(C)C)c1
+4709-59-5,PCEAXJCWSKKROQ-UHFFFAOYSA-N,"[""unifac_dortmund""]",ethyl (1'-cyclohexenyl)acetate,water-PCEAXJCWSKKROQ-UHFFFAOYSA-N,False,CCOC(=O)CC1=CCCCC1
+4711-96-0,KKCXDWJDGRCIAB-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-(4-cyclohexenyl)bicyclo(2.2.1)hept-5-ene,water-KKCXDWJDGRCIAB-UHFFFAOYSA-N,False,C1=CCC(C2CC3C=CC2C3)CC1
+4724-89-4,SZHAWDAGEJWQJK-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3,5,5-tetramethyl-1,3-cyclohexadiene",water-SZHAWDAGEJWQJK-UHFFFAOYSA-N,False,CC1=CC(C)(C)CC(C)=C1
+4728-82-9,UECFOOSFSUDPOR-UHFFFAOYSA-N,"[""unifac_dortmund""]","cyclohexaneacetic acid, 2-propenyl ester",water-UECFOOSFSUDPOR-UHFFFAOYSA-N,False,C=CCOC(=O)CC1CCCCC1
+473-55-2,XOKSLPVRUOBDEW-UHFFFAOYSA-N,"[""unifac_dortmund""]",pinane,water-XOKSLPVRUOBDEW-UHFFFAOYSA-N,False,CC1CCC2CC1C2(C)C
+473-91-6,YNEQKUWRFVQFPF-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,2,3-trimethylcyclopentene",water-YNEQKUWRFVQFPF-UHFFFAOYSA-N,False,CC1=C(C)C(C)CC1
+4730-22-7,FCOUHTHQYOMLJT-UHFFFAOYSA-N,"[""unifac_dortmund""]",6-methyl-2-heptanol,water-FCOUHTHQYOMLJT-UHFFFAOYSA-N,False,CC(C)CCCC(C)O
+4732-12-1,XBHCIDWYCKQMQS-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-isopropyl-5-methylphenetole,water-XBHCIDWYCKQMQS-UHFFFAOYSA-N,False,CCOc1cc(C)ccc1C(C)C
+4734-90-1,GYVYFOJMRQAKGY-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-cyclooctenone,water-GYVYFOJMRQAKGY-UHFFFAOYSA-N,False,O=C1CC=CCCCC1
+4740-77-6,XOXZKNZCICKTLL-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,6-dimethyl-1,3-dioxan-4-ol",water-XOXZKNZCICKTLL-UHFFFAOYSA-N,False,CC1CC(O)OC(C)O1
+4740-78-7,VCKSNYNNVSOWEE-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3-dioxan-5-ol",water-VCKSNYNNVSOWEE-UHFFFAOYSA-N,False,OC1COCOC1
+4741-86-0,WRKAQWHUTDUJHT-UHFFFAOYSA-N,"[""unifac_dortmund""]","cyclopropane, (1-methylethylidene)-",water-WRKAQWHUTDUJHT-UHFFFAOYSA-N,False,CC(C)=C1CC1
+4744-08-5,MBNMGGKBGCIEGF-UHFFFAOYSA-N,"[""unifac_dortmund""]",propionaldehyde diethyl acetal,water-MBNMGGKBGCIEGF-UHFFFAOYSA-N,False,CCOC(CC)OCC
+4744-10-9,UIOXNNAWANDJCZ-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,1-dimethoxypropane",water-UIOXNNAWANDJCZ-UHFFFAOYSA-N,False,CCC(OC)OC
+4747-05-1,NKKSFXOEWMZVTO-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3-butadiene, 2-ethoxy-",water-NKKSFXOEWMZVTO-UHFFFAOYSA-N,False,C=CC(=C)OCC
+4747-07-3,ICBJCVRQDSQPGI-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-methoxyhexane,water-ICBJCVRQDSQPGI-UHFFFAOYSA-N,False,CCCCCCOC
+4747-13-1,SIZDIMDMQQFWLM-UHFFFAOYSA-N,"[""unifac_dortmund""]","ether, methyl 1-phenylvinyl",water-SIZDIMDMQQFWLM-UHFFFAOYSA-N,False,C=C(OC)c1ccccc1
+4764-14-1,OOCLVMCVOWKECB-UHFFFAOYSA-N,"[""unifac_dortmund""]",myrtanal,water-OOCLVMCVOWKECB-UHFFFAOYSA-N,False,CC1(C)C2CCC(C=O)C1C2
+4784-86-5,RYILSJIMFKKICJ-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,2-dimethylcyclopentadiene",water-RYILSJIMFKKICJ-UHFFFAOYSA-N,False,CC1=C(C)CC=C1
+4789-34-8,IBTCQHAOKZFUES-UHFFFAOYSA-N,"[""unifac_dortmund""]","cis-1,4-di-tert-butyl-cyclohexane",water-IBTCQHAOKZFUES-UHFFFAOYSA-N,False,CC(C)(C)C1CCC(C(C)(C)C)CC1
+4795-86-2,XOKSLPVRUOBDEW-DJLDLDEBSA-N,"[""unifac_dortmund""]",(1r)-(+)-cis-pinane,water-XOKSLPVRUOBDEW-DJLDLDEBSA-N,False,C[C@H]1CC[C@@H]2C[C@H]1C2(C)C
+4798-44-1,BVOSSZSHBZQJOI-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-hexen-3-ol,water-BVOSSZSHBZQJOI-UHFFFAOYSA-N,False,C=CC(O)CCC
+4798-58-7,KWUXUOPPQQMMIL-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-hexen-3-ol,water-KWUXUOPPQQMMIL-UHFFFAOYSA-N,False,CC=CC(O)CC
+4798-59-8,DODCYMXUZOEOQF-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-hepten-4-ol,water-DODCYMXUZOEOQF-UHFFFAOYSA-N,False,CC=CC(O)CCC
+4806-61-5,NEZRFXZYPAIZAD-UHFFFAOYSA-N,"[""unifac_dortmund""]",ethylcyclobutane,water-NEZRFXZYPAIZAD-UHFFFAOYSA-N,False,CCC1CCC1
+4806-62-6,GAGITJRONXSBFC-UHFFFAOYSA-N,"[""unifac_dortmund""]",propylcyclobutane,water-GAGITJRONXSBFC-UHFFFAOYSA-N,False,CCCC1CCC1
+4810-05-3,HEIXPNNBTVAWDD-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-(2,4,6-trimethylphenyl)-1-propene",water-HEIXPNNBTVAWDD-UHFFFAOYSA-N,False,C=CCc1c(C)cc(C)cc1C
+4810-09-7,QDMFTFWKTYXBIW-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-methyl-1-heptene,water-QDMFTFWKTYXBIW-UHFFFAOYSA-N,False,C=CC(C)CCCC
+4813-58-5,YBZOYAQTVRQGQO-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-ethoxytetradecane,water-YBZOYAQTVRQGQO-UHFFFAOYSA-N,False,CCCCCCCCCCCCCCOCC
+4815-57-0,PHUANMGFAOCUOQ-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,4-dipropylbenzene",water-PHUANMGFAOCUOQ-UHFFFAOYSA-N,False,CCCc1ccc(CCC)cc1
+4819-75-4,PCYADPMXIILFTP-UHFFFAOYSA-N,"[""unifac_dortmund""]",methoxyacetaldehyde diethyl acetal,water-PCYADPMXIILFTP-UHFFFAOYSA-N,False,CCOC(COC)OCC
+4819-77-6,VNSJUZIHZNZLKM-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,1,2-triethoxyethane",water-VNSJUZIHZNZLKM-UHFFFAOYSA-N,False,CCOCC(OCC)OCC
+4819-82-3,CENLRESKVLHEPM-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-(2-methoxyethoxy)-tetrahydro-2h-pyran,water-CENLRESKVLHEPM-UHFFFAOYSA-N,False,COCCOC1CCCCO1
+4819-83-4,BTHLKLUTMYTDFM-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-ethoxyoxane,water-BTHLKLUTMYTDFM-UHFFFAOYSA-N,False,CCOC1CCCCO1
+4826-62-4,SSNZFFBDIMUILS-ZHACJKMWSA-N,"[""unifac_dortmund""]",2-dodecenal,water-SSNZFFBDIMUILS-ZHACJKMWSA-N,False,CCCCCCCCC/C=C/C=O
+4830-99-3,SECAQUZEXAHWBA-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-ethylindane,water-SECAQUZEXAHWBA-UHFFFAOYSA-N,False,CCC1CCc2ccccc21
+4841-84-3,DVVAGRMJGUQHLI-OCAPTIKFSA-N,"[""unifac_dortmund""]","dimethyl cis-1,2,3,6-tetrahydrophthalate",water-DVVAGRMJGUQHLI-OCAPTIKFSA-N,False,COC(=O)[C@H]1CC=CC[C@H]1C(=O)OC
+4842-93-7,AGDLFOKHPDHOPH-VOTSOKGWSA-N,"[""unifac_dortmund""]",(e)-c2h5c(ch3)=chch=ch2,water-AGDLFOKHPDHOPH-VOTSOKGWSA-N,False,C=C/C=C(\C)CC
+4864-61-3,STZUZYMKSMSTOU-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-octyl acetate,water-STZUZYMKSMSTOU-UHFFFAOYSA-N,False,CCCCCC(CC)OC(C)=O
+487-68-3,HIKRJHFHGKZKRI-UHFFFAOYSA-N,"[""unifac_dortmund""]",mesitaldehyde,water-HIKRJHFHGKZKRI-UHFFFAOYSA-N,False,Cc1cc(C)c(C=O)c(C)c1
+4877-39-8,WHZYMMAAJCRPGM-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-methylenebicyclo[3.2.1octane,water-WHZYMMAAJCRPGM-UHFFFAOYSA-N,False,C=C1CC2CCC(C1)C2
+488-23-3,UOHMMEJUHBCKEE-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,2,3,4-tetramethylbenzene",water-UOHMMEJUHBCKEE-UHFFFAOYSA-N,False,Cc1ccc(C)c(C)c1C
+4884-01-9,AQTYNINXYJFSHD-AATRIKPKSA-N,"[""unifac_dortmund""]",cis-1-butenyl ethyl ether,water-AQTYNINXYJFSHD-AATRIKPKSA-N,False,CC/C=C/OCC
+4884-21-3,UJZQAOVZOCQFOO-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-cyclopentylcyclopentene,water-UJZQAOVZOCQFOO-UHFFFAOYSA-N,False,C1=C(C2CCCC2)CCC1
+4884-24-6,CWZGKTMWPFTJCS-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-cyclopentylcyclopentanone,water-CWZGKTMWPFTJCS-UHFFFAOYSA-N,False,O=C1CCCC1C1CCCC1
+4887-30-3,CMNMHJVRZHGAAK-UHFFFAOYSA-N,"[""unifac_dortmund""]",octyl hexanoate,water-CMNMHJVRZHGAAK-UHFFFAOYSA-N,False,CCCCCCCCOC(=O)CCCCC
+4893-13-4,FMFQACYAOAGSEB-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-methyl-bicyclo[2.2.2]-oct-2-ene,water-FMFQACYAOAGSEB-UHFFFAOYSA-N,False,CC1=CC2CCC1CC2
+4894-62-6,QIWJMWAOAINRPL-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-methyl-1,5-heptadiene",water-QIWJMWAOAINRPL-UHFFFAOYSA-N,False,C=CC(C)CC=CC
+4894-63-7,BKVALJGAKNDDJJ-UHFFFAOYSA-N,"[""unifac_dortmund""]","3,4-dimethyl-1,5-hexadiene",water-BKVALJGAKNDDJJ-UHFFFAOYSA-N,False,C=CC(C)C(C)C=C
+490-10-8,ZDKZHVNKFOXMND-UHFFFAOYSA-N,"[""unifac_dortmund""]",nepetalactone,water-ZDKZHVNKFOXMND-UHFFFAOYSA-N,False,CC1=COC(=O)C2C(C)CCC12
+490-99-3,NOOLISFMXDJSKH-OPRDCNLKSA-N,"[""unifac_dortmund""]",isomenthol,water-NOOLISFMXDJSKH-OPRDCNLKSA-N,False,CC(C)[C@H]1CC[C@@H](C)C[C@H]1O
+4900-30-5,VJHGSLHHMIELQD-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,8-nonadiene",water-VJHGSLHHMIELQD-UHFFFAOYSA-N,False,C=CCCCCCC=C
+4906-24-5,ZKPTYCJWRHHBOW-UHFFFAOYSA-N,"[""unifac_dortmund""]",acetoin acetate,water-ZKPTYCJWRHHBOW-UHFFFAOYSA-N,False,CC(=O)OC(C)C(C)=O
+491-04-3,HPOHAUWWDDPHRS-UHFFFAOYSA-N,"[""unifac_dortmund""]",piperitol,water-HPOHAUWWDDPHRS-UHFFFAOYSA-N,False,CC1=CC(O)C(C(C)C)CC1
+4911-54-0,RRTBSPBUHUUTHR-UHFFFAOYSA-N,"[""unifac_dortmund""]",ethyl 4-methyl-4-pentenoate,water-RRTBSPBUHUUTHR-UHFFFAOYSA-N,False,C=C(C)CCC(=O)OCC
+4911-70-0,YRSIFCHKXFKNME-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,3-dimethyl-2-pentanol",water-YRSIFCHKXFKNME-UHFFFAOYSA-N,False,CCC(C)C(C)(C)O
+4914-89-0,FHHSSXNRVNXTBG-SREVYHEPSA-N,"[""unifac_dortmund""]",(z)-3-methyl-3-hexene,water-FHHSSXNRVNXTBG-SREVYHEPSA-N,False,CC/C=C(/C)CC
+4914-91-4,PPBWEVVDSRKEIK-ALCCZGGFSA-N,"[""unifac_dortmund""]","cis-3,4-dimethyl-2-pentene",water-PPBWEVVDSRKEIK-ALCCZGGFSA-N,False,C/C=C(/C)C(C)C
+4914-92-5,PPBWEVVDSRKEIK-FNORWQNLSA-N,"[""unifac_dortmund""]","(e)-3,4-dimethyl-2-pentene",water-PPBWEVVDSRKEIK-FNORWQNLSA-N,False,C/C=C(\C)C(C)C
+4920-99-4,GSLSBTNLESMZTN-UHFFFAOYSA-N,"[""unifac_dortmund""]","cumene, m-ethyl-",water-GSLSBTNLESMZTN-UHFFFAOYSA-N,False,CCc1cccc(C(C)C)c1
+4923-78-8,XARGIVYWQPXRTC-RKDXNWHRSA-N,"[""unifac_dortmund""]",4923-78-8,water-XARGIVYWQPXRTC-RKDXNWHRSA-N,False,CC[C@@H]1CCCC[C@H]1C
+4926-71-0,BVYJEKBXVYKYRA-ZJUUUORDSA-N,"[""unifac_dortmund""]",cis-1-methyl-2-propylcyclohexane,water-BVYJEKBXVYKYRA-ZJUUUORDSA-N,False,CCC[C@H]1CCCC[C@H]1C
+4926-76-5,UDDVMPHNQKRNNS-IUCAKERBSA-N,"[""unifac_dortmund""]",ctk4j1213,water-UDDVMPHNQKRNNS-IUCAKERBSA-N,False,CC[C@H]1CCC[C@H](C)C1
+4926-90-3,YPJRYQGOKHKNKZ-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-methyl-1-ethylcyclohexane,water-YPJRYQGOKHKNKZ-UHFFFAOYSA-N,False,CCC1(C)CCCCC1
+4927-03-1,LMULYBMQCQUKHQ-UHFFFAOYSA-N,"[""unifac_dortmund""]",bicyclo[3.2.0]hept-6-ene,water-LMULYBMQCQUKHQ-UHFFFAOYSA-N,False,C1=CC2CCCC12
+4927-40-6,LHABIGFBCKFBML-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-methyl-4-(4-methylcyclohexyl)pentan-2-ol,water-LHABIGFBCKFBML-UHFFFAOYSA-N,False,CC(O)CC(C)(C)C1CCC(C)CC1
+493-01-6,NNBZCPXTIHJBJL-UHFFFAOYSA-N,"[""unifac_dortmund""]",decalin,water-NNBZCPXTIHJBJL-UHFFFAOYSA-N,False,C1CCC2CCCCC2C1
+493-03-8,ZKZCHOVDCNLSKG-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,2,3,4,5,6,7,8-octahydronaphthalene",water-ZKZCHOVDCNLSKG-UHFFFAOYSA-N,False,C1CCC2=C(C1)CCCC2
+4935-01-7,YMPZUSVGLNAWPU-UHFFFAOYSA-N,"[""unifac_dortmund""]",4935-01-7,water-YMPZUSVGLNAWPU-UHFFFAOYSA-N,False,COC(=O)C12CC1C2
+4938-52-7,PZKFYTOLVRCMOA-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-hepten-3-ol,water-PZKFYTOLVRCMOA-UHFFFAOYSA-N,False,C=CC(O)CCCC
+4949-20-6,ACZNIBVNGPLHAC-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,4-pentadien-1-ol",water-ACZNIBVNGPLHAC-UHFFFAOYSA-N,False,C=CC=CCO
+495-40-9,FFSAXUULYPJSKH-UHFFFAOYSA-N,"[""unifac_dortmund""]",butyrophenone,water-FFSAXUULYPJSKH-UHFFFAOYSA-N,False,CCCC(=O)c1ccccc1
+495-60-3,KKOXKGNSUHTUBV-LSDHHAIUSA-N,"[""unifac_dortmund""]",zingiberene,water-KKOXKGNSUHTUBV-LSDHHAIUSA-N,False,CC(C)=CCC[C@H](C)[C@@H]1C=CC(C)=CC1
+495-61-4,XZRVRYFILCSYSP-HNNXBMFYSA-N,"[""unifac_dortmund""]",chebi:49266,water-XZRVRYFILCSYSP-HNNXBMFYSA-N,False,C=C(CCC=C(C)C)[C@H]1CC=C(C)CC1
+4951-48-8,PELLUIPPBKHUAB-UHFFFAOYSA-N,"[""unifac_dortmund""]",l-menthyl propionate,water-PELLUIPPBKHUAB-UHFFFAOYSA-N,False,CCC(=O)OC1CC(C)CCC1C(C)C
+4951-97-7,XNOFWVNVNSRMKB-IUCAKERBSA-N,"[""unifac_dortmund""]","ketone, 3-ethyl-2,2-dimethylcyclobutyl methyl (z)-",water-XNOFWVNVNSRMKB-IUCAKERBSA-N,False,CC[C@H]1C[C@@H](C(C)=O)C1(C)C
+49542-74-7,PZXMOJBYRFSNJH-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,4,8-trimethylnonane",water-PZXMOJBYRFSNJH-UHFFFAOYSA-N,False,CC(C)CCCC(C)CC(C)C
+4955-32-2,PFSTYGCNVAVZBK-UHFFFAOYSA-N,"[""unifac_dortmund""]",.beta.-sinensal,water-PFSTYGCNVAVZBK-UHFFFAOYSA-N,False,C=CC(C)=CCC=C(C)CCC=C(C)C=O
+49557-09-7,YYZRNFMGAQMLJJ-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,5,8-trimethylnonane",water-YYZRNFMGAQMLJJ-UHFFFAOYSA-N,False,CC(C)CCC(C)CCC(C)C
+49598-54-1,ATWISEHEXAEGKB-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,2-dimethyldodecane",water-ATWISEHEXAEGKB-UHFFFAOYSA-N,False,CCCCCCCCCCC(C)(C)C
+496-03-7,FMBAIQMSJGQWLF-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-hydroxy-2-ethylhexanal,water-FMBAIQMSJGQWLF-UHFFFAOYSA-N,False,CCCC(O)C(C=O)CC
+496-10-6,BNRNAKTVFSZAFA-UHFFFAOYSA-N,"[""unifac_dortmund""]","1h-indene, octahydro-",water-BNRNAKTVFSZAFA-UHFFFAOYSA-N,False,C1CCC2CCCC2C1
+496-11-7,PQNFLJBBNBOBRQ-UHFFFAOYSA-N,"[""unifac_dortmund""]",indan,water-PQNFLJBBNBOBRQ-UHFFFAOYSA-N,False,c1ccc2c(c1)CCC2
+496-77-5,BVEYJWQCMOVMAR-UHFFFAOYSA-N,"[""unifac_dortmund""]",butyroin,water-BVEYJWQCMOVMAR-UHFFFAOYSA-N,False,CCCC(=O)C(O)CCC
+497-03-0,ACWQBUSCFPJUPN-HWKANZROSA-N,"[""unifac_dortmund""]",tiglic aldehyde,water-ACWQBUSCFPJUPN-HWKANZROSA-N,False,C/C=C(\C)C=O
+497-06-3,ITMIAZBRRZANGB-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-butene-1,2-diol",water-ITMIAZBRRZANGB-UHFFFAOYSA-N,False,C=CC(O)CO
+497-09-6,MNQZXJOMYWMBOU-GSVOUGTGSA-N,"[""unifac_dortmund""]",l-glyceraldehyde,water-MNQZXJOMYWMBOU-GSVOUGTGSA-N,False,O=C[C@@H](O)CO
+497-20-1,PGTKVMVZBBZCKQ-UHFFFAOYSA-N,"[""unifac_dortmund""]",fulvene,water-PGTKVMVZBBZCKQ-UHFFFAOYSA-N,False,C=C1C=CC=C1
+497-23-4,VIHAEDVKXSOUAT-UHFFFAOYSA-N,"[""unifac_dortmund""]",2(5h)-furanone,water-VIHAEDVKXSOUAT-UHFFFAOYSA-N,False,O=C1C=CCO1
+497-26-7,HTWIZMNMTWYQRN-UHFFFAOYSA-N,"[""unifac_dortmund""]","2-methyl-1,3-dioxolane",water-HTWIZMNMTWYQRN-UHFFFAOYSA-N,False,CC1OCCO1
+497-32-5,NJZUUYADLXBQPA-UHFFFAOYSA-N,"[""unifac_dortmund""]","norbornane, 2,2-dimethyl-5-methylene-",water-NJZUUYADLXBQPA-UHFFFAOYSA-N,False,C=C1CC2CC1CC2(C)C
+497-35-8,AJQVASAUQUTVJK-UHFFFAOYSA-N,"[""unifac_dortmund""]","norbornane, 2-methylene-",water-AJQVASAUQUTVJK-UHFFFAOYSA-N,False,C=C1CC2CCC1C2
+4971-18-0,PPTKUTYPOKHBTL-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-ethylcyclopentanone,water-PPTKUTYPOKHBTL-UHFFFAOYSA-N,False,CCC1CCCC1=O
+4974-27-0,LAGGTOBQMQHXON-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,6-octadiene",water-LAGGTOBQMQHXON-UHFFFAOYSA-N,False,CC=CCCC=CC
+498-16-8,CZVXBFUKBZRMKR-JTQLQIEISA-N,"[""unifac_dortmund""]",(-)-lavandulol,water-CZVXBFUKBZRMKR-JTQLQIEISA-N,False,C=C(C)[C@H](CO)CC=C(C)C
+498-81-7,UODXCYZDMHPIJE-UHFFFAOYSA-N,"[""unifac_dortmund""]",p-menthan-8-ol,water-UODXCYZDMHPIJE-UHFFFAOYSA-N,False,CC1CCC(C(C)(C)O)CC1
+4982-20-1,JPBHXVRMWGWSMX-UHFFFAOYSA-N,"[""unifac_dortmund""]","cyclohexane, 1,4-dimethylene-",water-JPBHXVRMWGWSMX-UHFFFAOYSA-N,False,C=C1CCC(=C)CC1
+4984-01-4,KSXTZYRIJKDCEA-UHFFFAOYSA-N,"[""unifac_dortmund""]","3,7-dimethyl-1-octene",water-KSXTZYRIJKDCEA-UHFFFAOYSA-N,False,C=CC(C)CCCC(C)C
+4984-22-9,ARXJGSRGQADJSQ-SCSAIBSYSA-N,"[""unifac_dortmund""]",(r)-(-)-1-methoxy-2-propanol,water-ARXJGSRGQADJSQ-SCSAIBSYSA-N,False,COC[C@@H](C)O
+4984-85-4,SKCYVGUCBRYGTE-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-hydroxy-3-hexanone,water-SKCYVGUCBRYGTE-UHFFFAOYSA-N,False,CCC(=O)C(O)CC
+49852-35-9,VJQKJGLHKJYTQM-UHFFFAOYSA-N,"[""unifac_dortmund""]","2-hepten-4-one, 6-methyl-",water-VJQKJGLHKJYTQM-UHFFFAOYSA-N,False,CC=CC(=O)CC(C)C
+499-54-7,GGAXPLCKKANQED-UHFFFAOYSA-N,"[""unifac_dortmund""]",7-isopropyl-4-methyloxepan-2-one,water-GGAXPLCKKANQED-UHFFFAOYSA-N,False,CC1CCC(C(C)C)OC(=O)C1
+499-69-4,ULJXKUJMXIVDOY-OPRDCNLKSA-N,"[""unifac_dortmund""]",carvomenthol,water-ULJXKUJMXIVDOY-OPRDCNLKSA-N,False,CC(C)[C@@H]1CC[C@@H](C)[C@H](O)C1
+499-71-8,WPGPCDVQHXOMQP-VIFPVBQESA-N,"[""unifac_dortmund""]","2-cyclohexen-1-one, 2-methyl-5-(1-methylethyl)-, (s)-",water-WPGPCDVQHXOMQP-VIFPVBQESA-N,False,CC1=CC[C@H](C(C)C)CC1=O
+499-75-2,RECUKUPTGUEGMW-UHFFFAOYSA-N,"[""unifac_dortmund""]",carvacrol,water-RECUKUPTGUEGMW-UHFFFAOYSA-N,False,Cc1ccc(C(C)C)cc1O
+499-97-8,GOQRXDTWKVYHJH-UHFFFAOYSA-N,"[""unifac_dortmund""]","p-mentha-1(7),8-diene",water-GOQRXDTWKVYHJH-UHFFFAOYSA-N,False,C=C1CCC(C(=C)C)CC1
+4994-16-5,XWCWNUSFQVJNDI-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-phenyl-1-cyclohexene,water-XWCWNUSFQVJNDI-UHFFFAOYSA-N,False,C1=CCC(c2ccccc2)CC1
+500-02-7,AANMVENRNJYEMK-UHFFFAOYSA-N,"[""unifac_dortmund""]",crypton,water-AANMVENRNJYEMK-UHFFFAOYSA-N,False,CC(C)C1C=CC(=O)CC1
+500-23-2,PPABCIZFQNHUIH-UHFFFAOYSA-N,"[""unifac_dortmund""]","bicyclo[2.2.2]octa-2,5-diene",water-PPABCIZFQNHUIH-UHFFFAOYSA-N,False,C1=CC2C=CC1CC2
+500-24-3,RHCCUQVVABYRDN-UHFFFAOYSA-N,"[""unifac_dortmund""]","bicyclo[2.2.2]octa-2,5,7-triene",water-RHCCUQVVABYRDN-UHFFFAOYSA-N,False,C1=CC2C=CC1C=C2
+500033-42-1,IUVCECHSUQJXMM-UHFFFAOYSA-N,"[""unifac_dortmund""]",cyclobutyl ethanoate,water-IUVCECHSUQJXMM-UHFFFAOYSA-N,False,CC(=O)OC1CCC1
+5009-17-6,VJEREEILRKZBKE-UHFFFAOYSA-N,"[""unifac_dortmund""]","3,3'-bicyclopentenyl",water-VJEREEILRKZBKE-UHFFFAOYSA-N,False,C1=CC(C2C=CCC2)CC1
+5009-32-5,OIFXLYCBBBXCIB-UHFFFAOYSA-N,"[""unifac_dortmund""]",8-nonen-2-one,water-OIFXLYCBBBXCIB-UHFFFAOYSA-N,False,C=CCCCCCC(C)=O
+501-92-8,RGIBXDHONMXTLI-UHFFFAOYSA-N,"[""unifac_dortmund""]",chavicol,water-RGIBXDHONMXTLI-UHFFFAOYSA-N,False,C=CCc1ccc(O)cc1
+502-41-0,QCRFMSUKWRQZEM-UHFFFAOYSA-N,"[""unifac_dortmund""]",cycloheptanol,water-QCRFMSUKWRQZEM-UHFFFAOYSA-N,False,OC1CCCCCC1
+502-42-1,CGZZMOTZOONQIA-UHFFFAOYSA-N,"[""unifac_dortmund""]",cycloheptanone,water-CGZZMOTZOONQIA-UHFFFAOYSA-N,False,O=C1CCCCCC1
+502-44-3,PAPBSGBWRJIAAV-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-oxepanone,water-PAPBSGBWRJIAAV-UHFFFAOYSA-N,False,O=C1CCCCCO1
+502-56-7,WSGCRAOTEDLMFQ-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-nonanone,water-WSGCRAOTEDLMFQ-UHFFFAOYSA-N,False,CCCCC(=O)CCCC
+502-61-4,CXENHBSYCFFKJS-VDQVFBMKSA-N,"[""unifac_dortmund""]",alpha-farnesene,water-CXENHBSYCFFKJS-VDQVFBMKSA-N,False,C=C/C(C)=C/C/C=C(\C)CCC=C(C)C
+502-86-3,NRNFFDZCBYOZJY-UHFFFAOYSA-N,"[""unifac_dortmund""]","3,6-dimethylidenecyclohexa-1,4-diene",water-NRNFFDZCBYOZJY-UHFFFAOYSA-N,False,C=c1ccc(=C)cc1
+502-99-8,XJPBRODHZKDRCB-CSKARUKUSA-N,"[""unifac_dortmund""]","1,3,7-octatriene, 3,7-dimethyl-",water-XJPBRODHZKDRCB-CSKARUKUSA-N,False,C=C/C(C)=C/CCC(=C)C
+503-45-7,GQVLBFQEABXQDC-UHFFFAOYSA-N,"[""unifac_dortmund""]","cyclohexene, 3,3,5-trimethyl-",water-GQVLBFQEABXQDC-UHFFFAOYSA-N,False,CC1CC=CC(C)(C)C1
+503-46-8,CHOOCIQDWNAXQQ-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,5,5-trimethylcyclohexene",water-CHOOCIQDWNAXQQ-UHFFFAOYSA-N,False,CC1=CCCC(C)(C)C1
+504-31-4,ZPSJGADGUYYRKE-UHFFFAOYSA-N,"[""unifac_dortmund""]",2h-pyran-2-one,water-ZPSJGADGUYYRKE-UHFFFAOYSA-N,False,O=c1cccco1
+504-63-2,YPFDHNVEDLHUCE-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3-propanediol",water-YPFDHNVEDLHUCE-UHFFFAOYSA-N,False,OCCCO
+50461-74-0,YERWBBMSDMSDKT-UHFFFAOYSA-N,"[""unifac_dortmund""]",ethyl 2-oxovalerate,water-YERWBBMSDMSDKT-UHFFFAOYSA-N,False,CCCC(=O)C(=O)OCC
+50462-84-5,WTIVCWQXNLRRFJ-UHFFFAOYSA-N,"[""unifac_dortmund""]",(1-ethylcyclopropyl)benzene,water-WTIVCWQXNLRRFJ-UHFFFAOYSA-N,False,CCC1(c2ccccc2)CC1
+50468-22-9,HJJZIMFAIMUSBW-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-methylbutane-1,2-diol",water-HJJZIMFAIMUSBW-UHFFFAOYSA-N,False,CC(C)C(O)CO
+5048-26-0,MPLWNENKBSBMFN-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-hexenyl acetate,water-MPLWNENKBSBMFN-UHFFFAOYSA-N,False,C=CCCCCOC(C)=O
+505-22-6,VDFVNEFVBPFDSB-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3-dioxane",water-VDFVNEFVBPFDSB-UHFFFAOYSA-N,False,C1COCOC1
+505-57-7,MBDOYVRWFFCFHM-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-Hexenal,water-MBDOYVRWFFCFHM-UHFFFAOYSA-N,False,CCCC=CC=O
+505-65-7,CZLMRJZAHXYRIX-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,3-dioxepane",water-CZLMRJZAHXYRIX-UHFFFAOYSA-N,False,C1CCOCOC1
+505-84-0,HOMDJHGZAAKUQV-UHFFFAOYSA-N,"[""unifac_dortmund""]","methane, dipropoxy-",water-HOMDJHGZAAKUQV-UHFFFAOYSA-N,False,CCCOCOCCC
+50551-88-7,RIEDLCPIEKXTTL-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-methyl-5-hexen-2-ol,water-RIEDLCPIEKXTTL-UHFFFAOYSA-N,False,C=C(C)CCC(C)O
+50552-30-2,FVXSOKFSQCKZDF-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-phenylhex-5-en-2-one,water-FVXSOKFSQCKZDF-UHFFFAOYSA-N,False,C=CC(CC(C)=O)c1ccccc1
+50623-57-9,DOLFPCDDMUMIMR-UHFFFAOYSA-N,"[""unifac_dortmund""]",butyl nonanoate,water-DOLFPCDDMUMIMR-UHFFFAOYSA-N,False,CCCCCCCCC(=O)OCCCC
+5063-03-6,NIMLCWCLVJRPFY-UHFFFAOYSA-N,"[""unifac_dortmund""]",5-acetyl-2-norbornene,water-NIMLCWCLVJRPFY-UHFFFAOYSA-N,False,CC(=O)C1CC2C=CC1C2
+50639-00-4,JSRFYJBJQPGAAA-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-ethylhex-2-enol,water-JSRFYJBJQPGAAA-UHFFFAOYSA-N,False,CCCC=C(CC)CO
+50652-79-4,SLQFYMAWZYTVFZ-UHFFFAOYSA-N,"[""unifac_dortmund""]",ctk0a7518,water-SLQFYMAWZYTVFZ-UHFFFAOYSA-N,False,CCC(C)=CC(=O)OC
+50703-41-8,FGKPGTMPKFMBDZ-UPHRSURJSA-N,"[""unifac_dortmund""]","bicyclo[8.2.2]tetradeca-5,10,12,13-tetraene, (z)-",water-FGKPGTMPKFMBDZ-UPHRSURJSA-N,False,C1=C\CCCc2ccc(cc2)CCC/1
+50745-90-9,YRZNTCJZTVDNNI-UHFFFAOYSA-N,"[""unifac_dortmund""]",ac1l3lrf,water-YRZNTCJZTVDNNI-UHFFFAOYSA-N,False,CC1CC2C3CCC(C3)C2C1
+50745-92-1,JIOAEIDAELDISL-UHFFFAOYSA-N,"[""unifac_dortmund""]",ac1l3lri,water-JIOAEIDAELDISL-UHFFFAOYSA-N,False,CC1C2CCC1C1CCCC21
+5077-67-8,GFAZHVHNLUBROE-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-hydroxy-2-butanone,water-GFAZHVHNLUBROE-UHFFFAOYSA-N,False,CCC(=O)CO
+50787-12-7,QAJPKKJZLRFSID-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-tert-butyl-2,2,5-trimethylhex-3-ene",water-QAJPKKJZLRFSID-UHFFFAOYSA-N,False,CC(C)C=C(C(C)(C)C)C(C)(C)C
+50787-13-8,VMUFADLSUAAIEH-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-hexene, 3-ethyl-4-methyl-",water-VMUFADLSUAAIEH-UHFFFAOYSA-N,False,CCC(C)=C(CC)CC
+50787-14-9,FJWPLVKSMFSXFQ-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,3-diethyl-3-heptene",water-FJWPLVKSMFSXFQ-UHFFFAOYSA-N,False,CCCC(CC)=C(CC)CC
+50789-30-5,USXHLNDEUDDSKZ-UHFFFAOYSA-N,"[""unifac_dortmund""]","pentanal, 5,5-dimethoxy-",water-USXHLNDEUDDSKZ-UHFFFAOYSA-N,False,COC(CCCC=O)OC
+50816-18-7,PIQXMYAEJSMANF-UHFFFAOYSA-N,"[""unifac_dortmund""]",9-decenyl acetate,water-PIQXMYAEJSMANF-UHFFFAOYSA-N,False,C=CCCCCCCCCOC(C)=O
+50861-26-2,QBLIOMUVZBDTLW-UHFFFAOYSA-N,"[""unifac_dortmund""]","tetracyclo[4.1.0.02,4.03,5]heptane",water-QBLIOMUVZBDTLW-UHFFFAOYSA-N,False,C1C2C1C1C3C2C13
+50862-12-9,CSFWIAGTSVOEOD-UHFFFAOYSA-N,"[""unifac_dortmund""]",heptyl 2-methylbutyrate,water-CSFWIAGTSVOEOD-UHFFFAOYSA-N,False,CCCCCCCOC(=O)C(C)CC
+50876-31-8,WOJSMJIXPQLESQ-IUCAKERBSA-N,"[""unifac_dortmund""]",50876-31-8,water-WOJSMJIXPQLESQ-IUCAKERBSA-N,False,C[C@H]1C[C@H](C)CC(C)(C)C1
+50876-33-0,YWYCGTZNHWYQBD-UHFFFAOYSA-N,"[""unifac_dortmund""]","1,1,3,3-tetramethylcyclopentane",water-YWYCGTZNHWYQBD-UHFFFAOYSA-N,False,CC1(C)CCC(C)(C)C1
+50876-88-5,SXFMZKKBIUYSHF-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-hexene, 1-(2,2-diethoxyethoxy)-, (3z)-",water-SXFMZKKBIUYSHF-UHFFFAOYSA-N,False,CCC=CCCOCC(OCC)OCC
+5090-16-4,QDUQNQQMHZNNTG-AATRIKPKSA-N,"[""unifac_dortmund""]",5-methyl-3-hepten-2-one,water-QDUQNQQMHZNNTG-AATRIKPKSA-N,False,CCC(C)/C=C/C(C)=O
+50980-84-2,RWNOITVZTGQIRG-UHFFFAOYSA-N,"[""unifac_dortmund""]",propylene glycol dibutyrate,water-RWNOITVZTGQIRG-UHFFFAOYSA-N,False,CCCC(=O)OCC(C)OC(=O)CCC
+50991-12-3,UGQREFNYSITUMG-UHFFFAOYSA-N,"[""unifac_dortmund""]","bicyclohexyl, 2-ethyl-, cis-",water-UGQREFNYSITUMG-UHFFFAOYSA-N,False,CCC1CCCCC1C1CCCCC1
+51027-86-2,ZSSMBVMSIUFGPR-UHFFFAOYSA-N,"[""unifac_dortmund""]",51027-86-2,water-ZSSMBVMSIUFGPR-UHFFFAOYSA-N,False,C1CC2CC(C1)C1CCCC21
+51052-00-7,WRLPDLDAOMBERO-UHFFFAOYSA-N,"[""unifac_dortmund""]",1-(o-tolyl)propan-2-one,water-WRLPDLDAOMBERO-UHFFFAOYSA-N,False,CC(=O)Cc1ccccc1C
+51079-52-8,YYUGBYFBCFRGNZ-UHFFFAOYSA-N,"[""unifac_dortmund""]","2-heptanol, 4,6-dimethyl-",water-YYUGBYFBCFRGNZ-UHFFFAOYSA-N,False,CC(C)CC(C)CC(C)O
+51079-79-9,FHQUDZUTAZYJRH-UHFFFAOYSA-N,"[""unifac_dortmund""]","4,6,6-trimethylheptan-2-ol",water-FHQUDZUTAZYJRH-UHFFFAOYSA-N,False,CC(O)CC(C)CC(C)(C)C
+51115-64-1,MBZKQDXXFMITAC-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-methylbutyl butyrate,water-MBZKQDXXFMITAC-UHFFFAOYSA-N,False,CCCC(=O)OCC(C)CC
+51117-19-2,PEQMAZJTEUEQJP-UHFFFAOYSA-N,"[""unifac_dortmund""]",geranyl 2-methylbutyrate,water-PEQMAZJTEUEQJP-UHFFFAOYSA-N,False,CCC(C)C(=O)OCC=C(C)CCC=C(C)C
+5113-66-6,OAYBZGPDRAMDNF-UHFFFAOYSA-N,"[""unifac_dortmund""]",p-menth-4-en-3-one,water-OAYBZGPDRAMDNF-UHFFFAOYSA-N,False,CC1CC=C(C(C)C)C(=O)C1
+5113-87-1,TWCNAXRPQBLSNO-UWVGGRQHSA-N,"[""unifac_dortmund""]",(1r)-(+)-trans-isolimonene,water-TWCNAXRPQBLSNO-UWVGGRQHSA-N,False,C=C(C)[C@H]1C=C[C@H](C)CC1
+5113-93-9,WHNGPXQYYRWQAS-UWVGGRQHSA-N,"[""unifac_dortmund""]",(+)-2-p-menthene,water-WHNGPXQYYRWQAS-UWVGGRQHSA-N,False,CC(C)[C@H]1C=C[C@H](C)CC1
+51148-68-6,LRLMEXPRIMROMY-UHFFFAOYSA-N,"[""unifac_dortmund""]",dodec-11-en-1-al,water-LRLMEXPRIMROMY-UHFFFAOYSA-N,False,C=CCCCCCCCCCC=O
+51174-12-0,AVKVJWFFVHGHLJ-UHFFFAOYSA-N,"[""unifac_dortmund""]","2,4,4-trimethyl-1-hexene",water-AVKVJWFFVHGHLJ-UHFFFAOYSA-N,False,C=C(C)CC(C)(C)CC
+51174-44-8,VTCQTYOGWYLVES-UHFFFAOYSA-N,"[""unifac_dortmund""]",3-methyl-4-penten-1-ol,water-VTCQTYOGWYLVES-UHFFFAOYSA-N,False,C=CC(C)CCO
+51175-34-9,JPWJQIKXWASNOD-UHFFFAOYSA-N,"[""unifac_dortmund""]","cycloheptane, cycloheptylidene-",water-JPWJQIKXWASNOD-UHFFFAOYSA-N,False,C1CCCC(=C2CCCCCC2)CC1
+51182-83-3,XBOIOIYBBXTWHB-UHFFFAOYSA-N,"[""unifac_dortmund""]","octane, 1-(1-methylpropoxy)-",water-XBOIOIYBBXTWHB-UHFFFAOYSA-N,False,CCCCCCCCOC(C)CC
+51200-80-7,YOCLWWFBEJQTBM-UHFFFAOYSA-N,"[""unifac_dortmund""]","3-hexanol, 3-ethyl-4-methyl-",water-YOCLWWFBEJQTBM-UHFFFAOYSA-N,False,CCC(C)C(O)(CC)CC
+51200-81-8,GGOIYPAZTVTJBE-UHFFFAOYSA-N,"[""unifac_dortmund""]",2-methyl-3-isopropyl-3-hexanol,water-GGOIYPAZTVTJBE-UHFFFAOYSA-N,False,CCCC(O)(C(C)C)C(C)C
+51200-82-9,OHSMKBPEDBXYDU-UHFFFAOYSA-N,"[""unifac_dortmund""]",4-isopropyl-4-heptanol,water-OHSMKBPEDBXYDU-UHFFFAOYSA-N,False,CCCC(O)(CCC)C(C)C
+51200-83-0,IFXNWIUSZUHIDG-UHFFFAOYSA-N,"[""unifac_dortmund""]",nsc98332,water-IFXNWIUSZUHIDG-UHFFFAOYSA-N,False,CC(C)C(O)(C(C)C)C(C)C
+51209-78-0,FUZYFWJHBYRPIP-UHFFFAOYSA-N,"[""unifac_dortmund""]",methyl 2-methylheptanoate,water-FUZYFWJHBYRPIP-UHFFFAOYSA-N,False,CCCCCC(C)C(=O)OC
