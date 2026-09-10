@@ -30,3 +30,24 @@ __pycache__/
 
 # Alternate --cache-dir/results-dir paths need an explicit publication policy.
 # Ignore rules do not untrack files. Never use git clean -fdx on a research tree.
+
+# Broad mission snapshots. Worker files and arbitrary additions remain excluded.
+/mission-v5m4*-results/*
+!/mission-v5m4*-results/latest.json
+!/mission-v5m4*-results/run-*/
+/mission-v5m4*-results/run-*/*
+!/mission-v5m4*-results/run-*/summary.json
+!/mission-v5m4*-results/run-*/summary.json.gz
+!/mission-v5m4*-results/run-*/manifest.json
+!/mission-v5m4*-results/run-*/manifest.json.gz
+!/mission-v5m4*-results/run-*/scientific-results.json.gz
+!/mission-v5m4*-results/run-*/catalog.json.gz
+!/mission-v5m4*-results/run-*/mission-profile.json.gz
+!/mission-v5m4*-results/run-*/task-graph.json.gz
+!/mission-v5m4*-results/run-*/execution-events.json.gz
+!/mission-v5m4*-results/run-*/changes.json.gz
+!/mission-v5m4*-results/run-*/pair-*.json.gz
+!/mission-v5m4*-results/run-*/report-*.csv
+!/mission-v5m4*-results/run-*/table-*.csv.gz
+!/mission-v5m4*-results/run-*/publication-index.json
+/mission-v5m4*-results/run-*/*/
