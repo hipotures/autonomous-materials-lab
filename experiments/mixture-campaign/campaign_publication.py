@@ -28,26 +28,9 @@ def csv_line(values) -> bytes:
 
 
 def table(output: Path, name: str, rows: list[dict], limit: int) -> list[dict]:
-    fields = sorted({k for row in rows for k in row}) or ["status"]
-    header = csv_line(fields)
-    full, block, count, records, shard = bytearray(header), bytearray(header), 0, [], 1
-    def flush():
-        nonlocal block, count, shard
-        filename = f"report-{name}-{shard:04d}.csv"
-        atomic_bytes(output / filename, bytes(block))
-        records.append({"file": filename, "rows": count, "bytes": len(block),
-                        "sha256": hashlib.sha256(block).hexdigest()})
-        block, count, shard = bytearray(header), 0, shard+1
-    for row in rows:
-        line = csv_line([json.dumps(row.get(k), sort_keys=True, allow_nan=False, separators=(",", ":"))
-                         if isinstance(row.get(k), (dict, list)) else row.get(k) for k in fields])
-        if len(header)+len(line) > limit:
-            raise ValueError("single CSV row exceeds report byte limit: " + name)
-        if len(block)+len(line) > limit: flush()
-        block.extend(line); full.extend(line); count += 1
-    if count or not rows: flush()
-    records.append(compressed(output, "table-"+name+".csv.gz", bytes(full)))
-    return records
+    # Shared by mission and property campaigns; the limit applies after decoding.
+    from repack_csv_reports import compressed_table
+    return compressed_table(output, name, rows, limit)
 
 
 def scientific_diff(previous: dict | None, current: list[dict]) -> list[dict]:
@@ -200,5 +183,5 @@ def publish(output: Path, config: dict, results: list[dict], catalog: dict, grap
              "evidence_kind": "normalization_identity_not_measurement"}
     index += table(output, "baseline-pareto-water", pareto(comparisons+[water], THERMO_OBJECTIVES), limit)
     write_json(output / "publication-index.json", {"schema": "mixture-campaign-publication-v1", "pairs": pair_index,
-                "files": index, "gzip_connector_decode_assumed": False, "maximum_csv_shard_bytes": limit})
+                "files": index, "gzip_connector_decode_assumed": False, "maximum_csv_shard_bytes": limit, "csv_policy": "gzip-csv-with-bounded-preview-v1"})
     return summary

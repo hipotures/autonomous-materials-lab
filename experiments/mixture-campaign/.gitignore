@@ -23,9 +23,11 @@ __pycache__/
 !/campaign-v5m3*-results/run-*/catalog.json.gz
 !/campaign-v5m3*-results/run-*/execution-events.json.gz
 !/campaign-v5m3*-results/run-*/pair-*.json.gz
-!/campaign-v5m3*-results/run-*/report-*.csv
+!/campaign-v5m3*-results/run-*/report-*.csv.gz
+!/campaign-v5m3*-results/run-*/preview-*.md
 !/campaign-v5m3*-results/run-*/table-*.csv.gz
 !/campaign-v5m3*-results/run-*/publication-index.json
+!/campaign-v5m3*-results/run-*/publication-index.before-csv-repack.json.gz
 /campaign-v5m3*-results/run-*/*/
 
 # Alternate --cache-dir/results-dir paths need an explicit publication policy.
@@ -47,7 +49,9 @@ __pycache__/
 !/mission-v5m4*-results/run-*/execution-events.json.gz
 !/mission-v5m4*-results/run-*/changes.json.gz
 !/mission-v5m4*-results/run-*/pair-*.json.gz
-!/mission-v5m4*-results/run-*/report-*.csv
+!/mission-v5m4*-results/run-*/report-*.csv.gz
+!/mission-v5m4*-results/run-*/preview-*.md
 !/mission-v5m4*-results/run-*/table-*.csv.gz
 !/mission-v5m4*-results/run-*/publication-index.json
+!/mission-v5m4*-results/run-*/publication-index.before-csv-repack.json.gz
 /mission-v5m4*-results/run-*/*/

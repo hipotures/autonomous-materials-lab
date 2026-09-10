@@ -244,7 +244,7 @@ class QualityCampaignTests(unittest.TestCase):
         files={r["file"]:r for r in index["files"]}
         for name in ("water-controls.json.gz","evidence-needs.json.gz"):
             self.assertEqual(hashlib.sha256((path/name).read_bytes()).hexdigest(),files[name]["sha256"])
-        self.assertTrue(all(r["bytes"]<=self.config["publication"]["shard_bytes"] for r in files.values() if r["file"].startswith("report-")))
+        self.assertTrue(all(r["uncompressed_bytes"]<=self.config["publication"]["shard_bytes"] for r in files.values() if r["file"].startswith("report-")))
     def test_unmodified_backend_signature_matches_original_archive(self):
         self.assertEqual(backend.code_signature()["campaign_backend.py"],"a367d05a57b4e4494be1fc315c1425687507d1a50d036932823318a7c44b6ec4")
     def test_control_failure_does_not_mutate_raw_cache(self):
@@ -259,7 +259,7 @@ class QualityCampaignTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp); subprocess.run(["git","init","-q",str(root)],check=True)
             (root/".gitignore").write_bytes((HERE/".gitignore").read_bytes())
-            for name in ("water-controls.json.gz","evidence-needs.json.gz","report-evidence-needs-0001.csv"):
+            for name in ("water-controls.json.gz","evidence-needs.json.gz","report-evidence-needs-0001.csv.gz"):
                 p=subprocess.run(["git","check-ignore","--no-index","campaign-v5m3-results/run-test/"+name],cwd=root,capture_output=True)
                 self.assertEqual(p.returncode,1)
 

@@ -235,9 +235,9 @@ class PublicationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             rows=[{"id":i,"text":"é"*12} for i in range(20)]
             index=pub.table(Path(tmp),"test",rows,120)
-            parts=[p for p in index if p["file"].endswith(".csv")]
+            parts=[p for p in index if p["file"].startswith("report-") and p["file"].endswith(".csv.gz")]
             self.assertEqual(sum(p["rows"] for p in parts),20)
-            self.assertTrue(all(p["bytes"]<=120 for p in parts))
+            self.assertTrue(all(p["uncompressed_bytes"]<=120 for p in parts))
     def test_oversized_row_is_not_truncated(self):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(ValueError): pub.table(Path(tmp),"test",[{"text":"x"*200}],50)
@@ -409,7 +409,7 @@ class AdditionalRegressionTests(unittest.TestCase):
             root=Path(tmp); subprocess.run(["git","init","-q",str(root)],check=True)
             (root/".gitignore").write_bytes((HERE/".gitignore").read_bytes())
             allowed=["campaign-v5m3-results/latest.json","campaign-v5m3-results/run-test/summary.json",
-                     "campaign-v5m3-results/run-test/report-pair-0001.csv","campaign-v5m3-results/run-test/pair-0001.json.gz"]
+                     "campaign-v5m3-results/run-test/report-pair-0001.csv.gz","campaign-v5m3-results/run-test/pair-0001.json.gz"]
             blocked=[".campaign-cache/objects/x.json.gz","campaign-v5m3-results/.building-run-test/x",
                      "campaign-v5m3-results/run-test/workers/x.json","campaign-v5m3-results/run-test/secret.env",
                      "campaign-v5m3-results/run-test/summary.json/nested"]
