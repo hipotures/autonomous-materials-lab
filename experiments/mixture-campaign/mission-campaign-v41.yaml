@@ -1,0 +1,66 @@
+schema: mixture-mission-campaign-v1
+name: full-inventory-water-mixtures-entry-screen-v41
+catalog:
+  source: chemicals-local-identity-inventory
+  allowed_atomic_numbers: [1, 6, 8]
+  maximum_molecular_weight_g_mol: 250.0
+  # Budget, not a promise that 500 candidates have sufficient local model data.
+  # null evaluates every eligible pair in the local inventory.
+  maximum_pairs: null
+  selection_seed: 20260910
+  excluded_smarts: ['[O;X2]-[O;X2]', '[C;X3](=O)[O;H1]', '[C;X3](=O)[O;X2][C;X3](=O)', '[O;r3]']
+composition:
+  basis: mass
+  minimum: 0.0001
+  transition: 0.01
+  maximum: 0.60
+  log_points: 10
+  linear_points: 31
+mission:
+  entry_config: ../entry-evaluator/config.yaml
+  # Reuse the existing nominal hard-entry scenario and thermal architecture.
+  # These are model assumptions, not measured conditions of a specific vehicle.
+  overrides:
+    entry.flight_path_angle_deg: -11.0
+    heating.backend: brandis_johnston_2014
+fluid:
+  storage_temperature_k: 293.15
+  storage_pressure_pa: 101325.0
+  max_exit_temperature_k: 900.0
+  wall_to_fluid_approach_k: 25.0
+  cooled_area_m2: 12.0
+  injection_pressure_margin: 1.15
+  porous_delta_p_pa: 100000.0
+  max_injection_pressure_pa: 20000000.0
+  pump_efficiency: 0.65
+  # A pressure-loss allowance is not a validated porous-flow model.
+  maximum_mass_flux_kg_m2_s: null
+thermodynamics:
+  liquid_selection_temperatures_k: [293.15, 350.0, 400.0, 450.0]
+  bridge_temperatures_k: [350.0, 400.0, 450.0, 500.0, 550.0, 600.0]
+  maximum_flash_pressure_pa: 2000000.0
+  endpoint_relative_tolerance: 0.05
+screening:
+  coarse_nodes: 24
+  refined_nodes: 96
+  detail_pairs: 20
+  per_pair: 3
+  exact_candidates: 20
+  relative_mass_tolerance: 0.02
+  gain_margin: 0.01
+execution:
+  workers: 4
+  timeout_s: 900
+  batch_compositions: 4
+publication:
+  shard_bytes: 32768
+
+continuation:
+  # Process all eligible pairs. This controls checkpoint size, not search scope.
+  batch_pairs: 50
+  # null continues automatically until the current inventory is screened.
+  max_batches: null
+  evidence_pairs: 2
+  history_roots: [mission-v5m4-results, campaign-v5m3-results]
+  # Trusted local Python modules exporting STUDIES; these are not sandboxed.
+  study_modules: []

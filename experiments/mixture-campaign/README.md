@@ -1,10 +1,44 @@
 # Reusable mixture campaigns
 
-The default entry point now runs **V5m-4: broad known-mixture search on a shared
-atmospheric-entry heat-demand profile**, rather than a 26-pair property grid.
+## Default: V5m-4.1 full-inventory continuation
 
 ```bash
 python run_campaign.py
+```
+
+The default now processes every eligible locally discovered water/additive pair
+in checkpointed batches. It preserves historical candidates, applies the same
+required studies to every pair, diagnoses incomplete coverage, and evaluates a
+zero-additive control with each binary model. Matching V5m-4 numerical cache
+entries remain reusable. No new thermochemical or pore-flow model is implied.
+
+Read [V5m-4.1.md](V5m-4.1.md) for migration, tests, partial-run budgets,
+new-study backfill, scientific limitations and compressed publication.
+The default configuration is `mission-campaign-v41.yaml`; results are written to
+`mission-v5m41-results`. This is distinct from the previous result directory.
+
+```bash
+python run_campaign.py --status
+python run_campaign.py --max-batches 1
+```
+
+The first command only reads the latest published summary. The second processes
+at most one batch of pending pairs; it does not change the scientific inventory.
+Repeat the normal command to continue. Do not remove `.campaign-cache`.
+
+## Preserved V5m-4 single-run protocol
+
+```bash
+python run_campaign.py --mode mission-v4
+```
+
+The following original V5m-4 notes refer to that explicit mode.
+
+The preserved mission-v4 entry point runs **V5m-4: broad known-mixture search on a shared
+atmospheric-entry heat-demand profile**, rather than a 26-pair property grid.
+
+```bash
+python run_campaign.py --mode mission-v4
 ```
 
 Read [V5m-4.md](V5m-4.md) for configuration, assumptions, tests and publication.

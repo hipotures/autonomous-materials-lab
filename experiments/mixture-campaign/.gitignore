@@ -55,3 +55,10 @@ __pycache__/
 !/mission-v5m4*-results/run-*/publication-index.json
 !/mission-v5m4*-results/run-*/publication-index.before-csv-repack.json.gz
 /mission-v5m4*-results/run-*/*/
+
+# V5m-4.1 stores immutable shared dossiers once, across cumulative snapshots.
+!/mission-v5m41-results/objects/
+/mission-v5m41-results/objects/*
+!/mission-v5m41-results/objects/*.json.gz
+/mission-v5m41-results/objects/*/
+!/mission-v5m41-results/run-*/registry.json.gz
