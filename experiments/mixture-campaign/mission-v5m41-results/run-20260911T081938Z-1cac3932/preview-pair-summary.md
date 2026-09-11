@@ -1,0 +1,21 @@
+# pair-summary: limited preview
+
+Full table: `table-pair-summary.csv.gz`
+
+Total records: 4900. Shown: first 8 in input order. This is not a selected ranking. Preview rows may be truncated; the gzip table retains every original byte.
+
+    {"best_heos_ratio": "0.9990564000399046", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.00003854884725", "cas_number": "42856-62-2", "complete_formulation_count": "11", "controlled_formulation_count": "11", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "2-methylpentane-1,5-diol", "pair_id": "water-AAAWJUMVTPNRDT-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "29"}
+
+    {"best_heos_ratio": "0.9990737101624235", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000558759869425", "cas_number": "18060-77-0", "complete_formulation_count": "6", "controlled_formulation_count": "6", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "isopropyl crotonate", "pair_id": "water-AABBHSMFGKYLKE-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "34"}
+
+    {"best_heos_ratio": "", "best_mass_fraction": "", "best_same_model_ratio": "", "cas_number": "4706-89-2", "complete_formulation_count": "0", "controlled_formulation_count": "0", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "benzene, 2,4-dimethyl-1-(1-methylethyl)-", "pair_id": "water-AADQFNAACHHRLT-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "40"}
+
+    {"best_heos_ratio": "0.9990761212830561", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.000058289477891", "cas_number": "26473-60-9", "complete_formulation_count": "40", "controlled_formulation_count": "40", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "(2-methoxy-2-propenyl)benzene", "pair_id": "water-AAIKVOZOPVNPRR-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "0"}
+
+    {"best_heos_ratio": "0.9990667611824883", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000489201756289", "cas_number": "500-02-7", "complete_formulation_count": "10", "controlled_formulation_count": "10", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "crypton", "pair_id": "water-AANMVENRNJYEMK-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "30"}
+
+    {"best_heos_ratio": "0.9990728749457749", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.000055039949212", "cas_number": "637-64-9", "complete_formulation_count": "11", "controlled_formulation_count": "11", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "tetrahydrofurfuryl acetate", "pair_id": "water-AAQDYYFAFXGBFZ-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "29"}
+
+    {"best_heos_ratio": "0.9990632256127183", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000453811301235", "cas_number": "76649-20-2", "complete_formulation_count": "5", "controlled_formulation_count": "5", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "3-methyl-2-pentylcyclopentan-1-ol", "pair_id": "water-AASLUBJZRBOXBK-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "35"}
+
+    {"best_heos_ratio": "0.9990616823992334", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000438363995419", "cas_number": "77614-53-0", "complete_formulation_count": "12", "controlled_formulation_count": "12", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "cis-1,3-diethenylcyclobutane", "pair_id": "water-AATSALLMQGUKIE-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "28"}

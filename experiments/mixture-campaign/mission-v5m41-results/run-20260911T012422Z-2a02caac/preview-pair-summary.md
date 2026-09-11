@@ -1,0 +1,21 @@
+# pair-summary: limited preview
+
+Full table: `table-pair-summary.csv.gz`
+
+Total records: 2950. Shown: first 8 in input order. This is not a selected ranking. Preview rows may be truncated; the gzip table retains every original byte.
+
+    {"best_heos_ratio": "0.9990564000399046", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.00003854884725", "cas_number": "42856-62-2", "complete_formulation_count": "11", "controlled_formulation_count": "11", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "2-methylpentane-1,5-diol", "pair_id": "water-AAAWJUMVTPNRDT-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "29"}
+
+    {"best_heos_ratio": "0.9990632256127183", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000453811301235", "cas_number": "76649-20-2", "complete_formulation_count": "5", "controlled_formulation_count": "5", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "3-methyl-2-pentylcyclopentan-1-ol", "pair_id": "water-AASLUBJZRBOXBK-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "35"}
+
+    {"best_heos_ratio": "", "best_mass_fraction": "", "best_same_model_ratio": "", "cas_number": "32357-83-8", "complete_formulation_count": "0", "controlled_formulation_count": "0", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "1-pentoxyhexane", "pair_id": "water-ABMGECRLBPHGSD-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "40"}
+
+    {"best_heos_ratio": "0.9990736305245181", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.000055796270747", "cas_number": "3604-36-2", "complete_formulation_count": "6", "controlled_formulation_count": "6", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "3604-36-2", "pair_id": "water-ABYXLSPPPNXLTQ-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "34"}
+
+    {"best_heos_ratio": "0.9990656069254259", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000477647838435", "cas_number": "21188-58-9", "complete_formulation_count": "10", "controlled_formulation_count": "10", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "methyl 3-hydroxyhexanoate", "pair_id": "water-ACCRBMDJCPPJDX-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "30"}
+
+    {"best_heos_ratio": "0.9990609746916732", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.000043127996251", "cas_number": "16895-46-8", "complete_formulation_count": "10", "controlled_formulation_count": "10", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "False", "name": "1,3,5-heptatriene, 6,6-dimethyl-, (e)-", "pair_id": "water-ACENFYRHGWWZOA-AATRIKPKSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "30"}
+
+    {"best_heos_ratio": "0.9990644224760006", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.000046579170014", "cas_number": "33758-16-6", "complete_formulation_count": "2", "controlled_formulation_count": "2", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "(2s)-decan-2-ol", "pair_id": "water-ACUZDYFTRHEKOS-JTQLQIEISA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "38"}
+
+    {"best_heos_ratio": "0.999065471502925", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000476292282119", "cas_number": "1120-06-5", "complete_formulation_count": "2", "controlled_formulation_count": "2", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "2-decanol", "pair_id": "water-ACUZDYFTRHEKOS-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "38"}

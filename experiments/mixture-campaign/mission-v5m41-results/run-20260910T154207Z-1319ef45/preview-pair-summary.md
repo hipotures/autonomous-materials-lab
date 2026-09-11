@@ -1,0 +1,21 @@
+# pair-summary: limited preview
+
+Full table: `table-pair-summary.csv.gz`
+
+Total records: 50. Shown: first 8 in input order. This is not a selected ranking. Preview rows may be truncated; the gzip table retains every original byte.
+
+    {"best_heos_ratio": "", "best_mass_fraction": "", "best_same_model_ratio": "", "cas_number": "62199-88-6", "complete_formulation_count": "0", "controlled_formulation_count": "0", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "ctk5b4749", "pair_id": "water-AMWGLABEMBNBOO-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "40"}
+
+    {"best_heos_ratio": "0.9990714440576051", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000536076543698", "cas_number": "19446-68-5", "complete_formulation_count": "10", "controlled_formulation_count": "10", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "spiro[bicyclo[2.1.0]pentane-5,1'-cyclopropane]", "pair_id": "water-BDQNBDCIONCPCW-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "30"}
+
+    {"best_heos_ratio": "0.9990713406757769", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000535041709093", "cas_number": "18933-92-1", "complete_formulation_count": "2", "controlled_formulation_count": "2", "exact_selected": "False", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "1,3-dimethylbutyl acrylate", "pair_id": "water-BVDBXCXQMHBGQM-UHFFFAOYSA-N", "refined_selected": "False", "study_failures": "[]", "unresolved_formulation_count": "38"}
+
+    {"best_heos_ratio": "0.9990668580021709", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000490170904925", "cas_number": "1193-46-0", "complete_formulation_count": "10", "controlled_formulation_count": "10", "exact_selected": "True", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "cyclohexanol, 2,2-dimethyl-", "pair_id": "water-BYBYZPFVXFPCND-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "30"}
+
+    {"best_heos_ratio": "0.9990660619229768", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000482202286918", "cas_number": "3742-42-5", "complete_formulation_count": "7", "controlled_formulation_count": "7", "exact_selected": "True", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "4-ethylcyclohexene", "pair_id": "water-CFOHRCNONSEVOJ-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "33"}
+
+    {"best_heos_ratio": "0.9990669358136781", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000490949784946", "cas_number": "35900-26-6", "complete_formulation_count": "2", "controlled_formulation_count": "2", "exact_selected": "True", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "4-methyl-5-nonanone", "pair_id": "water-CGHJMKONNFWXHO-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "38"}
+
+    {"best_heos_ratio": "0.9990718983501309", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000540623935", "cas_number": "67-64-1", "complete_formulation_count": "41", "controlled_formulation_count": "41", "exact_selected": "True", "failed_task_count": "0", "formulation_count": "41", "historical_pair": "True", "name": "acetone", "pair_id": "water-CSCPPACGZOOCGX-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "0"}
+
+    {"best_heos_ratio": "0.9990689509529321", "best_mass_fraction": "0.0001", "best_same_model_ratio": "1.0000511120987845", "cas_number": "930-56-3", "complete_formulation_count": "17", "controlled_formulation_count": "17", "exact_selected": "True", "failed_task_count": "0", "formulation_count": "40", "historical_pair": "True", "name": "ethanone, 1-(2-methylcyclopropyl)-", "pair_id": "water-CSEAGYCTZLEZON-UHFFFAOYSA-N", "refined_selected": "True", "study_failures": "[]", "unresolved_formulation_count": "23"}
