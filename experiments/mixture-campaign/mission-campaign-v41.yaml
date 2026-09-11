@@ -4,7 +4,6 @@ catalog:
   source: chemicals-local-identity-inventory
   allowed_atomic_numbers: [1, 6, 8]
   maximum_molecular_weight_g_mol: 250.0
-  # Budget, not a promise that 500 candidates have sufficient local model data.
   # null evaluates every eligible pair in the local inventory.
   maximum_pairs: null
   selection_seed: 20260910
@@ -49,15 +48,22 @@ screening:
   relative_mass_tolerance: 0.02
   gain_margin: 0.01
 execution:
+  # `python run_campaign.py` injects a host-aware worker count unless --workers
+  # is given explicitly. Four remains a conservative fallback for direct calls
+  # to mission_batch_campaign.py.
   workers: 4
   timeout_s: 900
-  batch_compositions: 4
+  # One normal 40-composition pair plus its zero-limit control fits in a single
+  # state-worker call. This removes the former process/model rebuild every four
+  # compositions without changing any numerical state definition.
+  batch_compositions: 64
 publication:
   shard_bytes: 32768
 
 continuation:
-  # Process all eligible pairs. This controls checkpoint size, not search scope.
-  batch_pairs: 50
+  # This is a checkpoint/publication batch, not search scope. The public runner
+  # replaces it with a host-aware value unless --batch-pairs is explicit.
+  batch_pairs: 512
   # null continues automatically until the current inventory is screened.
   max_batches: null
   evidence_pairs: 2
